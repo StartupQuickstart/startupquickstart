@@ -1,7 +1,8 @@
 'use strict';
 
-module.exports = startupquickstartReact;
-
 function react() {
-    // TODO
+    console.log('initial release')
 }
+
+module.exports = react;
+
