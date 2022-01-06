@@ -2,6 +2,6 @@
 
 module.exports = startupquickstartReact;
 
-function startupquickstartReact() {
+function react() {
     // TODO
 }
