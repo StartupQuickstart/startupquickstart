@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PageWrapper from '../components/layout/PageWrapper';
 import { GlobalContext } from '../context/global/provider';
 import moment from 'moment';
