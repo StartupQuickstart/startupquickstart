@@ -1,4 +1,5 @@
 import camcelCase from 'lodash.camelcase';
+
 /**
  * Generates an action function for a given action definition
  *

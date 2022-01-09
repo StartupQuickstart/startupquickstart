@@ -1,4 +1,4 @@
-import { useContext, useState, useRef } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import { GlobalContext } from '../../../context/global/provider';
 import Notifications from './Notifications';
 import Messages from './Messages';

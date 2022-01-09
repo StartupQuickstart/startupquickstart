@@ -1,5 +1,5 @@
+import React, { Fragment, useContext } from 'react';
 import classNames from 'classnames';
-import { Fragment, useContext } from 'react';
 import * as Feather from 'react-feather';
 import { Link } from 'react-router-dom';
 import SidebarCallToAction from './SidebarCallToAction';

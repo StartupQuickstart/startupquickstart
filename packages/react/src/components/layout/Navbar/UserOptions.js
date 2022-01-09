@@ -1,5 +1,5 @@
+import React, { useContext } from 'react';
 import classNames from 'classnames';
-import { useContext } from 'react';
 import { GlobalContext } from '../../../context/global/provider';
 import UserIcon from './UserIcon';
 import * as Feather from 'react-feather';
