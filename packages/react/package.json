@@ -6,15 +6,12 @@
   "homepage": "./",
   "license": "MIT",
   "main": "index.js",
-  "directories": {
-    "assets": "dist/assets",
-    "components": "dist/components",
-    "context": "dist/context",
-    "lib": "dist/lib",
-    "views": "dist/views"
-  },
   "files": [
-    "dist",
+    "dist/assets",
+    "dist/components",
+    "dist/context",
+    "dist/lib",
+    "dist/views",
     "README.md"
   ],
   "repository": {
