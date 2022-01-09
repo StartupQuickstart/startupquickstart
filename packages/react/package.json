@@ -1,6 +1,6 @@
 {
   "name": "@startupquickstart/react",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "React Components for App",
   "author": "Thomas Boles <thomas@startupquickstart.com> (https://github.com/startupquickstart)",
   "homepage": "./dist",
