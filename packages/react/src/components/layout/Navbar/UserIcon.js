@@ -1,9 +1,13 @@
-import React, { useContext } from 'react';
-import { GlobalContext } from '../../../context/global/provider';
+import React from 'react';
 import Avatar from 'react-avatar';
+import { useAuth } from '../../../context/providers';
 
 export default function UserIcon() {
-  const { user } = useContext(GlobalContext);
+  const { user } = useAuth();
+
+  if (!user) {
+    return '';
+  }
 
   return (
     <>

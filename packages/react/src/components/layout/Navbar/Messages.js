@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Avatar from 'react-avatar';
 import { MessageSquare } from 'react-feather';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
-import { GlobalContext } from '../../../context/global/provider';
+import { useMessage } from '../../../context/providers';
 
 /**
  * Sample Message:
@@ -20,7 +20,7 @@ import { GlobalContext } from '../../../context/global/provider';
  */
 export default function Messages({ toggleItem, toggledItem }) {
   const now = new Date();
-  const { messages } = useContext(GlobalContext);
+  const { messages } = useMessage();
 
   return (
     <li

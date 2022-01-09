@@ -1,10 +1,10 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import * as Feather from 'react-feather';
 import { Link } from 'react-router-dom';
 import SidebarCallToAction from './SidebarCallToAction';
 import Logo from '../Logo';
-import { GlobalContext } from '../../../context/global/provider';
+import { useNavigation } from '../../../context/providers';
 
 export default function Sidebar() {
   const {
@@ -12,8 +12,8 @@ export default function Sidebar() {
     sidebarCollapsed,
     toggleSidebar,
     toggleSidebarItem,
-    sidebarCallToAction
-  } = useContext(GlobalContext);
+    callToAction
+  } = useNavigation();
 
   /**
    * Toggles the sidebar on mobile devices
@@ -143,9 +143,7 @@ export default function Sidebar() {
           })}
         </ul>
 
-        {sidebarCallToAction && (
-          <SidebarCallToAction {...sidebarCallToAction} />
-        )}
+        {callToAction && <SidebarCallToAction {...callToAction} />}
       </div>
     </nav>
   );

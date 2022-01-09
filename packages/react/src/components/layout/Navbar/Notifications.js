@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Bell } from 'react-feather';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
-import { GlobalContext } from '../../../context/global/provider';
+import { useNotification } from '../../../context/providers';
 
 export default function Notifications({ toggleItem, toggledItem }) {
   const now = new Date();
-  const { notifications } = useContext(GlobalContext);
+  const { notifications } = useNotification();
 
   return (
     <li

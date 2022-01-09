@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
-import { GlobalContext } from '../../context/global/provider';
+import React from 'react';
+import { useConfig } from '../../context/providers';
 
 export default function Footer() {
   const {
-    info: { website, legalName, supportPage, privacyPolicy, termsOfService }
-  } = useContext(GlobalContext);
+    config: { website, legalName, supportPage, privacyPolicy, termsOfService }
+  } = useConfig();
 
   return (
     <footer className="footer">

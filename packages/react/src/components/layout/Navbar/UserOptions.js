@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import classNames from 'classnames';
-import { GlobalContext } from '../../../context/global/provider';
 import UserIcon from './UserIcon';
 import * as Feather from 'react-feather';
 import { Link } from 'react-router-dom';
+import { useNavigation } from '../../../context/providers';
 
 export default function UserOptions({ toggleItem, toggledItem }) {
-  const { userOptions } = useContext(GlobalContext);
+  const { userOptions } = useNavigation();
 
   const showDropdown = userOptions && userOptions.length > 0;
 

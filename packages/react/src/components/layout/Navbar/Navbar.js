@@ -1,14 +1,15 @@
-import React, { useContext, useState, useRef } from 'react';
-import { GlobalContext } from '../../../context/global/provider';
+import React, { useState, useRef } from 'react';
 import Notifications from './Notifications';
 import Messages from './Messages';
 import UserOptions from './UserOptions';
 import useOutsideAlerter from '../../effects/useOutsideAlerter';
+import { useConfig, useNavigation } from '../../../context/providers';
 
 export default function Navbar() {
   const ref = useRef(null);
   const [toggledItem, setToggledItem] = useState(null);
-  const { toggleSidebar, features = {} } = useContext(GlobalContext);
+  const { toggleSidebar } = useNavigation();
+  const { features } = useConfig();
 
   useOutsideAlerter(ref, () => setToggledItem(null));
 

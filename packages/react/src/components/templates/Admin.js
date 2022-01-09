@@ -7,8 +7,8 @@ import {
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { GlobalProvider } from '../../context/global/provider';
-import Public from '../auth-wrappers/Public';
+import { ContextProvider } from '../../context/ContextProvider';
+import Public from '../authenticators/Public';
 import AdminLayout from '../layouts/Admin';
 
 export default function Admin({ routes }) {
@@ -17,8 +17,8 @@ export default function Admin({ routes }) {
   }
 
   return (
-    <GlobalProvider>
-      <Router>
+    <Router>
+      <ContextProvider>
         <Routes>
           {routes.map(
             (
@@ -27,20 +27,20 @@ export default function Admin({ routes }) {
                 Component,
                 redirect = false,
                 exact = false,
-                Auth = Public,
+                Authenticator = Public,
                 Layout = AdminLayout
               },
               index
             ) => {
               const Element = (props) => {
                 return (
-                  <Auth>
+                  <Authenticator>
                     <Layout {...props}>
                       <ToastContainer />
                       {redirect && <Navigate repalce to={redirect} />}
                       {!redirect && <Component {...props} />}
                     </Layout>
-                  </Auth>
+                  </Authenticator>
                 );
               };
 
@@ -55,7 +55,7 @@ export default function Admin({ routes }) {
             }
           )}
         </Routes>
-      </Router>
-    </GlobalProvider>
+      </ContextProvider>
+    </Router>
   );
 }
