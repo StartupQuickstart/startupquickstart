@@ -5,10 +5,13 @@
   "author": "Thomas Boles <thomas@startupquickstart.com> (https://github.com/startupquickstart)",
   "homepage": "./",
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "index.js",
   "directories": {
-    "lib": "lib",
-    "test": "__tests__"
+    "assets": "dist/assets",
+    "components": "dist/components",
+    "context": "dist/context",
+    "lib": "dist/lib",
+    "views": "dist/views"
   },
   "files": [
     "dist",

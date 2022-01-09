@@ -5,11 +5,11 @@
  * Licensed under MIT (https://github.com/adminkit/adminkit/blob/master/LICENSE)
  */
 
- @import 'colors';
- @import 'variables';
+@import 'colors';
+@import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap/scss/bootstrap';
 
 // Theme mixins
 @import 'mixins/button';
@@ -67,12 +67,12 @@
 @import 'utilities/overflow';
 
 // 3rd party plugins
-@import '~@fortawesome/fontawesome-free/scss/fontawesome';
-@import '~@fortawesome/fontawesome-free/scss/regular';
-@import '~@fortawesome/fontawesome-free/scss/solid';
-@import '~jsvectormap/dist/css/jsvectormap';
-@import '~simplebar/dist/simplebar';
-@import '~flatpickr/dist/flatpickr';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/regular';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
+@import 'node_modules/jsvectormap/dist/css/jsvectormap';
+@import 'node_modules/simplebar/dist/simplebar';
+@import 'node_modules/flatpickr/dist/flatpickr';
 
 // 3rd party plugin styles
 @import 'vendor/simplebar';
