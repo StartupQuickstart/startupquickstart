@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function SidebarCallToAction({
   actionTitle,
-  actionLink,
+  actionTo,
   title,
   description
 }) {
@@ -13,7 +13,7 @@ export default function SidebarCallToAction({
         {title && <strong className="d-inline-block mb-2">{title}</strong>}
         {description && <div className="mb-3 text-sm">{description}</div>}
         {actionTitle && (
-          <Link to={actionLink || '/'} className="btn btn-primary btn-block">
+          <Link to={actionTo || '/'} className="btn btn-primary btn-block">
             {actionTitle}
           </Link>
         )}
