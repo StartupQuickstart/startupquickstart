@@ -1,0 +1,29 @@
+.header-bold {
+  font-weight: 1000 !important;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+.section-heading {
+  text-align: center;
+  max-width: 660px;
+  margin: 0 auto 50px;
+
+  .slogan {
+    color: $primary;
+    font-weight: 500;
+    font-size: nth($font-sizes, 3);
+    line-height: 2.5;
+    margin-bottom: 0;
+  }
+
+  .description {
+    font-size: 16px;
+    line-height: 1.86;
+    opacity: 0.8;
+    margin-top: 25px;
+    max-width: 610px;
+  }
+}

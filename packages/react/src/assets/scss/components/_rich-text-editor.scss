@@ -1,0 +1,36 @@
+.rich-text-editor-wrapper {
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+
+  &.is-invalid {
+    border-color: $red;
+  }
+
+  .rich-text-editor-toolbar {
+    border: 0;
+    border-bottom: 1px solid $border-color;
+    border-radius: 0;
+  }
+
+  .rich-text-editor {
+    padding: 0.75rem 1rem;
+
+    min-height: 100px;
+
+    &.rich-text-editor-md {
+      min-height: 200px;
+    }
+
+    &.rich-text-editor-lg {
+      min-height: 300px;
+    }
+
+    &.rich-text-editor-xl {
+      min-height: 500px;
+    }
+
+    .public-DraftStyleDefault-ltr {
+      margin: 0 !important;
+    }
+  }
+}

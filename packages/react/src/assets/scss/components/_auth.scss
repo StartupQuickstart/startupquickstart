@@ -1,0 +1,79 @@
+.signup-progress {
+  li {
+    margin-bottom: 20px;
+    font-weight: 600;
+    list-style: none;
+
+    .progress-bullet {
+      background-color: $asphalt;
+      display: inline-block;
+      border-radius: 50%;
+      width: 7px;
+      height: 7px;
+      margin-bottom: 1px;
+      margin-right: 15px;
+    }
+
+    &.active {
+      color: $primary;
+
+      .progress-bullet {
+        width: 17px;
+        height: 17px;
+        margin-bottom: -4px;
+        margin-left: -5px;
+        margin-right: 12px;
+        background-color: $primary;
+        border: 5px solid $asphalt;
+      }
+    }
+
+    .progress-completed {
+      border-radius: 50%;
+      background-color: $primary;
+      color: #FFFFFF;
+      margin-left: -5px;
+      margin-right: 12px;
+      padding: 1px 4px;
+      font-weight: 100;
+
+      svg {
+        margin-bottom: 3px;
+      }
+    }
+  }
+}
+
+.textarea-with-icon {
+  position: relative;
+
+  svg {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    color: $primary;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+}
+
+.password-requirements {
+  label {
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 5px;
+    }
+  }
+
+  svg {
+    margin-right: 10px;
+  }
+}

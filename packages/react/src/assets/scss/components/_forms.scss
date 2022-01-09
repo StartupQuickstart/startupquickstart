@@ -1,0 +1,79 @@
+.input-group-navbar {
+  .form-control,
+  .btn {
+    height: $input-height-lg;
+    background: $body-bg;
+    box-shadow: none;
+    border: 0;
+    padding: $input-padding-y-lg $spacer * 0.75;
+
+    &:focus {
+      background: $body-bg;
+      box-shadow: none;
+      outline: 0;
+    }
+  }
+
+  .btn {
+    color: $gray-600;
+
+    .feather {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.form-header {
+  text-align: center;
+}
+
+.form-label.required::after {
+  content: '*';
+  color: $danger;
+  margin-left: 3px;
+}
+
+.form-label {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.form-group {
+  margin-bottom: 0.75rem;
+}
+
+.invalid-feedback.show {
+  display: block;
+}
+
+form {
+  .section-title {
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+}
+
+.search {
+  width: 300px;
+
+  .form-control {
+    border-top-right-radius: $border-radius !important;
+    border-bottom-right-radius: $border-radius !important;
+  }
+
+  svg {
+    position: relative;
+    right: 25px;
+    top: 8px;
+    width: 15px;
+    height: 15px;
+    color: $muted;
+  }
+}
+
+.rbt-token .rbt-token-remove-button {
+  font-size: 8px !important;
+  color: #007bff !important;
+  padding: 8.5px 6px !important;
+}

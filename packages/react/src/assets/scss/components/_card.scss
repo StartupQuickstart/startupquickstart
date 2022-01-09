@@ -1,0 +1,77 @@
+.card {
+  margin-bottom: $grid-gutter-width;
+  box-shadow: $card-shadow;
+  margin-bottom: 1rem;
+}
+
+.card-header {
+  border-bottom-width: 1px;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.card-actions {
+  a {
+    color: $body-color;
+    text-decoration: none;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .dropdown {
+    line-height: 1.4;
+  }
+}
+
+.card-title {
+  font-weight: $card-title-font-weight;
+  color: $gray-700;
+  line-height: 31px;
+}
+
+.card-subtitle {
+  font-weight: $font-weight-normal;
+}
+
+.card-table {
+  margin-bottom: 0;
+}
+
+.card-table tr td:first-child,
+.card-table tr th:first-child {
+  padding-left: $card-spacer-x;
+}
+
+.card-table tr td:last-child,
+.card-table tr th:last-child {
+  padding-right: $card-spacer-x;
+}
+
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  @include img-fluid;
+
+  @media all and (-ms-high-contrast: none) {
+    height: 100%;
+  }
+}
+
+.dropdown-menu-end {
+  right: 0;
+  left: auto;
+}
+.well {
+  box-shadow: inset 0 0 6px $border-color;
+  padding: 1rem;
+  border-radius: $border-radius;
+}
+
+.modal-content .card {
+  border: 1px solid $border-color;
+}

@@ -1,0 +1,127 @@
+.setup {
+  .setup-banner {
+    background-color: $primary;
+    background-image: linear-gradient($primary, darken($primary, 10%));
+
+    padding: 4rem 5rem;
+    height: 100vh;
+    text-align: center;
+
+    .logo {
+      height: 50px;
+      width: auto;
+    }
+  }
+
+  .setup-info {
+    padding: 4rem 5rem;
+    height: 100vh;
+    text-align: center;
+
+    h3 {
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      line-height: 1.4;
+      font-size: 24px;
+    }
+
+    h5 {
+      box-sizing: border-box;
+      margin: 0;
+      min-width: 0;
+      color: $primary;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 2.5;
+    }
+
+    .plan-selection {
+
+      .plan-type-selector {
+        margin: 25px 0 35px 0;
+        font-weight: 600;
+
+        .btn {
+          color: #FFFFFF;
+        }
+      }
+
+
+      .plan {
+        padding: 0;
+
+        &.recommended .card-header {
+          text-align: center;
+          color: #FFFFFF;
+          background: $secondary;
+          text-transform: uppercase;
+          font-weight: 600;
+        }
+
+        &.not-recommended {
+          margin-top: 20px;
+        }
+
+        .card-body {
+          padding: 1rem;
+          text-align: left;
+        }
+
+        .price-header {
+
+          h3 {
+            line-height: 1;
+          }
+
+          p.subtitle {
+            font-weight: 500;
+            color: $gray-600;
+          }
+
+          .price {
+            font-size: 26px;
+            font-weight: 700;
+            color: $dark;
+          }
+        }
+
+        .btn {
+          margin: 5px 0 20px 0;
+          padding: 10px 25px;
+          font-weight: 600;
+        }
+
+        .feature {
+          padding: 10px 0;
+        }
+
+        .unavailable {
+          color: $gray-500;
+        }
+
+        .feature-x{
+          background-color: $gray-300;
+          color: #FFFFFF;
+          margin-right: 15px;
+          padding: 4px;
+
+          svg {
+            margin-bottom: 2px;
+          }
+        }
+
+        .feature-check {
+          border-radius: 50%;
+          background-color: $warning;
+          color: #FFFFFF;
+          margin-right: 15px;
+          padding: 4px;
+
+          svg {
+            margin-bottom: 3px;
+          }
+        }
+      }
+    }
+  }
+}

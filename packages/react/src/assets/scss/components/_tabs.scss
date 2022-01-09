@@ -1,0 +1,33 @@
+.nav-tabs {
+  .nav-item {
+    .nav-link {
+      color: $dark;
+      border-top: 1px solid $border-color;
+      border-right: 1px solid $border-color;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      padding: 15px 25px;
+
+      &.active {
+        background-color: #ffffff;
+      }
+
+      &:hover {
+        color: $asphalt;
+      }
+    }
+
+    &:first-child {
+      .nav-link {
+        border-left: 1px solid $border-color;
+        border-top-left-radius: $border-radius;
+      }
+    }
+
+    &:last-child {
+      .nav-link {
+        border-top-right-radius: $border-radius;
+      }
+    }
+  }
+}

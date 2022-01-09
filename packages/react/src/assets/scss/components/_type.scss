@@ -1,0 +1,74 @@
+.text-sm {
+  font-size: $font-size-sm;
+}
+
+.text-lg {
+  font-size: $font-size-lg;
+}
+
+b,
+strong {
+  font-weight: $font-weight-bold;
+}
+
+pre.snippet {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  text-align: justify;
+}
+
+a {
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 700;
+  line-height: 1.31;
+  letter-spacing: -0.55px;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 25px;
+}
+
+h3 {
+  font-size: 21px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+h5 {
+  font-size: 16px;
+}
+
+p.wrap {
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+blockquote {
+  border-left: 2px solid $primary;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 10px 0 10px 20px;
+  color: $gray-500;
+  font-style: italic;
+}
+
+code {
+  background: #222e3c;
+  color: $primary;
+  border: 1px solid #19222c;
+  border-radius: $border-radius;
+  padding: 3px 5px;
+}

@@ -1,0 +1,32 @@
+.highlight-group {
+  pre {
+    margin-bottom: 0px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+
+    code {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    &:first-child {
+      code {
+        border-top-left-radius: $border-radius;
+        border-top-right-radius: $border-radius;
+        padding-top: 15px;
+      }
+    }
+
+    &:last-child {
+      code {
+        border-bottom-left-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+        padding-bottom: 15px;
+      }
+    }
+  }
+}

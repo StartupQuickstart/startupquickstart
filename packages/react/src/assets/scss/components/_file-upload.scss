@@ -1,0 +1,89 @@
+.dropzone,
+.filepond--drop-label {
+  height: 200px;
+  width: 100%;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 16px;
+  border: 2px dashed $primary;
+  cursor: pointer;
+  background-color: #f5f6f8;
+  padding: 2rem;
+  border-radius: $border-radius;
+
+  > svg {
+    opacity: 0.7;
+    width: auto;
+    height: 40px;
+    color: $primary;
+    margin-bottom: 10px;
+  }
+
+  .file-input {
+    display: none;
+  }
+
+  &.highlight {
+    background-color: rgba($primary, 0.2);
+  }
+}
+
+.filepond--root .filepond--list-scroller {
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
+.image-upload-gallery {
+  padding-top: 5px;
+  padding-bottom: 10px;
+
+  .image-container {
+    padding-right: 10px;
+  }
+}
+
+.image-upload-gallery,
+.dropzone {
+  .image-container {
+    position: relative;
+    display: inline-block;
+    margin: auto;
+    cursor: pointer;
+
+    img {
+      width: auto;
+      height: auto;
+      max-height: 100px;
+      max-width: 100%;
+    }
+
+    .remove {
+      display: none;
+    }
+  }
+}
+
+.image-upload-gallery .image-container:hover .remove,
+.dropzone:hover .image-container .remove {
+  display: inline-block;
+  color: #ffffff;
+  width: 30px;
+  height: 30px;
+  font-weight: 300;
+  text-shadow: none;
+  text-align: center;
+  background-color: rgba(45, 62, 80, 0.7);
+  border-radius: 50%;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  line-height: 25px;
+  font-size: 1.4em;
+}
+
+.filepond--credits {
+  display: none;
+}

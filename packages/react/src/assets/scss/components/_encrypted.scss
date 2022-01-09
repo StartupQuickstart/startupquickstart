@@ -1,0 +1,15 @@
+.table .encrypted {
+  display: block;
+
+  .btn-text-group {
+    float: right;
+  }
+}
+
+.encrypted {
+	line-height: 25px;
+}
+
+.tooltip .arrow {
+  @extend .tooltip-arrow;
+}

@@ -1,0 +1,190 @@
+.btn {
+  font-weight: 600;
+
+  svg {
+    width: 15px;
+    height: 15px;
+    margin-bottom: 2px;
+  }
+}
+
+.btn-pill {
+  border-radius: 10rem;
+}
+
+.btn-square {
+  border-radius: 0;
+}
+
+.btn .feather {
+  width: 14px;
+  height: 14px;
+}
+
+@each $color, $value in $theme-colors {
+  .btn-#{$color} {
+    @include button-color($white);
+    @include button-color-hover($white);
+  }
+
+  .btn-outline-#{$color} {
+    @include button-color-hover($white);
+    @include button-color-active($white);
+  }
+}
+
+@each $color, $value in $social-colors {
+  .btn-#{$color} {
+    @include button-variant($value, $value);
+    @include button-color($white);
+    @include button-color-hover($white);
+  }
+}
+
+.btn-light,
+.btn-white {
+  @include button-color($gray-800);
+  @include button-color-hover($gray-800);
+  border-color: $border-color;
+
+  &:hover {
+    border-color: darken($border-color, 20);
+  }
+}
+
+.btn-outline-light,
+.btn-outline-white {
+  @include button-color-hover($gray-800);
+  @include button-color-active($gray-800);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.btn-text,
+.text-link {
+  cursor: pointer;
+  color: $primary;
+}
+
+.btn-text-seperator {
+  color: $border-color;
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.btn-google {
+  background: #db4437;
+  border-color: #db4437;
+}
+
+.btn-github {
+  background: #4078c0;
+  border-color: #4078c0;
+}
+
+.btn .feather {
+  margin-bottom: 2px;
+}
+
+.close {
+  float: right;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: 0.5;
+}
+
+button.close {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+}
+
+.btn-group-alt {
+  display: flex;
+  justify-content: 'center';
+  margin-bottom: 0;
+  margin-top: 0;
+  position: relative;
+  z-index: 2;
+
+  @include media-breakpoint-up(lg) {
+    margin-bottom: 40px;
+  }
+
+  .btn-group-inner {
+    display: flex;
+    padding: 7px;
+    margin: 0 auto 25px;
+    border-radius: 5px;
+    background-color: darken(#f8fafc, 5%);
+
+    button {
+      border: 0;
+      padding: 15px 20px;
+      border-radius: 5px;
+      color: text-color;
+      font-size: nth($font-sizes, 2);
+      line-height: 1.2;
+      font-weight: 500;
+      background-color: transparent;
+      cursor: pointer;
+      letter-spacing: -0.24px;
+      transition: all 0.3s;
+
+      @include media-breakpoint-up(sm) {
+        padding: 15px 27px;
+        font-size: nth($font-sizes, 3);
+      }
+
+      &.active {
+        color: #0f2137;
+        background-color: #ffffff;
+        box-shadow: 0 3px 4px rgba(38, 78, 118, 0.1);
+      }
+
+      &:focus {
+        outline: 0;
+      }
+    }
+  }
+}
+
+.slick-button {
+  min-height: 30px;
+  padding: 0;
+  position: absolute;
+  color: $primary;
+  bottom: 0;
+  cursor: pointer;
+
+  &:focus {
+    outline: 0 none;
+  }
+
+  svg {
+    transition: all 0.2s ease-in-out 0s;
+  }
+
+  &.slick-disabled {
+    color: #bbc7d7;
+    svg {
+      transform: scale(0.8);
+    }
+  }
+
+  &.slick-prev {
+    left: calc(50% - 16px);
+    transform: translateX(-50%);
+  }
+
+  &.slick-next {
+    transform: translateX(50%);
+    right: calc(50% - 16px);
+  }
+}

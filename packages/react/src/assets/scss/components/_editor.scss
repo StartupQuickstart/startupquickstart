@@ -1,0 +1,36 @@
+.rich-text-editor {
+  background: $white;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  margin-bottom: 1.25rem;
+
+  .editor-toolbar {
+    padding: 0.5rem 1.5rem;
+    border-bottom: 1px solid $border-color;
+
+    span.icon-text {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    i.fa,
+    span.icon-text {
+      padding: 0 10px;
+      color: $gray-500;
+    }
+
+    .active i.fa,
+    .active span.icon-text {
+      color: $gray-900;
+    }
+  }
+
+  div:nth-child(2) {
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+  }
+}
+
+.modal .rich-text-editor,
+.card .rich-text-editor {
+  border: 1px solid $border-color;
+}
