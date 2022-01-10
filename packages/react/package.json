@@ -15,8 +15,7 @@
     "README.md"
   ],
   "exports": {
-    ".": "./dist/index.js",
-    "./assets": "./dist/assets",
+    "./assets/css/main.css": "./dist/assets/css/main.css",
     "./components": "./dist/components",
     "./authenticators": "./dist/components/authenticators",
     "./buttons": "./dist/components/buttons",
