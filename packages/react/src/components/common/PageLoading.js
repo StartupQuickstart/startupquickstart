@@ -1,3 +1,5 @@
+import React from 'react';
+
 export function PageLoading() {
   return (
     <main className="content">
