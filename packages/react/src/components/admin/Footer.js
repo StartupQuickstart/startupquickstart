@@ -1,7 +1,7 @@
 import React from 'react';
 import { useConfig } from '../../context/providers';
 
-export default function Footer() {
+export function Footer() {
   const {
     config: { website, legalName, supportPage, privacyPolicy, termsOfService }
   } = useConfig();
@@ -68,3 +68,5 @@ export default function Footer() {
     </footer>
   );
 }
+
+export default Footer;

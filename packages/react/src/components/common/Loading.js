@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Loading({ small }) {
+export function Loading({ small }) {
   const styles = small ? { position: 'relative', height: '100px' } : {};
   return (
     <div className="d-block" style={styles}>
@@ -10,3 +10,5 @@ export default function Loading({ small }) {
     </div>
   );
 }
+
+export default Loading;

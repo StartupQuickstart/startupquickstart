@@ -1,5 +1,7 @@
 import React from 'react';
 
-export default function EmptyLayout({ children }) {
+export function EmptyLayout({ children }) {
   return <>{children}</>;
 }
+
+export default EmptyLayout;

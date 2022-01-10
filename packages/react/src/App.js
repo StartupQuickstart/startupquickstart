@@ -1,10 +1,10 @@
 import './assets/scss/main.scss';
 import { Private } from './components/authenticators';
-import EmptyLayout from './components/layouts/Empty';
+import { EmptyLayout } from './components/layouts';
 import Admin from './components/templates/Admin';
 import { Home, Auth } from './views';
 
-function App() {
+export function App() {
   const routes = [
     { path: '/', Component: Home, Authenticator: Private },
     { path: '/login', Component: Auth.Login, Layout: EmptyLayout },

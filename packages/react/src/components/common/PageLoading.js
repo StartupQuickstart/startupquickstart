@@ -1,4 +1,4 @@
-export default function PageLoading() {
+export function PageLoading() {
   return (
     <main className="content">
       <div className="container-fluid p-0">
@@ -9,3 +9,5 @@ export default function PageLoading() {
     </main>
   );
 }
+
+export default PageLoading;

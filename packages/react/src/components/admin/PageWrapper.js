@@ -1,7 +1,7 @@
 import React from 'react';
 import PageHeader from './PageHeader';
 
-export default function PageWrapper(props) {
+export function PageWrapper(props) {
   const breadcrumbs = props.breadcrumbs || [];
 
   return (
@@ -20,3 +20,5 @@ export default function PageWrapper(props) {
     </>
   );
 }
+
+export default PageWrapper;

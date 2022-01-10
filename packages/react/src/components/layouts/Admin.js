@@ -1,10 +1,10 @@
 import React from 'react';
-import Navbar from '../layout/Navbar/Navbar';
-import Footer from '../layout/Footer';
-import Sidebar from '../layout/Sidebar/Sidebar';
+import Navbar from '../admin/navbar/Navbar';
+import Footer from '../admin/Footer';
+import Sidebar from '../admin/sidebar/Sidebar';
 import classNames from 'classnames';
 
-export default function AdminLayout({ children, className }) {
+export function AdminLayout({ children, className }) {
   return (
     <div className="wrapper">
       <Sidebar />
@@ -18,3 +18,5 @@ export default function AdminLayout({ children, className }) {
     </div>
   );
 }
+
+export default AdminLayout;

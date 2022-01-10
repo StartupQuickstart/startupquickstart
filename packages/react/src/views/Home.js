@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
-import PageWrapper from '../components/layout/PageWrapper';
+import { PageWrapper } from '../components/admin';
 import { useConfig, useMessage, useNotification } from '../context/providers';
 import moment from 'moment';
-import { useAuth } from '../context/providers';
 
 export function Home() {
   const { setNotifications } = useNotification();
   const { setMessages } = useMessage();
   const { setFeatures } = useConfig();
-  const { authenticate } = useAuth();
 
   useEffect(() => {
     setNotifications([

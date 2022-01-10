@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
-export default function Breadcrumbs(props) {
+export function Breadcrumbs(props) {
   const items = props.items || [];
 
   return (
@@ -23,3 +23,5 @@ export default function Breadcrumbs(props) {
     </div>
   );
 }
+
+export default Breadcrumbs;

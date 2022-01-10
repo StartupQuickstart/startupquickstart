@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import Breadcrumbs from './Breadcrumbs';
 
-export default function PageHeader(props) {
+export function PageHeader(props) {
   const Hx = props.as || 'h3';
   const hasMargin = props.hasMargin !== false;
 
@@ -25,3 +25,5 @@ export default function PageHeader(props) {
     </div>
   );
 }
+
+export default PageHeader;

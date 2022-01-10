@@ -11,7 +11,7 @@ import { ContextProvider } from '../../context/ContextProvider';
 import Public from '../authenticators/Public';
 import AdminLayout from '../layouts/Admin';
 
-export default function Admin({ routes }) {
+export function Admin({ routes }) {
   if (!routes) {
     throw new Error('routes property require for Admin Component');
   }
@@ -59,3 +59,5 @@ export default function Admin({ routes }) {
     </Router>
   );
 }
+
+export default Admin;

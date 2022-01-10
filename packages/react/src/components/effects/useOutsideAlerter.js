@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export default function useOutsideAlerter(ref, callback) {
+export function useOutsideAlerter(ref, callback) {
   useEffect(() => {
     /**
      * Callback if clicked on outside of element
@@ -20,3 +20,5 @@ export default function useOutsideAlerter(ref, callback) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref]);
 }
+
+export default useOutsideAlerter;
