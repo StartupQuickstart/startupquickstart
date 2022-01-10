@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-export default class Toast {
+export class Toast {
   /**
    * Toast to show error message
    *
@@ -35,3 +35,5 @@ export default class Toast {
     });
   }
 }
+
+export default Toast;

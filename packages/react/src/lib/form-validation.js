@@ -1,4 +1,4 @@
-export default class FormValidation {
+export class FormValidation {
   /**
    * Gets the value for the dot notation prop from the values.
    * Example: 'test.prop' would return 1 from {test: {prop: 1}}
@@ -61,9 +61,15 @@ export default class FormValidation {
    */
   static validateDomain(prop, values, errors, message) {
     const value = this.getValue(prop, values);
-    const domainRegex = new RegExp(/^(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)|(localhost:[0-9]{4})$/);
+    const domainRegex = new RegExp(
+      /^(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)|(localhost:[0-9]{4})$/
+    );
     if (!domainRegex.test(value)) {
-      const error = this.getMessage(message, value, `${value} is not a valid domain name.`);
+      const error = this.getMessage(
+        message,
+        value,
+        `${value} is not a valid domain name.`
+      );
       this.setError(prop, errors, error);
     }
   }
@@ -77,8 +83,12 @@ export default class FormValidation {
    * @param {String|Function} message Error message to set
    */
   static validateCommaSeperatedEmails(prop, values, errors, message) {
-    const emailRegex = new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
-    const emails = (this.getValue(prop, values) || '').replace(/\s/g, '').split(',');
+    const emailRegex = new RegExp(
+      /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+    );
+    const emails = (this.getValue(prop, values) || '')
+      .replace(/\s/g, '')
+      .split(',');
     const emailErrors = emails
       .map((email, index) => {
         if (email && email.length && !emailRegex.test(email)) {
@@ -111,8 +121,17 @@ export default class FormValidation {
 
     const colorRegex = new RegExp(/^#[a-fA-F0-9]{3}$/);
     const colorRegex2 = new RegExp(/^#[a-fA-F0-9]{6}$/);
-    if (value && value.length && !colorRegex.test(value) && !colorRegex2.test(value)) {
-      const error = this.getMessage(message, value, `${value} is not a valid hex color.`);
+    if (
+      value &&
+      value.length &&
+      !colorRegex.test(value) &&
+      !colorRegex2.test(value)
+    ) {
+      const error = this.getMessage(
+        message,
+        value,
+        `${value} is not a valid hex color.`
+      );
       this.setError(prop, errors, error);
     }
   }
@@ -128,10 +147,16 @@ export default class FormValidation {
   static validateEmail(prop, values, errors, message) {
     const value = this.getValue(prop, values);
 
-    const isValidEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
+    const isValidEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
+      value
+    );
 
     if (value && !isValidEmail) {
-      const error = this.getMessage(message, value, `${value} is not a valid email address.`);
+      const error = this.getMessage(
+        message,
+        value,
+        `${value} is not a valid email address.`
+      );
       this.setError(prop, errors, error);
     }
   }
@@ -194,3 +219,5 @@ export default class FormValidation {
     }
   }
 }
+
+export default FormValidation;

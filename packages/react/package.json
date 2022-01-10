@@ -18,6 +18,12 @@
     ".": "./dist/index.js",
     "./assets": "./dist/assets",
     "./components": "./dist/components",
+    "./authenticators": "./dist/components/authenticators",
+    "./buttons": "./dist/components/buttons",
+    "./effects": "./dist/components/effects",
+    "./inputs": "./dist/components/inputs",
+    "./layouts": "./dist/components/layouts",
+    "./templates": "./dist/components/templates",
     "./context": "./dist/context",
     "./lib": "./dist/lib",
     "./views": "./dist/views"
