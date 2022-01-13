@@ -13,7 +13,7 @@ import AdminLayout from '../layouts/Admin';
 import * as Views from '../../views';
 import { Private, Public } from '../authenticators';
 
-export function Admin({ routes, Auth }) {
+export function Admin({ routes, Auth, config, callToAction, features }) {
   if (!routes) {
     routes = [{ path: '/', Component: Views.Home, Authenticator: Private }];
   }
@@ -22,7 +22,12 @@ export function Admin({ routes, Auth }) {
 
   return (
     <Router>
-      <ContextProvider Auth={Auth}>
+      <ContextProvider
+        Auth={Auth}
+        config={config}
+        callToAction={callToAction}
+        features={features}
+      >
         <Routes>
           {routes.map(
             (

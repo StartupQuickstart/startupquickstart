@@ -28,13 +28,6 @@ export const NavigationProvider = ({ children }) => {
     }
   ]);
 
-  const [callToAction, setCallToAction] = useState({
-    title: 'Documentation',
-    description: 'View source code and docs on github to get started.',
-    actionTitle: 'View on Github',
-    actionTo: 'https://github.com/StartupQuickstart/startupquickstart'
-  });
-
   const [userOptions, setUserOptions] = useState([
     {
       name: 'Logut',
@@ -76,9 +69,7 @@ export const NavigationProvider = ({ children }) => {
     userOptions,
     setUserOptions,
     toggleSidebarItem,
-    toggleSidebar,
-    callToAction,
-    setCallToAction
+    toggleSidebar
   };
 
   return (

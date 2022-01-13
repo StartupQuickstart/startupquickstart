@@ -6,7 +6,6 @@ import moment from 'moment';
 export function Home() {
   const { setNotifications } = useNotification();
   const { setMessages } = useMessage();
-  const { setFeatures } = useConfig();
 
   useEffect(() => {
     setNotifications([
@@ -28,8 +27,6 @@ export function Home() {
         message: 'Add messages that have been sent to your users.'
       }
     ]);
-
-    setFeatures({ messages: true, notifications: true });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

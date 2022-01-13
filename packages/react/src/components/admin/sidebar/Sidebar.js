@@ -3,17 +3,14 @@ import classNames from 'classnames';
 import * as Feather from 'react-feather';
 import { Link } from 'react-router-dom';
 import SidebarCallToAction from './SidebarCallToAction';
-import { useNavigation } from '../../../context/providers';
+import { useConfig, useNavigation } from '../../../context/providers';
 import Logo from '../Logo';
 
 export default function Sidebar() {
-  const {
-    sidebarItems,
-    sidebarCollapsed,
-    toggleSidebar,
-    toggleSidebarItem,
-    callToAction
-  } = useNavigation();
+  const { sidebarItems, sidebarCollapsed, toggleSidebar, toggleSidebarItem } =
+    useNavigation();
+
+  const { callToAction } = useConfig();
 
   /**
    * Toggles the sidebar on mobile devices
