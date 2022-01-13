@@ -26,7 +26,7 @@ export function Login(props) {
     const { email, password } = values;
 
     try {
-      authenticate(email, password);
+      await authenticate(email, password);
     } catch (err) {
       if (err?.response?.data?.message) {
         setError(err.response.data.message || 'Unknown Error');

@@ -22,7 +22,11 @@ const expiredTitle = {
   title: 'Expired Token',
   subTitle: (
     <>
-      <p>Your token has expired. Please request another password reset link.</p>
+      <span>
+        Your token has expired. Please request another password reset link.
+      </span>
+      <br />
+      <br />
       <Link to="/forgot-password" className="btn btn-lg btn-primary">
         Request another link <ArrowRight />
       </Link>
@@ -30,9 +34,8 @@ const expiredTitle = {
   )
 };
 
-export function ResetPassword({ location, ...props }) {
-  const { resetPassword, setAuthToken } = useAuth();
-  const { navigate } = useNavigate();
+export function ResetPassword(props) {
+  const { resetPassword } = useAuth();
   const [token, setToken] = useState(null);
   const [isExpired, setExpired] = useState(false);
   const [isSubmitting, setSubmitting] = useState(false);
@@ -40,7 +43,9 @@ export function ResetPassword({ location, ...props }) {
   const [title, setTitle] = useState(defaultTitle);
 
   useEffect(() => {
-    const query = qs.parse(location?.search, { ignoreQueryPrefix: true });
+    const query = qs.parse(window.location?.search, {
+      ignoreQueryPrefix: true
+    });
     setToken(query.token);
 
     const payload = query.token ? jwtDecode(query.token) : null;
@@ -52,7 +57,7 @@ export function ResetPassword({ location, ...props }) {
     } else {
       setTitle(defaultTitle);
     }
-  }, [location?.search]);
+  }, []);
 
   /**
    * Handles form submissions
@@ -65,18 +70,13 @@ export function ResetPassword({ location, ...props }) {
     setSubmitting(true);
 
     try {
-      const result = await resetPassword(password, token);
+      await resetPassword(password, token);
       Toast.success('Success! Your password has been reset.');
-
-      if (result?.token) {
-        setAuthToken(result.token);
-      } else {
-        navigate('/login');
-      }
     } catch (err) {
       if (err?.response?.data?.message) {
         Toast.error(err.response.data.message);
       } else {
+        console.log(err);
         Toast.error('Unknown Error');
       }
 

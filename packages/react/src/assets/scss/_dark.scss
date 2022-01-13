@@ -1,0 +1,6 @@
+//  Dark
+$sidebar-bg: #222e3c !default;
+$sidebar-link-color: #adb5bd !default;
+$sidebar-link-bg: lighten($sidebar-bg, 5%) !default;
+$sidebar-link-hover-bg: darken($sidebar-link-bg, 10%) !default;
+$sidebar-link-active-bg: $sidebar-link-hover-bg !default;

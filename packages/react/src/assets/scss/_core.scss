@@ -1,0 +1,69 @@
+// Bootstrap
+@import 'node_modules/bootstrap/scss/bootstrap';
+
+// Theme mixins
+@import 'mixins/button';
+@import 'mixins/modal';
+@import 'mixins/switch';
+
+// Theme components
+@import 'components/accordion';
+@import 'components/alert';
+@import 'components/auth';
+@import 'components/avatar';
+@import 'components/badge';
+@import 'components/buttons';
+@import 'components/card';
+@import 'components/chart';
+@import 'components/common';
+@import 'components/content';
+@import 'components/dropdown';
+@import 'components/editor';
+@import 'components/encrypted';
+@import 'components/error';
+@import 'components/feather';
+@import 'components/field';
+@import 'components/footer';
+@import 'components/forms';
+@import 'components/hamburger';
+@import 'components/highlight';
+@import 'components/file-upload';
+@import 'components/list-group';
+@import 'components/main';
+@import 'components/modal';
+@import 'components/navbar';
+@import 'components/pricing';
+@import 'components/progress';
+@import 'components/reboot';
+@import 'components/rich-text-editor';
+@import 'components/setup';
+@import 'components/sidebar';
+@import 'components/sizing';
+@import 'components/spinner';
+@import 'components/tables';
+@import 'components/tabs';
+@import 'components/toasts';
+@import 'components/tooltip';
+@import 'components/type';
+@import 'components/wrapper';
+
+// Layout/View styles
+@import 'layouts/settings';
+
+// Theme utilities
+@import 'utilities/background';
+@import 'utilities/borders';
+@import 'utilities/cursors';
+@import 'utilities/overflow';
+
+// 3rd party plugins
+@import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/regular';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
+@import 'node_modules/jsvectormap/dist/css/jsvectormap';
+@import 'node_modules/simplebar/dist/simplebar';
+@import 'node_modules/flatpickr/dist/flatpickr';
+
+// 3rd party plugin styles
+@import 'vendor/simplebar';
+@import 'vendor/flatpickr';

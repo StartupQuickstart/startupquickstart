@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/providers';
 
-export function Private({ children }) {
+export function PublicOnly({ children }) {
   const { isAuthenticated, checkAuth } = useAuth();
   const navigate = useNavigate();
 
@@ -12,12 +12,12 @@ export function Private({ children }) {
   }, []);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login');
+    if (isAuthenticated) {
+      navigate('/');
     }
   }, [navigate, isAuthenticated]);
 
   return <>{children}</>;
 }
 
-export default Private;
+export default PublicOnly;

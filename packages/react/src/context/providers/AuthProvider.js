@@ -1,10 +1,14 @@
+import Cookies from 'js-cookie';
 import React, { useState, useContext } from 'react';
+import jwtDecode from 'jwt-decode';
 
 const AuthContext = React.createContext({});
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children, Auth }) => {
   const [isAuthenticated, setAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, _setUser] = useState(null);
+
+  const apiTokenCookie = Auth.apiTokenCookie || 'api-token';
 
   /**
    * Authenticates a user
@@ -12,40 +16,127 @@ export const AuthProvider = ({ children }) => {
    * @param {String} email Email Address to use for authentication
    * @param {String} password Password to use for authentication
    */
-  function authenticate(email, password) {
-    setUser({
-      email,
-      name: 'Thomas Boles',
-      first_name: 'Thomas',
-      last_name: 'Boles'
-    });
+  async function authenticate(email, password) {
+    const token = await Auth.authenticate(email, password);
+
+    if (!token) {
+      throw new Error('Failed to authenticate');
+    }
+
+    setToken(token);
+  }
+
+  /**
+   * Sets a token
+   *
+   * @param {JWT} Token to set
+   */
+  function setToken(token) {
+    if (!token) {
+      throw new Error('Failed to set token');
+    }
+
+    Cookies.set(apiTokenCookie, token);
+
+    const user = jwtDecode(token);
+    setUser(user);
+
     setAuthenticated(true);
+  }
+
+  /**
+   * Gets the jwt token stored in cookies
+   */
+  function getToken() {
+    return Cookies.get(apiTokenCookie);
+  }
+
+  /**
+   * Checks to see if a user is authenticated
+   */
+  function checkAuth() {
+    const token = getToken();
+
+    if (!token) {
+      return false;
+    }
+
+    const payload = jwtDecode(token);
+    const isExpired = payload.exp < Date.now() / 1000;
+
+    if (isExpired) {
+      logout();
+    } else {
+      const user = payload?.user || payload;
+      setUser(user);
+      setAuthenticated(true);
+    }
+
+    return !isExpired;
   }
 
   /**
    * Logs the user out
    */
   function logout(redirectTo = '/login') {
+    Cookies.remove(apiTokenCookie);
     setAuthenticated(false);
     setUser(false);
   }
 
-  function sendActivationLink(email) {
-    console.log('Sending activation email to', email);
+  /**
+   * Sets the user
+   *
+   * @param {Object} user User to set
+   */
+  function setUser(user) {
+    if (Auth.onSetUser) {
+      user = Auth.onSetUser(user);
+    }
+
+    _setUser(user);
   }
 
-  function sendResetPasswordLink(email) {
-    console.log('Sending reset passworkd link to', email);
+  async function activateAccount(activationCode) {
+    return await Auth.activateAccount(activationCode);
+  }
+
+  /**
+   * Resets the password with a reset token
+   *
+   * @param {String} password Password to set
+   * @param {String} resetToken Token to use to set password
+   */
+  async function resetPassword(password, resetToken) {
+    const token = await Auth.resetPassword(password, resetToken);
+    setToken(token);
+  }
+
+  async function sendActivationLink(email) {
+    return await Auth.sendActivationLink(email);
+  }
+
+  async function sendResetPasswordLink(email) {
+    return await Auth.sendResetPasswordLink(email);
+  }
+
+  async function signup(user) {
+    const token = await Auth.signup(user);
+    setToken(token);
   }
 
   const data = {
+    checkAuth,
     isAuthenticated,
     setAuthenticated,
     user,
     authenticate,
     logout,
     sendActivationLink,
-    sendResetPasswordLink
+    sendResetPasswordLink,
+    signup,
+    activateAccount,
+    resetPassword
   };
 
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;

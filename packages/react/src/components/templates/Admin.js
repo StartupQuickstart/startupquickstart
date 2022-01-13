@@ -8,17 +8,21 @@ import {
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ContextProvider } from '../../context/ContextProvider';
-import Public from '../authenticators/Public';
+import authRoutes from '../../routes/auth.routes';
 import AdminLayout from '../layouts/Admin';
+import * as Views from '../../views';
+import { Private, Public } from '../authenticators';
 
-export function Admin({ routes }) {
+export function Admin({ routes, Auth }) {
   if (!routes) {
-    throw new Error('routes property require for Admin Component');
+    routes = [{ path: '/', Component: Views.Home, Authenticator: Private }];
   }
+
+  routes.push(...authRoutes);
 
   return (
     <Router>
-      <ContextProvider>
+      <ContextProvider Auth={Auth}>
         <Routes>
           {routes.map(
             (

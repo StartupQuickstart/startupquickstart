@@ -3,10 +3,10 @@ import React from 'react';
 export const combineComponents = (...components) => {
   return components.reduce(
     (AccumulatedComponents, CurrentComponent) => {
-      return ({ children }) => {
+      return ({ children, ...props }) => {
         return (
-          <AccumulatedComponents>
-            <CurrentComponent>{children}</CurrentComponent>
+          <AccumulatedComponents {...props}>
+            <CurrentComponent {...props}>{children}</CurrentComponent>
           </AccumulatedComponents>
         );
       };
