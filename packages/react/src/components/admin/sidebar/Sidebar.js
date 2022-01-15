@@ -32,7 +32,7 @@ export default function Sidebar() {
         </a>
 
         <ul className="sidebar-nav">
-          {sidebarItems.map((group, groupIndex) => {
+          {sidebarItems?.map((group, groupIndex) => {
             const groupKey = `group_${groupIndex}`;
 
             return (
@@ -138,6 +138,10 @@ export default function Sidebar() {
               </Fragment>
             );
           })}
+          <Link className={'sidebar-link d-block d-md-none'} to={'/logout'}>
+            <Feather.LogOut className="align-middle feather" />
+            <span className="align-middle">Logout</span>
+          </Link>
         </ul>
 
         {callToAction && <SidebarCallToAction {...callToAction} />}

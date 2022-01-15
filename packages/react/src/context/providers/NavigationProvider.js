@@ -2,35 +2,31 @@ import React, { useState, useContext } from 'react';
 
 const NavigationContext = React.createContext({});
 
-export const NavigationProvider = ({ children }) => {
+export const NavigationProvider = ({ children, ...props }) => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [sidebarItems, setSidebarItems] = useState([
-    {
-      name: '',
-      items: [
-        { name: 'Dashboard', to: '/', icon: 'BarChart2' },
-        // {
-        //   name: 'Settings',
-        //   to: '/settings',
-        //   icon: 'Settings',
-        //   items: [
-        //     { name: 'General', to: '/settings/general', icon: 'ArrowRight' },
-        //     { name: 'Core', to: '/settings/core', icon: 'ArrowRight' }
-        //   ]
-        // },
-        {
-          name: 'Logut',
-          to: '/logout',
-          icon: 'LogOut',
-          className: 'd-block d-md-none'
-        }
-      ]
-    }
-  ]);
+  const [sidebarItems, setSidebarItems] = useState(
+    props.sidebarItems || [
+      {
+        name: '',
+        items: [
+          { name: 'Dashboard', to: '/', icon: 'BarChart2' }
+          // {
+          //   name: 'Settings',
+          //   to: '/settings',
+          //   icon: 'Settings',
+          //   items: [
+          //     { name: 'General', to: '/settings/general', icon: 'ArrowRight' },
+          //     { name: 'Core', to: '/settings/core', icon: 'ArrowRight' }
+          //   ]
+          // },
+        ]
+      }
+    ]
+  );
 
   const [userOptions, setUserOptions] = useState([
     {
-      name: 'Logut',
+      name: 'Logout',
       to: '/logout',
       icon: 'LogOut'
     }

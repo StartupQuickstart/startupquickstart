@@ -1,2 +1,2 @@
 export { Home } from './Home';
-export * as Auth from './Auth';
+export * as Auth from './auth';

@@ -13,7 +13,14 @@ import AdminLayout from '../layouts/Admin';
 import * as Views from '../../views';
 import { Private, Public } from '../authenticators';
 
-export function Admin({ routes, Auth, config, callToAction, features }) {
+export function Admin({
+  routes,
+  Auth,
+  config,
+  callToAction,
+  features,
+  sidebarItems
+}) {
   if (!routes) {
     routes = [{ path: '/', Component: Views.Home, Authenticator: Private }];
   }
@@ -27,6 +34,7 @@ export function Admin({ routes, Auth, config, callToAction, features }) {
         config={config}
         callToAction={callToAction}
         features={features}
+        sidebarItems={sidebarItems}
       >
         <Routes>
           {routes.map(
