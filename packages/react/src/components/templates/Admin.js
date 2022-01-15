@@ -7,11 +7,11 @@ import {
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ContextProvider } from '../../context/ContextProvider';
-import authRoutes from '../../routes/auth.routes';
-import AdminLayout from '../layouts/Admin';
-import * as Views from '../../views';
-import { Private, Public } from '../authenticators';
+import { ContextProvider } from 'context/ContextProvider';
+import coreRoutes from 'routes/core.routes';
+import AdminLayout from 'components/layouts/Admin';
+import * as views from 'views';
+import { Private, Public } from 'components/authenticators';
 
 export function Admin({
   routes,
@@ -22,10 +22,10 @@ export function Admin({
   sidebarItems
 }) {
   if (!routes) {
-    routes = [{ path: '/', Component: Views.Home, Authenticator: Private }];
+    routes = [{ path: '/', Component: views.Home, Authenticator: Private }];
   }
 
-  routes.push(...authRoutes);
+  routes.push(...coreRoutes);
 
   return (
     <Router>

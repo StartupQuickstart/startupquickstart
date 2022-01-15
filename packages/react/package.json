@@ -16,13 +16,14 @@
   ],
   "exports": {
     "./assets/css/main.css": "./dist/assets/css/main.css",
+    "./assets/css/**/*": "./dist/assets/css/**/*",
     "./components": "./dist/components",
     "./authenticators": "./dist/components/authenticators",
     "./buttons": "./dist/components/buttons",
-    "./effects": "./dist/components/effects",
     "./inputs": "./dist/components/inputs",
     "./layouts": "./dist/components/layouts",
     "./templates": "./dist/components/templates",
+    "./effects": "./dist/effects",
     "./context": "./dist/context",
     "./lib": "./dist/lib",
     "./views": "./dist/views"

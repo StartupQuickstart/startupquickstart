@@ -1,6 +1,6 @@
 import React from 'react';
 import Avatar from 'react-avatar';
-import { useAuth } from '../../../context/providers';
+import { useAuth } from 'context/providers';
 
 export default function UserIcon() {
   const { user } = useAuth();

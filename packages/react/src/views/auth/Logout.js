@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import PageLoading from '../../components/common/PageLoading';
-import { useAuth } from '../../context/providers';
+import PageLoading from 'components/common/PageLoading';
+import { useAuth } from 'context/providers';
 
 export function Logout() {
   const { logout } = useAuth();

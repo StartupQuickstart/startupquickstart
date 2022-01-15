@@ -1,6 +1,6 @@
 import React from 'react';
 import { Check } from 'react-feather';
-import { useSetup } from '../../../context/providers';
+import { useSetup } from 'context/providers';
 
 export default function SetupProgress({ active, completed }) {
   const { setupItems } = useSetup();

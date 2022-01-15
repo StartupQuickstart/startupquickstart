@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import * as Feather from 'react-feather';
 import { Link } from 'react-router-dom';
 import SidebarCallToAction from './SidebarCallToAction';
-import { useConfig, useNavigation } from '../../../context/providers';
-import Logo from '../Logo';
+import { useConfig, useNavigation } from 'context/providers';
+import Logo from 'components/admin/Logo';
 
 export default function Sidebar() {
   const { sidebarItems, sidebarCollapsed, toggleSidebar, toggleSidebarItem } =

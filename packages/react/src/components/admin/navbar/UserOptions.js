@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import UserIcon from './UserIcon';
 import * as Feather from 'react-feather';
 import { Link } from 'react-router-dom';
-import { useNavigation } from '../../../context/providers';
+import { useNavigation } from 'context/providers';
 
 export default function UserOptions({ toggleItem, toggledItem }) {
   const { userOptions } = useNavigation();

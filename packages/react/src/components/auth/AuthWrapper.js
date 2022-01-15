@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import Copyright from './Copyright';
-import LoadingOverlay from '../../../components/common/LoadingOverlay';
-import { Logo } from '../../../components/admin/Logo';
-import { useAuth } from '../../../context/providers';
+import LoadingOverlay from 'components/common/LoadingOverlay';
+import { Logo } from 'components/admin/Logo';
+import { useAuth } from 'context/providers';
 import SetupProgress from './SetupProgress';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';

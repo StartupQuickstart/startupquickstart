@@ -1,2 +1,3 @@
 export { Home } from './Home';
-export * as Auth from './auth';
+export * as auth from './auth';
+export * as common from './common';

@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Form } from 'react-bootstrap';
 import FormValidation from '../../lib/form-validation';
-import { useAuth } from '../../context/providers';
+import { useAuth } from 'context/providers';
 
-import { PasswordInput, EmailInput } from '../../components/inputs';
-import AuthWrapper from './components/AuthWrapper';
-import { SubmitButton } from '../../components/buttons';
+import { PasswordInput, EmailInput } from 'components/inputs';
+import AuthWrapper from 'components/auth/AuthWrapper';
+import { SubmitButton } from 'components/buttons';
 
 export function Login(props) {
   const { authenticate } = useAuth();

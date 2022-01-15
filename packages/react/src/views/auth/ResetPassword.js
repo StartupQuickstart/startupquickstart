@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import qs from 'qs';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import FormValidation from '../../lib/form-validation';
 import Toast from '../../lib/toast';
-import { PasswordRequirements } from './components/PasswordRequirements';
-import { useAuth } from '../../context/providers';
+import { PasswordRequirements } from 'components/auth/PasswordRequirements';
+import { useAuth } from 'context/providers';
 import jwtDecode from 'jwt-decode';
-import AuthWrapper from './components/AuthWrapper';
-import { SubmitButton } from '../../components/buttons';
-import { PasswordInput } from '../../components/inputs';
+import AuthWrapper from 'components/auth/AuthWrapper';
+import { SubmitButton } from 'components/buttons';
+import { PasswordInput } from 'components/inputs';
 import { Form } from 'react-bootstrap';
 import { ArrowRight } from 'react-feather';
 

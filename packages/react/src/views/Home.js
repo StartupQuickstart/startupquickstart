@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { PageWrapper } from '../components/admin';
-import { useConfig, useMessage, useNotification } from '../context/providers';
+import { PageWrapper } from 'components/admin';
+import { useMessage, useNotification } from 'context/providers';
 import moment from 'moment';
 
 export function Home() {

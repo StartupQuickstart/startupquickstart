@@ -4,11 +4,11 @@ import { Form } from 'react-bootstrap';
 import { Formik } from 'formik';
 import FormValidation from '../../lib/form-validation';
 import Toast from '../../lib/toast';
-import SupportEmail from '../../components/common/SupportEmail';
-import AuthWrapper from './components/AuthWrapper';
-import { useAuth } from '../../context/providers';
-import { SubmitButton } from '../../components/buttons';
-import { EmailInput } from '../../components/inputs';
+import SupportEmail from 'components/common/SupportEmail';
+import AuthWrapper from 'components/auth/AuthWrapper';
+import { useAuth } from 'context/providers';
+import { SubmitButton } from 'components/buttons';
+import { EmailInput } from 'components/inputs';
 
 const defaultTitle = {
   title: 'Forgot your password?',

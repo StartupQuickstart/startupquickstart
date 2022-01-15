@@ -1,5 +1,5 @@
 import React from 'react';
-import { useConfig } from '../../context/providers';
+import { useConfig } from 'context/providers';
 
 export function Logo(props) {
   const { config } = useConfig();
