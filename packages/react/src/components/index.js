@@ -1,7 +1,14 @@
+export * as account from './account';
 export * as admin from './admin';
+export * as auth from './auth';
 export * as authenticators from './authenticators';
 export * as buttons from './buttons';
 export * as common from './common';
+export * as editors from './editors';
 export * as inputs from './inputs';
 export * as layouts from './layouts';
+export * as media from './media';
+export * as pricing from './pricing';
+export * as record from './records';
 export * as templates from './templates';
+export * as user from './user';

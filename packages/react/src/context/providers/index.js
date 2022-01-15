@@ -1,4 +1,5 @@
 export { AuthProvider, useAuth } from './AuthProvider';
+export { ApiProvider, useApi } from './ApiProvider';
 export { ConfigProvider, useConfig } from './ConfigProvider';
 export { MessageProvider, useMessage } from './MessageProvider';
 export { NavigationProvider, useNavigation } from './NavigationProvider';

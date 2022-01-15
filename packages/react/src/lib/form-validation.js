@@ -1,6 +1,6 @@
 export class FormValidation {
   /**
-   * Gets the value for the dot notation prop from the values.
+   * Gets the value for the dot notation prop from 'the values.
    * Example: 'test.prop' would return 1 from {test: {prop: 1}}
    *
    * @param {String} prop Dot notated prop

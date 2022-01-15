@@ -1,4 +1,10 @@
-export { Input } from './Input';
 export { EmailInput } from './EmailInput';
+export { FileUpload } from './FileUpload';
+export { Input } from './Input';
+export { MultiCheckbox } from './MultiCheckbox';
 export { PasswordInput } from './PasswordInput';
+export { PositionInput } from './PositionInput';
+export { RecordTypeahead } from './RecordTypeahead';
+export { RichTextEditor } from './RichTextEditor';
+export { SearchInput } from './SearchInput';
 export { TextInput } from './TextInput';

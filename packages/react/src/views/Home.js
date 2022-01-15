@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { PageWrapper } from 'components/admin';
 import { useMessage, useNotification } from 'context/providers';
 import moment from 'moment';
+import { Card } from 'react-bootstrap';
+import CardActions from 'components/common/CardActions';
 
 export function Home() {
   const { setNotifications } = useNotification();
@@ -31,8 +33,20 @@ export function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const actions = [{ name: 'Action 1' }];
+
   return (
-    <PageWrapper title="Getting Started" subTitle="Dashboard"></PageWrapper>
+    <PageWrapper title="Getting Started" subTitle="Dashboard">
+      <Card>
+        <Card.Header className="border-bottom">
+          <CardActions
+            actions={actions}
+            onClick={(action) => console.log(action)}
+          />
+        </Card.Header>
+        <Card.Body></Card.Body>
+      </Card>
+    </PageWrapper>
   );
 }
 

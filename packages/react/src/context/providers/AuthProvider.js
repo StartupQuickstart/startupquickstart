@@ -1,10 +1,11 @@
 import Cookies from 'js-cookie';
 import React, { useState, useContext } from 'react';
 import jwtDecode from 'jwt-decode';
+import AuthDemo from 'lib/demo/auth';
 
 const AuthContext = React.createContext({});
 
-export const AuthProvider = ({ children, Auth }) => {
+export const AuthProvider = ({ children, Auth = AuthDemo }) => {
   const [isAuthenticated, setAuthenticated] = useState(false);
   const [user, _setUser] = useState(null);
 

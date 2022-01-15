@@ -16,6 +16,7 @@ import { Private, Public } from 'components/authenticators';
 export function Admin({
   routes,
   Auth,
+  Api,
   config,
   callToAction,
   features,
@@ -31,6 +32,7 @@ export function Admin({
     <Router>
       <ContextProvider
         Auth={Auth}
+        Api={Api}
         config={config}
         callToAction={callToAction}
         features={features}

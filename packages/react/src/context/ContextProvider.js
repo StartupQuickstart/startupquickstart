@@ -2,6 +2,7 @@ import { combineComponents } from './utils/combineComponents';
 
 import {
   AuthProvider,
+  ApiProvider,
   ConfigProvider,
   NavigationProvider,
   NotificationProvider,
@@ -11,6 +12,7 @@ import {
 
 const providers = [
   AuthProvider,
+  ApiProvider,
   ConfigProvider,
   MessageProvider,
   NavigationProvider,

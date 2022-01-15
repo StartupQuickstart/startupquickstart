@@ -1,0 +1,1 @@
+export { UpdateAccount } from './UpdateAccount';

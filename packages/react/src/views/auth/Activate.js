@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowRight } from 'react-feather';
 import Toast from '../../lib/toast';
-// import SupportEmail from 'core/components/common/SupportEmail';
+// import SupportEmail from 'components/common/SupportEmail';
 import { useAuth, useConfig } from 'context/providers';
 import { Formik } from 'formik';
 import { Form } from 'react-bootstrap';
