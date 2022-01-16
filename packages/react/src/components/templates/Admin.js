@@ -9,8 +9,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ContextProvider } from '@/context/ContextProvider';
 import { coreRoutes } from '@/routes';
-import AdminLayout from '@/components/layouts/Admin';
-import * as views from '@views';
+import { AdminLayout } from '@/components/layouts';
+import * as views from '@/views';
 import { Private, Public } from '@/components/authenticators';
 
 export function Admin({
