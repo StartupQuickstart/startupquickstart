@@ -41,6 +41,7 @@
     "./demo": "./dist/lib/demo",
     "./lib/startupquickstart-server": "./dist/lib/startupquickstart-server",
     "./startupquickstart-server": "./dist/lib/startupquickstart-server",
+    "./routes": "./dist/routes",
     "./views": "./dist/views"
   },
   "repository": {
