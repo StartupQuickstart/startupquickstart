@@ -1,9 +1,11 @@
+export { Address } from './Address';
 export { Avatar } from './Avatar';
 export { CardActions } from './CardActions';
 export { ConfirmModal } from './ConfirmModal';
 export { Currency } from './Currency';
 export { Encrypted } from './Encrypted';
 export { Loading } from './Loading';
+export { LoadingSmall } from './LoadingSmall';
 export { LoadingOverlay } from './LoadingOverlay';
 export { PageLoading } from './PageLoading';
 export { ProfilePicture } from './ProfilePicture';

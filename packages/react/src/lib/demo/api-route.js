@@ -19,10 +19,14 @@ export default class ApiRoute {
       adapter = throttleAdapterEnhancer(adapter);
     }
 
-    this.v1 = axios.create({
-      baseURL: `/api/v1/${this.route}/`,
-      adapter: this.Auth.axiosAdapter(adapter)
-    });
+    const config = {
+      baseURL: `/api/v1/${this.route}/`
+    };
+
+    config.adapter = this.Auth?.axiosAdapter
+      ? this.Auth.axiosAdapter(adapter)
+      : adapter;
+    this.v1 = axios.create(config);
   }
 
   /**

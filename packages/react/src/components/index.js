@@ -4,6 +4,7 @@ export * as auth from './auth';
 export * as authenticators from './authenticators';
 export * as buttons from './buttons';
 export * as common from './common';
+export * as data from './data';
 export * as editors from './editors';
 export * as inputs from './inputs';
 export * as layouts from './layouts';

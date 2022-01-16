@@ -5,9 +5,10 @@ import {
   throttleAdapterEnhancer
 } from 'axios-extensions';
 
-export default class ApiRoute {
+export class ApiRoute {
   constructor(route, Auth, cache = true, throttle = true) {
     this.route = route;
+    this.Auth = Auth;
 
     let adapter = axios.defaults.adapter;
 
@@ -19,10 +20,14 @@ export default class ApiRoute {
       adapter = throttleAdapterEnhancer(adapter);
     }
 
-    this.v1 = axios.create({
-      baseURL: `/api/v1/${this.route}/`,
-      adapter: this.Auth.axiosAdapter(adapter)
-    });
+    const config = {
+      baseURL: `/api/v1/${this.route}/`
+    };
+
+    config.adapter = this.Auth?.axiosAdapter
+      ? this.Auth.axiosAdapter(adapter)
+      : adapter;
+    this.v1 = axios.create(config);
   }
 
   /**
@@ -114,3 +119,5 @@ export default class ApiRoute {
     return res.data;
   };
 }
+
+export default ApiRoute;

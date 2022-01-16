@@ -4,13 +4,13 @@ import { Card } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 
 import LoadingOverlay from 'components/common/LoadingOverlay';
-import Toast from 'lib/toast';
 import CreateRecordButton from './CreateRecordButton';
-import Search from 'components/inputs/Search';
+import Search from 'components/inputs/SearchInput';
 import { debounce } from 'throttle-debounce';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import SizePerPage from './SizePerPage';
 import { useApi } from 'context/providers';
+import classNames from 'classnames';
 
 export function Records({
   recordType,
@@ -18,14 +18,23 @@ export function Records({
   singularLabel,
   canCreate,
   createLink,
-  columns
+  columns,
+  dataParams,
+  keyField,
+  searchParamKey,
+  limitParamKey,
+  offsetParamKey,
+  orderParamKey,
+  onRecords,
+  classes,
+  showLabel
 }) {
   const [loading, setLoading] = useState(true);
   const [records, setRecords] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [search, setSearch] = useState('');
   const [pagination, setPagination] = useState({ limit: 10, offset: 0 });
-  const { Api } = useApi;
+  const { Api } = useApi();
 
   useEffect(() => {
     setData();
@@ -48,10 +57,15 @@ export function Records({
   async function setData() {
     try {
       setLoading(true);
-      const params = { ...pagination };
+      const params = {
+        ...dataParams,
+        [limitParamKey]: pagination.limit,
+        [offsetParamKey]: pagination.offset,
+        page: pagination.offset / pagination.limit + 1
+      };
 
       if (search?.length) {
-        params.s = search;
+        params[searchParamKey] = search;
       }
 
       const { records, totalRecords } = await Api.get(recordType).index(
@@ -60,20 +74,21 @@ export function Records({
       );
       setRecords(records);
       setTotalRecords(totalRecords);
-    } catch (err) {
-      Toast.error(`Failed to retrieve ${recordType.split('/').join(' ')}.`);
+      onRecords && onRecords(records);
     } finally {
       setLoading(false);
     }
   }
+
+  // this.prototype.setData = setData;
 
   const setDataDebounce = debounce(500, setData);
 
   return (
     <>
       <div className="clearfix mb-2">
-        <h3 className="float-start mb-0">{pluralLabel}</h3>
-        <Search className="ms-3" onChange={setSearch} />
+        {showLabel && <h3 className="float-start mb-0 me-3">{pluralLabel}</h3>}
+        <Search onChange={setSearch} />
         {canCreate && (
           <CreateRecordButton
             className="float-end"
@@ -88,15 +103,16 @@ export function Records({
         {loading && <LoadingOverlay />}
         <BootstrapTable
           remote
-          keyField={'id'}
+          keyField={keyField}
           wrapperClasses={'table-responsive'}
-          className="table-bordered table-sm"
+          classes={classNames('border-bottom', classes)}
+          bordered={false}
           data={records}
           columns={columns}
           noDataIndication={() => (
             <MissingRecords
               title={`No ${pluralLabel} Found`}
-              description={`Could not find any ${pluralLabel.toLowerCase()}`}
+              description={`Please try again later.`}
             />
           )}
           onTableChange={() => {}}
@@ -133,7 +149,14 @@ Records.defaultProps = {
   singularLabel: 'Record',
   pluralLabel: 'Records',
   canCreate: true,
-  canDelete: true
+  canDelete: true,
+  showLabel: true,
+  dataParams: {},
+  keyField: 'id',
+  searchParamKey: 's',
+  limitParamKey: 'limit',
+  offsetParamKey: 'offset',
+  orderParamKey: 'order'
 };
 
 export default Records;

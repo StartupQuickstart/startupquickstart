@@ -12,7 +12,7 @@ export function Private({ children }) {
   }, []);
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated && isAuthenticated !== null) {
       navigate('/login');
     }
   }, [navigate, isAuthenticated]);

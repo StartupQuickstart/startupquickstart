@@ -188,3 +188,5 @@ RecordForm.defaultProps = {
   singularLabel: 'Record',
   pluralLabel: 'Records'
 };
+
+export default RecordForm;

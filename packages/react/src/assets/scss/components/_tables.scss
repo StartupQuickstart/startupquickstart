@@ -1,112 +1,128 @@
 .table {
-	thead, tbody, tfoot, tr, td, th {
-		border-color: $table-border-color;
-	}
+  thead,
+  tbody,
+  tfoot,
+  tr,
+  td,
+  th {
+    border-color: $table-border-color;
+  }
 
-	> :not(:last-child) > :last-child > * {
-		border-color: $table-border-color;
-	}
+  > :not(:last-child) > :last-child > * {
+    border-color: $table-border-color;
+  }
 }
 
 .card {
-	> .dataTables_wrapper .table.dataTable,
-	> .table,
-	> .table-responsive .table,
-	> .table-responsive-sm .table,
-	> .table-responsive-md .table,
-	> .table-responsive-lg .table,
-	> .table-responsive-xl .table, .react-bootstrap-table .table {
-		border-right: 0;
-		border-bottom: 0;
-		border-left: 0;
-		margin-bottom: 0;
+  > .dataTables_wrapper .table.dataTable,
+  > .table,
+  > .table-responsive .table,
+  > .table-responsive-sm .table,
+  > .table-responsive-md .table,
+  > .table-responsive-lg .table,
+  > .table-responsive-xl .table,
+  .react-bootstrap-table .table {
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    margin-bottom: 0;
 
-		td:first-child,
-		th:first-child {
-			border-left: 0;
-			padding-left: $spacer*1.25;
-		}
+    td:first-child,
+    th:first-child {
+      border-left: 0;
+      padding-left: $spacer * 1.25;
+    }
 
-		td:last-child,
-		th:last-child {
-			border-right: 0;
-			padding-right: $spacer*1.25;
-		}
+    td:last-child,
+    th:last-child {
+      border-right: 0;
+      padding-right: $spacer * 1.25;
+    }
 
-		tr:first-child td,
-		tr:first-child th {
-			border-top: 0;
-		}
+    tr:first-child td,
+    tr:first-child th {
+      border-top: 0;
+    }
 
-		tr:last-child td {
-			border-bottom: 0;
-		}
-	}
+    tr:last-child td {
+      border-bottom: 0;
+    }
+  }
 
-	.card-header + .table {
-		border-top: 0;
-	}
+  .card-header + .table {
+    border-top: 0;
+  }
 }
 
 .table-action {
-	a {
-		color: $gray-600;
+  a {
+    color: $gray-600;
 
-		&:hover {
-			color: $gray-900;
-		}
-	}
+    &:hover {
+      color: $gray-900;
+    }
+  }
 
-	.feather {
-		width: 18px;
-		height: 18px;
-	}
+  .feather {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 .table > tbody > tr > td {
-	vertical-align: middle;
+  vertical-align: middle;
 }
 
 .card > .dataTables_wrapper {
-	.table.dataTable {
-	  margin-top: 0 !important;
-	  margin-bottom: 0 !important;
-	}
+  .table.dataTable {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
 
-	.dataTables_info {
-		padding: 1rem 1.25rem;
-	}
+  .dataTables_info {
+    padding: 1rem 1.25rem;
+  }
 
-	.dataTables_paginate {
-		padding: 0.6rem 1.25rem;
-	}
+  .dataTables_paginate {
+    padding: 0.6rem 1.25rem;
+  }
 }
 
 .dt-bootstrap4 {
-	width: calc(100% - 2px);
+  width: calc(100% - 2px);
 }
 
 .react-bootstrap-table-pagination {
-	padding: 0.5rem;
-	height: 45px;
+  padding: 0.5rem;
+  height: 45px;
 
-	.react-bs-table-sizePerPage-dropdown {
-		button {
-			background: #FFFFFF;
-			border: 1px solid $border-color;
-			color: #6c757d;
-			margin-right: 10px;
-			font-weight: 400;
+  .react-bs-table-sizePerPage-dropdown {
+    button {
+      background: #ffffff;
+      border: 1px solid $border-color;
+      color: #6c757d;
+      margin-right: 10px;
+      font-weight: 400;
 
-			&:hover, &:active, &:focus {
-				color: darken(#6c757d, 10%) !important;
-				background-color: #FFFFFF !important;
-				border: 1px solid $border-color !important;
-			}
-		}
-	}
+      &:hover,
+      &:active,
+      &:focus {
+        color: darken(#6c757d, 10%) !important;
+        background-color: #ffffff !important;
+        border: 1px solid $border-color !important;
+      }
+    }
+  }
 }
 
-.card>.react-bootstrap-table .table thead tr {
-	border-top: 0 !important;
+.card > .react-bootstrap-table .table thead tr {
+  border-top: 0 !important;
+}
+
+.table > :not(:first-child) {
+  border-top: 1px solid $border-color;
+}
+
+.react-bootstrap-table-page-btns-ul.pagination {
+  float: right;
 }

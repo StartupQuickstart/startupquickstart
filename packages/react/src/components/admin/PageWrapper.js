@@ -1,22 +1,30 @@
 import React from 'react';
 import PageHeader from './PageHeader';
 
-export function PageWrapper(props) {
-  const breadcrumbs = props.breadcrumbs || [];
-
+export function PageWrapper({
+  icon,
+  iconColor,
+  title,
+  subTitle,
+  status,
+  breadcrumbs,
+  children
+}) {
   return (
     <>
       <PageHeader
-        title={props.title}
-        subTitle={props.subTitle}
-        status={props.status}
+        icon={icon}
+        iconColor={iconColor}
+        title={title}
+        subTitle={subTitle}
+        status={status}
         breadcrumbs={[
           { name: 'Home', to: '/' },
-          ...breadcrumbs,
-          { name: props.title, className: 'active' }
+          ...(breadcrumbs || []),
+          { name: title, className: 'active' }
         ]}
       />
-      {props.children}
+      {children}
     </>
   );
 }

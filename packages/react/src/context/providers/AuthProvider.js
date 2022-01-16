@@ -6,7 +6,7 @@ import AuthDemo from 'lib/demo/auth';
 const AuthContext = React.createContext({});
 
 export const AuthProvider = ({ children, Auth = AuthDemo }) => {
-  const [isAuthenticated, setAuthenticated] = useState(false);
+  const [isAuthenticated, setAuthenticated] = useState(null);
   const [user, _setUser] = useState(null);
 
   const apiTokenCookie = Auth.apiTokenCookie || 'api-token';
