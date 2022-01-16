@@ -1,7 +1,7 @@
 import React, { useState, useRef, useContext } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead';
-import Avatar from 'components/common/Avatar';
-import { useApi } from 'context/providers';
+import Avatar from '@/components/common/Avatar';
+import { useApi } from '@/context/providers';
 import _ from 'lodash';
 
 export function RecordTypeahead({

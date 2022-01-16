@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageWrapper } from 'components/admin';
+import { PageWrapper } from '@/components/admin';
 
 export function Home() {
   return (

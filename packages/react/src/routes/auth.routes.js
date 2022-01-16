@@ -1,5 +1,5 @@
-import { Private } from 'components/authenticators';
-import { EmptyLayout } from 'components/layouts';
+import { Private } from '@/components/authenticators';
+import { EmptyLayout } from '@/components/layouts';
 import * as views from 'views';
 
 export const authRoutes = [

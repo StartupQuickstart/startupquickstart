@@ -3,7 +3,7 @@ import Avatar from 'react-avatar';
 import { MessageSquare } from 'react-feather';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
-import { useMessage } from 'context/providers';
+import { useMessage } from '@/context/providers';
 
 /**
  * Sample Message:

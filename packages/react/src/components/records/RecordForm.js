@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { Formik } from 'formik';
-import Toast from 'lib/toast';
-import FormValidation from 'lib/form-validation';
+import Toast from '@/lib/toast';
+import FormValidation from '@/lib/form-validation';
 import LoadingOverlay from '../common/LoadingOverlay';
-import { useApi } from 'context/providers';
+import { useApi } from '@/context/providers';
 
 export function RecordForm({
   recordType,

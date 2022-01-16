@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import MissingRecords from 'components/common/MissingRecords';
+import MissingRecords from '@/components/common/MissingRecords';
 import { Card } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 
-import LoadingOverlay from 'components/common/LoadingOverlay';
+import LoadingOverlay from '@/components/common/LoadingOverlay';
 import CreateRecordButton from './CreateRecordButton';
-import Search from 'components/inputs/SearchInput';
+import Search from '@/components/inputs/SearchInput';
 import { debounce } from 'throttle-debounce';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import SizePerPage from './SizePerPage';
-import { useApi } from 'context/providers';
+import { useApi } from '@/context/providers';
 import classNames from 'classnames';
 
 export function Records({

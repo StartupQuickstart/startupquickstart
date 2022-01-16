@@ -2,6 +2,7 @@ export { Address } from './Address';
 export { Avatar } from './Avatar';
 export { CardActions } from './CardActions';
 export { ConfirmModal } from './ConfirmModal';
+export { CopyToClipboard } from './CopyToClipboard';
 export { Currency } from './Currency';
 export { Encrypted } from './Encrypted';
 export { Loading } from './Loading';

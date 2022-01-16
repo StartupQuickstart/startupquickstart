@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from 'context/providers';
+import { useAuth } from '@/context/providers';
 
 export function Private({ children }) {
   const { isAuthenticated, checkAuth } = useAuth();

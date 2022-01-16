@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import ApiDemo from 'lib/demo/api';
+import ApiDemo from '@/lib/demo/api';
 
 const ApiContext = React.createContext({});
 

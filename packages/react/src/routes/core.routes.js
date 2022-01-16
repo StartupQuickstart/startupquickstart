@@ -1,4 +1,4 @@
-import { EmptyLayout } from 'components/layouts';
+import { EmptyLayout } from '@/components/layouts';
 import * as views from '../views';
 import authRoutes from './auth.routes';
 

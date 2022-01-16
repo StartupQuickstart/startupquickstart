@@ -3,7 +3,7 @@ import SectionHeading from './SectionHeading';
 import PriceTable from './PriceTable';
 
 import 'typeface-dm-sans';
-import { useConfig } from 'context/providers';
+import { useConfig } from '@/context/providers';
 
 export const Pricing = ({ pricing, onPlanSelection }) => {
   const [state, setState] = useState({

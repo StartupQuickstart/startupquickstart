@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import MissingRecords from 'components/common/MissingRecords';
+import MissingRecords from '@/components/common/MissingRecords';
 import { Card } from 'react-bootstrap';
 import AddMediaButton from './AddMediaButton';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -7,9 +7,9 @@ import { FileIcon, defaultStyles } from 'react-file-icon';
 import Moment from 'react-moment';
 import { SRLWrapper } from 'simple-react-lightbox';
 
-import LoadingOverlay from 'components/common/LoadingOverlay';
-import { Toast } from 'lib';
-import { useApi } from 'context/providers';
+import LoadingOverlay from '@/components/common/LoadingOverlay';
+import { Toast } from '@/lib';
+import { useApi } from '@/context/providers';
 import { ViewButton } from './ViewMediaButton';
 
 export function Media({ canDelete, canCreate, params, parent, relatedToId }) {

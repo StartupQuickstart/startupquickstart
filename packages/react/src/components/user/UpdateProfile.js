@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Loading from 'components/common/Loading';
+import Loading from '@/components/common/Loading';
 import { Formik } from 'formik';
 import { Form } from 'react-bootstrap';
-import FormValidation from 'lib/form-validation';
-import Toast from 'lib/toast';
-import { useApi } from 'context/providers';
+import FormValidation from '@/lib/form-validation';
+import Toast from '@/lib/toast';
+import { useApi } from '@/context/providers';
 
 export function UpdateProfile() {
   const [loading, setLoading] = useState(true);

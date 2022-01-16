@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import MissingRecords from 'components/common/MissingRecords';
+import MissingRecords from '@/components/common/MissingRecords';
 import { Card } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { FileIcon, defaultStyles } from 'react-file-icon';
 import Moment from 'react-moment';
-import LoadingOverlay from 'components/common/LoadingOverlay';
-import { Toast } from 'lib';
-import { useApi } from 'context/providers';
+import LoadingOverlay from '@/components/common/LoadingOverlay';
+import { Toast } from '@/lib';
+import { useApi } from '@/context/providers';
 
 export function MediaCheckList({
   defaultSelected,

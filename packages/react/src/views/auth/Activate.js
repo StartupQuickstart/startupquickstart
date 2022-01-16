@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { ArrowRight } from 'react-feather';
 import Toast from '../../lib/toast';
-// import SupportEmail from 'components/common/SupportEmail';
-import { useAuth, useConfig } from 'context/providers';
+// import SupportEmail from '@/components/common/SupportEmail';
+import { useAuth, useConfig } from '@/context/providers';
 import { Formik } from 'formik';
 import { Form } from 'react-bootstrap';
-import AuthWrapper from 'components/auth/AuthWrapper';
-import SupportEmail from 'components/common/SupportEmail';
+import AuthWrapper from '@/components/auth/AuthWrapper';
+import SupportEmail from '@/components/common/SupportEmail';
 
 export function Activate() {
   const { activate, user, sendActivationLink } = useAuth();

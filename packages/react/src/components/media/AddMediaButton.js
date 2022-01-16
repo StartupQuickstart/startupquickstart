@@ -2,7 +2,7 @@ import React from 'react';
 import { Plus } from 'react-feather';
 import classNames from 'classnames';
 import { Modal } from 'react-bootstrap';
-import FileUpload from 'components/inputs/FileUpload';
+import FileUpload from '@/components/inputs/FileUpload';
 
 export class AddMediaButton extends React.Component {
   constructor(props) {

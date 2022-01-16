@@ -1,10 +1,10 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { Form } from 'react-bootstrap';
-import PasswordRequirements from 'components/layout/PasswordRequirements';
-import FormValidation from 'lib/form-validation';
-import Auth from 'lib/demo/auth';
-import Toast from 'lib/toast';
+import PasswordRequirements from '@/components/layout/PasswordRequirements';
+import FormValidation from '@/lib/form-validation';
+import Auth from '@/lib/demo/auth';
+import Toast from '@/lib/toast';
 
 export class ChangePassword extends React.Component {
   constructor(props) {

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useAuth } from 'context/providers';
+import { useAuth } from '@/context/providers';
 
 export function Public({ children }) {
   const { checkAuth } = useAuth();
