@@ -1,3 +1,4 @@
+import React from 'react';
 import { Dropdown } from 'react-bootstrap';
 
 export function SizePerPage({ options, currSizePerPage, onSizePerPageChange }) {
