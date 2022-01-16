@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import classnames from 'classnames';
 import { MoreHorizontal } from 'react-feather';
-import useOutsideAlerter from '@/effects/useOutsideAlerter';
+import { useOutsideAlerter } from '@/effects';
 
 export function CardActions({ actions, onClick }) {
   const ref = useRef(null);

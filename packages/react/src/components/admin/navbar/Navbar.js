@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import Notifications from './Notifications';
 import Messages from './Messages';
 import UserOptions from './UserOptions';
-import useOutsideAlerter from '@/effects/useOutsideAlerter';
+import { useOutsideAlerter } from '@/effects';
 import { useConfig, useNavigation } from '@/context/providers';
 
 export default function Navbar() {

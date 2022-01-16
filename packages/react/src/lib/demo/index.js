@@ -1,3 +1,3 @@
-export { ApiRoute } from 'ApiRoute';
-export { Api } from 'Api';
-export { Auth } from 'Auth';
+export { ApiRoute } from './api-route';
+export { Api } from './api';
+export { Auth } from './auth';

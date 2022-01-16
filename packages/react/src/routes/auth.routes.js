@@ -1,8 +1,8 @@
 import { Private } from '@/components/authenticators';
 import { EmptyLayout } from '@/components/layouts';
-import * as views from 'views';
+import * as views from '@/views';
 
-export const authRoutes = [
+export const routes = [
   { path: '/login', Component: views.auth.Login, Layout: EmptyLayout },
   {
     path: '/logout',
@@ -29,4 +29,4 @@ export const authRoutes = [
   }
 ];
 
-export default authRoutes;
+export default routes;

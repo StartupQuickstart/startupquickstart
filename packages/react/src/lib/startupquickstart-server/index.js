@@ -1,2 +1,2 @@
-export { ApiRoute } from 'ApiRoute';
-export { Api } from 'Api';
+export { ApiRoute } from './api-route';
+export { Api } from './api';
