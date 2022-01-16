@@ -5,7 +5,7 @@ import {
   throttleAdapterEnhancer
 } from 'axios-extensions';
 
-export default class ApiRoute {
+export class ApiRoute {
   constructor(route, Auth, cache = true, throttle = true) {
     this.route = route;
 
@@ -106,3 +106,5 @@ export default class ApiRoute {
     return { id, ...updates };
   };
 }
+
+export default ApiRoute;

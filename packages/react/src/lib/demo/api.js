@@ -1,6 +1,6 @@
 import ApiRoute from './api-route';
 
-class Api {
+export class Api {
   static Auth;
   static routes = {};
 
