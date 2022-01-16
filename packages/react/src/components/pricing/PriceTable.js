@@ -1,3 +1,4 @@
+import React from 'react';
 import { IoMdCheckmarkCircle } from 'react-icons/io';
 import { IoIosCloseCircle } from 'react-icons/io';
 

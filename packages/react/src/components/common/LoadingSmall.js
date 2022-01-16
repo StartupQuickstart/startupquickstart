@@ -1,3 +1,4 @@
+import React from 'react';
 import classNames from 'classnames';
 
 export function LoadingSmall({ size, className }) {

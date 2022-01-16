@@ -1,3 +1,5 @@
+import React from 'react';
+
 export function DataField({ label, value }) {
   return (
     <tr>

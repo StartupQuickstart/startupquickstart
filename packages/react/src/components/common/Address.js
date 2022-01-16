@@ -1,3 +1,5 @@
+import React from 'react';
+
 export function Address({ street, city, state, postalCode, country, name }) {
   const linkParts = [street, city, state, postalCode].filter((part) => part);
 

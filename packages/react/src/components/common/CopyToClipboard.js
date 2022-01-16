@@ -1,5 +1,5 @@
-import { Toast } from '@/lib';
 import React from 'react';
+import { Toast } from '@/lib';
 import { CopyToClipboard as CopyToClipboardReact } from 'react-copy-to-clipboard';
 import { Tooltip } from './';
 

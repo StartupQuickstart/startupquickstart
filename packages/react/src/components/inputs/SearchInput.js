@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import React from 'react';
+import classNames from 'classnames';
 import { Search as SearchIcon } from 'react-feather';
 
 export function SearchInput({ navbar, className, onChange, value }) {

@@ -1,3 +1,4 @@
+import React from 'react';
 import { OverlayTrigger, Tooltip as RBTooltip } from 'react-bootstrap';
 
 export function Tooltip({ children, placement, tooltip }) {

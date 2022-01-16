@@ -1,5 +1,5 @@
-import Cookies from 'js-cookie';
 import React, { useState, useContext } from 'react';
+import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import AuthDemo from '@/lib/demo/auth';
 
