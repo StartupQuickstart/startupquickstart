@@ -16,7 +16,9 @@
   ],
   "exports": {
     "./assets/css/main.css": "./dist/assets/css/main.css",
-    "./assets/css/**/*": "./dist/assets/css/**/*",
+    "./assets/css/dark.css": "./dist/assets/css/dark.css",
+    "./assets/css/dark-blue.css": "./dist/assets/css/dark-blue.css",
+    "./assets/css/light-blue.css": "./dist/assets/css/light-blue.css",
     "./components": "./dist/components",
     "./authenticators": "./dist/components/authenticators",
     "./buttons": "./dist/components/buttons",
