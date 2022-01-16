@@ -10,7 +10,9 @@
     "dist/assets",
     "dist/components",
     "dist/context",
+    "dist/effects",
     "dist/lib",
+    "dist/routes",
     "dist/views",
     "README.md"
   ],
