@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-export function Erorr(props) {
+export function Error(props) {
   const params = useParams();
   const code = props.code || params.code;
   const message =
