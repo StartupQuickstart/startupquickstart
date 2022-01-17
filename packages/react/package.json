@@ -54,7 +54,7 @@
     "start": "GENERATE_SOURCEMAP=true PORT=3000 HOST= craco start",
     "build": "bash build.sh",
     "test": "craco test",
-    "eject": "craco eject"
+    "eject": "react-scripts eject"
   },
   "bugs": {
     "url": "https://github.com/startupquickstart/startupquickstart/issues"
