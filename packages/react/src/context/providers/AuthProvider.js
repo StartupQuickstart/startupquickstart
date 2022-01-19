@@ -59,6 +59,8 @@ export const AuthProvider = ({ children, Auth = AuthDemo }) => {
     const token = getToken();
 
     if (!token) {
+      setUser(null);
+      setAuthenticated(false);
       return false;
     }
 
