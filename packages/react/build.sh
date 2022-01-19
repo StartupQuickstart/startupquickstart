@@ -12,14 +12,15 @@ mkdir ./dist/assets
 cp -r ./src/assets/fonts dist/assets/fonts
 cp -r ./src/assets/images dist/assets/images
 
-node-sass ./src/assets/scss/main.scss -o dist/assets/css
-node-sass ./src/assets/scss/dark.scss -o dist/assets/css
-node-sass ./src/assets/scss/dark-blue.scss -o dist/assets/css
-node-sass ./src/assets/scss/light-blue.scss -o dist/assets/css
+themes=("main" "dark" "dark-blue" "light-blue")
+
+for theme in ${themes[@]}; do
+  node-sass ./src/assets/scss/$theme.scss -o dist/assets/css
+done
 
 cd ./dist/assets/css/
 
-sed -i '' 's|../../fonts|../fonts|g' main.css
-sed -i '' 's|../../fonts|../fonts|g' dark.css
-sed -i '' 's|../../fonts|../fonts|g' dark-blue.css
-sed -i '' 's|../../fonts|../fonts|g' light-blue.css
+for theme in ${themes[@]}; do
+  sed -i '' 's|../../fonts|../fonts|g' $theme.css
+  sed -i '' 's|~@fortawesome/fontawesome-free/webfonts|../fonts|g' $theme.css
+done
