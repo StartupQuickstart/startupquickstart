@@ -75,7 +75,7 @@ export function Records({
       );
       setRecords(records);
       setTotalRecords(totalRecords);
-      onRecords && onRecords(records);
+      onRecords && onRecords({ records, totalRecords });
     } finally {
       setLoading(false);
     }
