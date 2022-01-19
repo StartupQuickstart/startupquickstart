@@ -27,6 +27,7 @@ export function Records({
   offsetParamKey,
   orderParamKey,
   onRecords,
+  onPagination,
   classes,
   showLabel
 }) {
@@ -51,6 +52,11 @@ export function Records({
     setData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination, dataParams]);
+
+  useEffect(() => {
+    onPagination && onPagination(pagination);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pagination]);
 
   /**
    * Sets the data for the view
