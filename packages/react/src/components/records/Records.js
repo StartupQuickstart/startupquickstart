@@ -13,6 +13,7 @@ import { useApi } from '@/context/providers';
 import classNames from 'classnames';
 
 export function Records({
+  actions,
   recordType,
   pluralLabel,
   singularLabel,
@@ -49,7 +50,7 @@ export function Records({
   useEffect(() => {
     setData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pagination]);
+  }, [pagination, dataParams]);
 
   /**
    * Sets the data for the view
@@ -89,6 +90,7 @@ export function Records({
       <div className="clearfix mb-2">
         {showLabel && <h3 className="float-start mb-0 me-3">{pluralLabel}</h3>}
         <Search onChange={setSearch} />
+        {actions && <div className="float-end">{actions}</div>}
         {canCreate && (
           <CreateRecordButton
             className="float-end"
