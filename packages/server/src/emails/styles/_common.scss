@@ -1,0 +1,187 @@
+.email {
+  padding: 25px 0px 25px 0px;
+}
+
+body {
+  background: $background;
+}
+
+body * {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+
+  color: $midnight;
+}
+
+b {
+  font-weight: 800;
+}
+
+.footer {
+  padding: 10px 0 0 0;
+
+  .footer-inner {
+    background: $dark;
+    color: $light;
+    padding: 10px 10px 10px 10px;
+  }
+}
+
+.h1,
+.h1 span {
+  font-size: 24px;
+  line-height: 34px;
+  font-weight: 500;
+  padding: 5px 0 0 0;
+  color: $midnight;
+}
+
+.h2,
+.h2 span {
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 700;
+  padding: 5px 0 0 0;
+  color: $midnight;
+}
+
+.h3,
+.h3 span {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+  padding: 5px 0 0 0;
+  color: $midnight;
+}
+
+.h4,
+.h4 span {
+  font-size: 18px;
+  line-height: 25px;
+  font-weight: 700;
+  padding: 5px 0 0 0;
+  color: $midnight;
+}
+
+.hr {
+  background: none;
+  border: 1px solid $border-color;
+  border-width: 1px 0 0 0;
+  height: 1px;
+  width: 100%;
+  margin: 0 0 0 0;
+  line-height: 0px;
+}
+
+.hr-pre {
+  line-height: 0px;
+  padding: 15px 0 0 0;
+}
+
+.hr-post {
+  line-height: 0px;
+  padding: 0 0 15px 0;
+}
+
+a {
+  color: $primary;
+}
+
+.p {
+  padding: 7px 0 7px 0;
+}
+
+.bg-danger {
+  background: $danger !important;
+}
+
+.bg-success {
+  background: $success !important;
+}
+
+.bg-info {
+  background: $info !important;
+}
+
+.bg-warning {
+  background: $warning !important;
+}
+
+.bg-muted {
+  background: $muted !important;
+}
+
+.text-primary {
+  color: $primary !important;
+}
+
+.text-danger {
+  color: $danger !important;
+}
+
+.text-success {
+  color: $success !important;
+}
+
+.text-info {
+  color: $info !important;
+}
+
+.text-warning {
+  color: $warning !important;
+}
+
+.text-muted {
+  color: $muted !important;
+}
+
+.text-uppercase {
+  text-transform: uppercase !important;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-sm {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.border-top {
+  border-top: 1px solid $border-color !important;
+}
+
+.border-bottom {
+  border-bottom: 1px solid $border-color !important;
+}
+
+.row-padding td {
+  padding: 10px 0 0 0 !important;
+}
+
+.max-width-140 {
+  max-width: 140px;
+}
+
+.max-width-125 {
+  max-width: 125px;
+}
+
+.pb-0 {
+  padding-bottom: 0px;
+}
+
+.py-3 {
+  padding: 20px 0 20px 0;
+}

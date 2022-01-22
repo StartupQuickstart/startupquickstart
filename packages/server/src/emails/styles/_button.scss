@@ -1,0 +1,69 @@
+.btn-container {
+
+  tr td {
+    padding: 3px 2px 3px 2px;
+  }
+
+  &:first-child tr td {
+    padding: 3px 2px 3px 0px;
+  }
+
+  &:last-child tr td {
+    padding: 3px 0px 3px 2px;
+  }
+
+}
+
+
+$btn-padding-x: 225px;
+$btn-padding-y: 10px;
+
+
+.btn {
+  border:0;
+  margin:0;
+  padding:0;
+  border-radius:5px;
+  text-align:center;
+
+  .btn-inner {
+    border:0;
+    margin:0;
+    padding:0
+    ;color:#ffffff;
+    font-size:16px;
+    font-weight:bold;
+    height:38px;
+    line-height:38px;
+    text-align:center;
+    text-decoration:none;
+    vertical-align:middle;
+    white-space:nowrap;
+    width:100%;
+  }
+
+
+  &.btn-primary {
+    background-color: $primary;
+  }
+
+  &.btn-secondary {
+    background-color: $secondary;
+  }
+
+  &.btn-success {
+    background-color: $success;
+  }
+
+  &.btn-danger {
+    background-color: $danger;
+  }
+
+  &.btn-warning {
+    background-color: $warning;
+  }
+
+  &.btn-info {
+    background-color: $info;
+  }
+}
