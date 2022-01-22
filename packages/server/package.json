@@ -13,8 +13,10 @@
     "README.md"
   ],
   "exports": {
-    "./lib": "./dist/lib",
     "./api": "./dist/api",
+    "./emails": "./dist/emails",
+    "./lib": "./dist/lib",
+    "./passports": "./dist/passports",
     ".": "./dist"
   },
   "scripts": {
