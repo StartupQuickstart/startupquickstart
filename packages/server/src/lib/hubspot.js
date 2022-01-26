@@ -4,7 +4,7 @@ import {
   cacheAdapterEnhancer,
   throttleAdapterEnhancer
 } from 'axios-extensions';
-import AwsParamStore from '@/lib/aws/param-store';
+import config from '@/config';
 
 class Hubspot {
   constructor() {
@@ -39,7 +39,7 @@ class Hubspot {
     return async (config) => {
       const _url = url.parse(config.url);
       _url.query = _url.query || {};
-      _url.query.hapikey = await AwsParamStore.get('/shared/hubspot/hapi-key');
+      _url.query.hapikey = config.hubspot.apiKey;
 
       delete _url.search;
       config.url = _url.format(_url);

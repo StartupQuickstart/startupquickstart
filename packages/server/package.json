@@ -22,6 +22,7 @@
   "scripts": {
     "start": "TZ=UTC node ./dist/bootstrap.js",
     "dev": "TZ=UTC PORT=3001 nodemon --exec babel-node ./src/bootstrap.js",
+    "dev:db": "docker-compose up -d postgres",
     "compile-email-assets": "node-sass ./src/emails/styles/styles.scss ./src/emails/dist/styles.css",
     "compile-email-assets-watch": "node-sass -w ./src/emails/styles/styles.scss ./src/emails/dist/styles.css",
     "clean": "rimraf dist",
@@ -113,5 +114,6 @@
     "spellchecker": "^3.7.1",
     "stripe": "^8.161.0",
     "uuid": "^8.3.2"
-  }
+  },
+  "gitHead": "d80ab593e238faea92ac7404c8da1e326b29c0ab"
 }

@@ -2,10 +2,13 @@ import Stripe from 'stripe';
 import NodeCache from 'node-cache';
 import path from 'path';
 import fs from 'fs';
-import AwsParamStore from './aws/param-store';
+import config from '@/config';
 
 let pricing = [];
-const pricingPath = path.resolve(__dirname, `../../api/v1/pricing/pricing.${process.env.ENV}.js`);
+const pricingPath = path.resolve(
+  __dirname,
+  `../../api/v1/pricing/pricing.${process.env.ENV}.js`
+);
 
 if (fs.existsSync(pricingPath)) {
   pricing = require(pricingPath).default || [];
@@ -15,9 +18,7 @@ const cache = new NodeCache({ useClones: false, stdTTL: 60 * 5 });
 
 export class StripeWrapper {
   constructor(stripeKey) {
-    AwsParamStore.get('/shared/stripe/key').then((key) => {
-      this.stripe = Stripe(stripeKey);
-    });
+    this.stripe = stripeKey || config.stripe.apiKey;
   }
 
   /**
@@ -36,7 +37,12 @@ export class StripeWrapper {
    * @param {Boolean} useCache Whether or not to use the cached customer
    */
   async getCustomer(customerId, useCache = true) {
-    return this.retrieve('customers', customerId, { expand: ['subscriptions'] }, useCache);
+    return this.retrieve(
+      'customers',
+      customerId,
+      { expand: ['subscriptions'] },
+      useCache
+    );
   }
 
   /**
@@ -57,7 +63,9 @@ export class StripeWrapper {
    */
   async getSubscriptions(customerId, useCache = true) {
     const customer = await this.getCustomer(customerId, useCache);
-    return customer && customer.subscriptions ? customer.subscriptions.data : [];
+    return customer && customer.subscriptions
+      ? customer.subscriptions.data
+      : [];
   }
 
   /**
@@ -79,7 +87,8 @@ export class StripeWrapper {
     for (let i = 0; i < subscriptions.length; i++) {
       const subscription = subscriptions[i];
       const subscriptionItems = subscription.items.data;
-      const isCancelled = subscription.cancel_at && subscription.cancel_at * 1000 < Date.now();
+      const isCancelled =
+        subscription.cancel_at && subscription.cancel_at * 1000 < Date.now();
 
       if (!isCancelled) {
         for (let j = 0; j < subscriptionItems.length; j++) {
@@ -88,7 +97,9 @@ export class StripeWrapper {
           const productId = plan.product;
 
           const product = await this.getProduct(productId);
-          const productConfig = pricing.filter((product) => product.productId === productId).pop();
+          const productConfig = pricing
+            .filter((product) => product.productId === productId)
+            .pop();
 
           const status = {
             id: productId,
@@ -105,12 +116,17 @@ export class StripeWrapper {
 
           const now = new Date();
 
-          status.onTrial = status.trialStartDate < now && status.trialEndDate > now;
+          status.onTrial =
+            status.trialStartDate < now && status.trialEndDate > now;
           status.isExpired = status.endDate < now;
           status.status = subscription.status;
-          status.isActive = ['active', 'trialing'].includes(subscription.status);
+          status.isActive = ['active', 'trialing'].includes(
+            subscription.status
+          );
           status.isValid = !status.isExpired && status.isActive;
-          status.cancelAt = subscription.cancel_at ? new Date(subscription.cancel_at * 1000) : null;
+          status.cancelAt = subscription.cancel_at
+            ? new Date(subscription.cancel_at * 1000)
+            : null;
 
           if (status.isValid) {
             data.products[status.productName] = status;

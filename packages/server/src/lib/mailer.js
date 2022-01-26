@@ -6,7 +6,7 @@ import React from 'react';
 const { google } = require('googleapis');
 import fs from 'fs';
 import path from 'path';
-import AwsParamStore from '@/lib/aws/param-store';
+import config from '@/config';
 
 export default class Mailer {
   /**
@@ -35,11 +35,9 @@ export default class Mailer {
    * Gets the transporter for an email
    */
   static async getTransporter() {
-    const config = await AwsParamStore.getByPath('/shared/google/');
-
     const oAuth2Client = new google.auth.OAuth2(
-      config['client-id'],
-      config['client-secret']
+      config.google.clientId,
+      config.google.clientSecret
     );
 
     oAuth2Client.setCredentials({ refresh_token: config['refresh-token'] });

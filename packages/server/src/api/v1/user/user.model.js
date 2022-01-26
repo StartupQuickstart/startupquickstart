@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 import Mailer from '@/lib/mailer';
 import randomatic from 'randomatic';
 import Config from '@/config';
-import AwsParamStore from '@/lib/aws/param-store';
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -61,10 +60,7 @@ module.exports = (sequelize, DataTypes) => {
      * @param {String} password Password to hash
      */
     static async asyncHashPassword(password) {
-      const secret = await AwsParamStore.get(
-        `/shared/${process.env.APP}/secret`
-      );
-      return crypto.scryptSync(password, secret, 32).toString('hex');
+      return crypto.scryptSync(password, config.enc.secret, 32).toString('hex');
     }
 
     /**
@@ -74,10 +70,6 @@ module.exports = (sequelize, DataTypes) => {
      * @param {String} expiresIn Amount of time the token lasts
      */
     async getToken(scope = ['api'], expiresIn = '24h') {
-      const secret = await AwsParamStore.get(
-        `/shared/${process.env.APP}/secret`
-      );
-
       const token = jwt.sign(
         {
           sub: this.id,
@@ -91,7 +83,7 @@ module.exports = (sequelize, DataTypes) => {
           email: this.email,
           is_activated: this.is_activated
         },
-        secret,
+        config.enc.secret,
         { expiresIn }
       );
 
@@ -260,7 +252,7 @@ module.exports = (sequelize, DataTypes) => {
      * @param {User} user User to sync with hubspot
      */
     static async syncWithHubspot(user) {
-      const hapiKey = await AwsParamStore.get('/shared/hubspot/hapi-key');
+      const hapiKey = config.hubspot.apiKey;
 
       if (!hapiKey) {
         return;

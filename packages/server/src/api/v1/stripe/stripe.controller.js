@@ -42,12 +42,8 @@ export default class SubscriptionController {
         options.customer_email = req.user.email;
       }
 
-      const publishableKey = await AwsParamStore.get(
-        '/shared/stripe/publishable-key'
-      );
-
       const session = await Stripe.stripe.checkout.sessions.create(options);
-      session.publishableKey = publishableKey;
+      session.publishableKey = config.stripe.publishableKey;
 
       res.status(200).send(session);
     } catch (err) {

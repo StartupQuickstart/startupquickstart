@@ -8,12 +8,13 @@ import morgan from 'morgan';
 import passport from 'passport';
 
 import * as passports from '@/passports';
-import config from '@/config';
+import { load as loadConfig } from '@/config';
 import api from '@/api';
 
 export const server = {};
 
 export const start = async () => {
+  const config = await loadConfig();
   const app = new express();
   server.app = app;
 

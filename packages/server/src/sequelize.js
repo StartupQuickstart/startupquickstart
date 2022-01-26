@@ -1,22 +1,25 @@
 import Database from '@/lib/database';
+import { config, load } from '@/config';
 
 module.exports = async () => {
-  const creds = await Database.getCredentials('svc_app');
+  const { database } = await load();
+
+  const useSsl = database.host !== 'localhost';
 
   return {
     default: {
-      username: creds.username,
-      password: creds.password,
-      database: creds.dbname,
-      host: creds.host,
-      port: creds.port,
-      dialect: creds.engine,
+      username: database.username,
+      password: database.password,
+      database: database.dbname,
+      host: database.host,
+      port: database.port,
+      dialect: database.engine,
       schema: 'app',
       searchPath: 'app',
-      ssl: true,
+      ssl: useSsl,
       logging: false,
       dialectOptions: {
-        ssl: { rejectUnauthorized: false },
+        ssl: useSsl && { rejectUnauthorized: false },
         prependSearchPath: true
       },
       migrationStorageTableName: 'sequelize_migrations',
@@ -24,7 +27,7 @@ module.exports = async () => {
       seederStorageTableName: 'sequelize_seeds',
       hooks: {
         afterConnect: async (conn) => {
-          await conn.query(`SET ROLE ${creds.dbname}`);
+          await conn.query(`SET ROLE ${database.dbname}`);
         }
       }
     }

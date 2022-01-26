@@ -1,17 +1,15 @@
+import config from '@/config';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import AwsParamStore from '@/lib/aws/param-store';
 
 export default async () => {
-  const secret = await AwsParamStore.get(`/shared/${process.env.APP}/secret`);
-
   const options = {
     jwtFromRequest: ExtractJwt.versionOneCompatibility({
       authScheme: 'bearer',
       tokenQueryParameterName: 'token',
       tokenBodyField: 'token'
     }),
-    secretOrKey: secret,
+    secretOrKey: config.enc.secret,
     issuer: process.env.HOST,
     audience: process.env.HOST
   };

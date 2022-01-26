@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { AwsParamStore, Env } from '@/adapters/environment';
 
 dotenv.config();
 
@@ -27,5 +28,23 @@ export const config = {
     type: process.env.LOG_TYPE || 'tiny'
   }
 };
+
+/**
+ * Loads the async config
+ */
+export async function load() {
+  const adapters = [];
+  const envAdapters = (process.env.ENV_ADAPTERS || '')
+    .split(',')
+    .map((adapter) => adapter.trim());
+
+  if (envAdapters.includes('aws')) {
+    adapters.push(AwsParamStore);
+  }
+
+  await Env.load(config);
+  await Promise.all(adapters.map((adapter) => adapter.load(config)));
+  return config;
+}
 
 export default config;
