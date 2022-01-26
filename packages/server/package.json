@@ -23,6 +23,7 @@
     "start": "TZ=UTC node ./dist/bootstrap.js",
     "dev": "TZ=UTC PORT=3001 nodemon --exec babel-node ./src/bootstrap.js",
     "dev:db": "docker-compose up -d postgres",
+    "client:dev": "npm start --prefix src/admin-client",
     "compile-email-assets": "node-sass ./src/emails/styles/styles.scss ./src/emails/dist/styles.css",
     "compile-email-assets-watch": "node-sass -w ./src/emails/styles/styles.scss ./src/emails/dist/styles.css",
     "clean": "rimraf dist",
@@ -38,7 +39,7 @@
   "nodemonConfig": {
     "verbose": true,
     "ignore": [
-      "./src/test-client",
+      "./src/admin-client",
       "./src/bin",
       "package-lock.json"
     ]

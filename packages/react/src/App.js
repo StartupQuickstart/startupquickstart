@@ -1,11 +1,12 @@
 import './assets/scss/light-blue.scss';
 import Admin from '@/components/templates/Admin';
-import { Auth } from './sample/auth';
+
+import { Auth } from '@/lib/startupquickstart-server/auth';
 
 export function App() {
   return (
     <Admin
-      Auth={Auth}
+      Auth={new Auth('v1')}
       sidebarItems={[
         {
           name: '',

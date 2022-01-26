@@ -33,6 +33,10 @@ export const config = {
  * Loads the async config
  */
 export async function load() {
+  if (config.loaded) {
+    return config;
+  }
+
   const adapters = [];
   const envAdapters = (process.env.ENV_ADAPTERS || '')
     .split(',')
@@ -44,6 +48,8 @@ export async function load() {
 
   await Env.load(config);
   await Promise.all(adapters.map((adapter) => adapter.load(config)));
+  config.loaded = true;
+
   return config;
 }
 

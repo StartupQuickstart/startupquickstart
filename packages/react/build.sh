@@ -7,8 +7,8 @@ babel ./src/lib -d dist/lib --copy-files
 babel ./src/routes -d dist/routes --copy-files
 babel ./src/views -d dist/views --copy-files
 
-
-mkdir ./dist/assets
+mkdir -p ./dist/assets
+mkdir ./dist/assets/css
 cp -r ./src/assets/fonts dist/assets/fonts
 cp -r ./src/assets/images dist/assets/images
 
