@@ -14,7 +14,7 @@ export class Auth {
    * Authenticates the user
    */
   async authenticate(email, password) {
-    const { data } = await this.api.post('login', { email, password });
+    const { data } = await this.api.post('authorize', { email, password });
     return data?.token;
   }
 
