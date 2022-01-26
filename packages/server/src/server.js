@@ -8,7 +8,7 @@ import morgan from 'morgan';
 import passport from 'passport';
 
 import * as passports from '@/passports';
-import { load as loadConfig } from '@/config';
+import { loadConfig } from '@/config';
 import api from '@/api';
 
 export const server = {};

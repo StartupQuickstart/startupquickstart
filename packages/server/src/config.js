@@ -20,7 +20,7 @@ export const config = {
     supportEmail: 'support@startupquickstart.com',
     noReplyEmail: 'noreply@startupquickstart.com',
     logo: {
-      url: 'http://localhost:3000/static/media/logo.c65011228bd2c6f8bb3f.png',
+      src: 'http://localhost:3000/static/media/logo.c65011228bd2c6f8bb3f.png',
       width: 91,
       height: 45
     },
@@ -39,7 +39,7 @@ export const config = {
 /**
  * Loads the async config
  */
-export async function load() {
+export async function loadConfig() {
   if (config.loaded) {
     return config;
   }
@@ -58,6 +58,17 @@ export async function load() {
   config.loaded = true;
 
   return config;
+}
+
+/**
+ * Allows the user to override the app config
+ *
+ * @param {Object} appConfig App config to set
+ */
+export function setAppConfig(appConfig) {
+  for (const key in appConfig) {
+    config.app[key] = appConfig[key];
+  }
 }
 
 export default config;

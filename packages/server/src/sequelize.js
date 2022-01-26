@@ -1,8 +1,8 @@
 import Database from '@/lib/database';
-import { config, load } from '@/config';
+import { config, loadConfig } from '@/config';
 
 module.exports = async () => {
-  const { database } = await load();
+  const { database } = await loadConfig();
 
   const useSsl = database.host !== 'localhost';
 
