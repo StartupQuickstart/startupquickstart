@@ -116,5 +116,9 @@
     "stripe": "^8.161.0",
     "uuid": "^8.3.2"
   },
-  "gitHead": "f6a7421a146b44af080cb6ade0bc5a853f2ee007"
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "gitHead": "47fcf070cebea64ca69c3e8b6f894da03206ae78"
 }
