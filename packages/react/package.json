@@ -1,6 +1,6 @@
 {
   "name": "@startupquickstart/react",
-  "version": "0.2.26",
+  "version": "0.2.27",
   "description": "React Components for App",
   "author": "Thomas Boles <thomas@startupquickstart.com> (https://github.com/startupquickstart)",
   "homepage": "./dist",
@@ -153,5 +153,5 @@
   "peerDependencies": {
     "react": "^16.0 || ^17.0.0"
   },
-  "gitHead": "4af2126068eedfec51c2af8a81687b589e9f3c19"
+  "gitHead": "f6a7421a146b44af080cb6ade0bc5a853f2ee007"
 }

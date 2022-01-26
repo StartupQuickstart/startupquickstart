@@ -1,6 +1,6 @@
 {
   "name": "@startupquickstart/server",
-  "version": "0.2.26",
+  "version": "0.2.27",
   "description": "Express server for rest api",
   "author": "Thomas Boles <thomas@startupquickstart.com> (https://github.com/startupquickstart)",
   "homepage": "./dist",
@@ -116,5 +116,5 @@
     "stripe": "^8.161.0",
     "uuid": "^8.3.2"
   },
-  "gitHead": "4af2126068eedfec51c2af8a81687b589e9f3c19"
+  "gitHead": "f6a7421a146b44af080cb6ade0bc5a853f2ee007"
 }
