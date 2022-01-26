@@ -68,14 +68,11 @@
     "@testing-library/user-event": "^13.5.0",
     "babel-plugin-root-import": "^6.6.0",
     "craco": "^0.0.3",
-    "flatpickr": "^4.6.9",
-    "jsvectormap": "^1.4.2",
     "node-sass": "^7.0.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-scripts": "^5.0.0",
     "sass-loader": "^12.4.0",
-    "simplebar": "^5.3.6",
     "web-vitals": "^2.1.3"
   },
   "babel": {
@@ -111,6 +108,9 @@
     ]
   },
   "dependencies": {
+    "simplebar": "^5.3.6",
+    "jsvectormap": "^1.4.2",
+    "flatpickr": "^4.6.9",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
