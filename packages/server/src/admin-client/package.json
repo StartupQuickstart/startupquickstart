@@ -2,7 +2,7 @@
   "name": "admin-client",
   "version": "0.1.0",
   "dependencies": {
-    "@startupquickstart/react": "^0.2.28",
+    "@startupquickstart/react": "^0.2.30",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",

@@ -1,7 +1,7 @@
 import React from 'react';
 import { CardFooter } from '../card';
 import { Item } from '../common';
-import Config from '@/config';
+import config from '@/config';
 import EmailComponent from '../EmailComponent';
 
 export default class Footer extends EmailComponent {
@@ -9,7 +9,7 @@ export default class Footer extends EmailComponent {
     return (
       <CardFooter>
         <Item className="text-muted text-sm">
-          {Config.legalName}, {Config.address}
+          {config.app.legalName}, {config.app.address}
         </Item>
       </CardFooter>
     );

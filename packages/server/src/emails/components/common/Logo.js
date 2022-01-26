@@ -1,13 +1,13 @@
 import React from 'react';
 import { Image } from '.';
-import Config from '@/config';
+import config from '@/config';
 
 export default function logo() {
   return (
     <Image
-      src={Config.logo.url}
-      width={Config.logo.width}
-      height={Config.logo.height}
+      src={config.app.logo.url}
+      width={config.app.logo.width}
+      height={config.app.logo.height}
       alt="logo"
     />
   );

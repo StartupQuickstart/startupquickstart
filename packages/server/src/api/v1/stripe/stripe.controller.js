@@ -29,10 +29,8 @@ export default class SubscriptionController {
           ]
         },
         allow_promotion_codes: true,
-        success_url: `${
-          process.env.PUBLIC_HOST || process.env.HOST
-        }/checkout?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${process.env.PUBLIC_HOST || process.env.HOST}/checkout`
+        success_url: `${config.server.publicHost}/checkout?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${config.server.publicHost}/checkout`
       };
 
       if (customerId) {
@@ -164,7 +162,7 @@ export default class SubscriptionController {
 
       const session = await Stripe.stripe.billingPortal.sessions.create({
         customer: customerId,
-        return_url: `${process.env.PUBLIC_HOST || process.env.HOST}`
+        return_url: config.server.publicHost
       });
 
       res.status(200).send(session);

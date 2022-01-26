@@ -10,8 +10,8 @@ export default async () => {
       tokenBodyField: 'token'
     }),
     secretOrKey: config.enc.secret,
-    issuer: process.env.HOST,
-    audience: process.env.HOST
+    issuer: config.server.host,
+    audience: config.server.host
   };
 
   class JWTScopeStrategy extends JwtStrategy {

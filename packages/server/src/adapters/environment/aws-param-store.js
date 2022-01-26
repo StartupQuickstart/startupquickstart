@@ -22,8 +22,10 @@ export async function load(config) {
     },
     database,
     google: {
+      user: google['user'],
       clientId: google['client-id'],
-      clientSecret: google['client-secret']
+      clientSecret: google['client-secret'],
+      refreshToken: google['refresh-token']
     },
     hubspot: {
       apiKey: hubspotApiKey

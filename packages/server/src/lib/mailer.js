@@ -15,20 +15,12 @@ export default class Mailer {
    * @param {String} name Name of the mail template
    */
   static getEmailTemplate(name) {
-    const coreTemplatePath = path.resolve(
+    const appTemplatePath = path.resolve(
       __dirname,
       `../emails/templates/${name}`
     );
-    const appTemplatePath = path.resolve(
-      __dirname,
-      `../../emails/templates/${name}`
-    );
 
-    if (fs.existsSync(appTemplatePath)) {
-      return require(appTemplatePath).default;
-    } else {
-      return require(coreTemplatePath).default;
-    }
+    return require(appTemplatePath).default;
   }
 
   /**
@@ -40,7 +32,7 @@ export default class Mailer {
       config.google.clientSecret
     );
 
-    oAuth2Client.setCredentials({ refresh_token: config['refresh-token'] });
+    oAuth2Client.setCredentials({ refresh_token: config.google.refreshToken });
 
     const tokens = await oAuth2Client.refreshAccessToken();
 
@@ -48,10 +40,10 @@ export default class Mailer {
       service: 'gmail',
       auth: {
         type: 'OAuth2',
-        user: config['user'],
-        clientId: config['client-id'],
-        clientSecret: config['client-secret'],
-        refreshToken: config['refresh-token'],
+        user: config.google.user,
+        clientId: config.google.clientId,
+        clientSecret: config.google.clientSecret,
+        refreshToken: config.google.refreshToken,
         accessToken: tokens.access_token
       }
     });
@@ -75,7 +67,7 @@ export default class Mailer {
    * @param {Object} data         Data for the template
    */
   static async renderEmail(templateName, data) {
-    data.host = process.env.PUBLIC_HOST || process.env.HOST;
+    data.host = config.server.publicHost;
 
     function renderEmail(emailComponent, isHtml = true) {
       const doctype =

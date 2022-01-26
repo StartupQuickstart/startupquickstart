@@ -113,18 +113,12 @@ class AuthController {
         });
       }
 
-      const shouldSendToken = req.user.invite_pending;
-
       await req.user.setPassword(req.body.password);
 
-      if (shouldSendToken) {
-        const token = await req.user.getToken(['api']);
-        return res
-          .status(200)
-          .send({ token, setupProgress: await req.user.getSetupProgress() });
-      } else {
-        res.status(200).send(http.STATUS_CODES[200]);
-      }
+      const token = await req.user.getToken(['api']);
+      return res
+        .status(200)
+        .send({ token, setupProgress: await req.user.getSetupProgress() });
     } catch (err) {
       console.log(err);
       return res.status(500).send({

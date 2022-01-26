@@ -6,18 +6,25 @@ dotenv.config();
 export const config = {
   server: {
     host: process.env.HOST || 'http://localhost:3001',
+    publicHost:
+      process.env.PUBLIC_HOST || process.env.HOST || 'http://localhost:3000',
     port: process.env.PORT || 3001
   },
   app: {
     name: process.env.APP,
-    legalName: '',
-    website: '',
-    termsOfService: '',
-    privacyPolicy: '',
-    address: '',
-    supportEmail: '',
-    logo: '',
-    host: '',
+    legalName: 'SuggestEdit, LLC',
+    website: 'https://www.startupquickstart.com',
+    termsOfService: 'https://www.startupquickstart.com/terms-of-service',
+    privacyPolicy: 'https://www.startupquickstart.com/privacy-policy',
+    address: 'East Boston, MA',
+    supportEmail: 'support@startupquickstart.com',
+    noReplyEmail: 'noreply@startupquickstart.com',
+    logo: {
+      url: 'http://localhost:3000/static/media/logo.c65011228bd2c6f8bb3f.png',
+      width: 91,
+      height: 45
+    },
+    host: process.env.HOST || 'http://localhost:3001',
     pricing: {},
     setupItems: {}
   },

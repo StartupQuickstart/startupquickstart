@@ -10,6 +10,7 @@ import { useMemo } from 'react';
 
 export function App() {
   const auth = useMemo(() => new Auth('v1'), []);
+
   return (
     <Admin
       Api={Api}

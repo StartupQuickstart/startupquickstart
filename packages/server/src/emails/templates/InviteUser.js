@@ -12,10 +12,10 @@ export default class InviteUser extends EmailComponent {
     return (
       <CardWrapper {...this.props}>
         <Item className="h3">
-          Join {createdBy.first_name} {createdBy.last_name} in {config.name}
+          Join {createdBy.first_name} {createdBy.last_name} in {config.app.name}
         </Item>
         <P>
-          <PrimaryButton href={link}>Log in to {config.name}</PrimaryButton>
+          <PrimaryButton href={link}>Log in to {config.app.name}</PrimaryButton>
         </P>
         <P>
           This link will expire in 24 hours. If you need a new link,{' '}

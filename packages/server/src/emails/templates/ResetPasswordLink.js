@@ -11,7 +11,8 @@ export default class ResetPasswordLink extends EmailComponent {
     return (
       <CardWrapper {...this.props}>
         <P>
-          Click <A href={link}>here</A> to reset your {config.name} password.
+          Click <A href={link}>here</A> to reset your {config.app.name}{' '}
+          password.
         </P>
         <P>
           This link will expire in 1 hour. If you don't use it by then, you can

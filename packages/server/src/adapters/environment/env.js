@@ -19,8 +19,10 @@ export async function load(config) {
         process.env.DATABASE_PASSWORD || 'startupquickstart_svc_app_pass'
     },
     google: {
+      user: process.env.GOOGLE_USER,
       clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      refreshToken: process.env.GOOGLE_REFRESH_TOKEN
     },
     hubspot: {
       apiKey: process.env.HUBSPOT_API_KEY

@@ -4,7 +4,7 @@ import Hubspot from '@/lib/hubspot';
 import jwt from 'jsonwebtoken';
 import Mailer from '@/lib/mailer';
 import randomatic from 'randomatic';
-import Config from '@/config';
+import config from '@/config';
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -73,13 +73,14 @@ module.exports = (sequelize, DataTypes) => {
       const token = jwt.sign(
         {
           sub: this.id,
-          iss: process.env.HOST,
-          aud: process.env.HOST,
+          iss: config.server.host,
+          aud: config.server.host,
           scope,
           id: this.id,
           account_id: this.account_id,
           first_name: this.first_name,
           last_name: this.last_name,
+          name: this.name,
           email: this.email,
           is_activated: this.is_activated
         },
@@ -105,16 +106,16 @@ module.exports = (sequelize, DataTypes) => {
           {
             email: user.email,
             token,
-            link: `${process.env.HOST}/reset-password?token=${token}`,
-            config: Config,
+            link: `${config.server.publicHost}/reset-password?token=${token}`,
+            config: config,
             createdBy
           },
           {
-            from: `${Config.name} <${Config.noReplyEmail}>`,
+            from: `${config.app.name} <${config.app.noReplyEmail}>`,
             to: user.email,
             subject:
               `${createdBy.first_name} ${createdBy.first_name}` +
-              ` has invited you to join them in ${Config.name}`
+              ` has invited you to join them in ${config.app.name}`
           }
         );
       }
@@ -145,9 +146,9 @@ module.exports = (sequelize, DataTypes) => {
         'UserActivationEmail',
         { user: this },
         {
-          from: `${Config.name} <${Config.noReplyEmail}>`,
+          from: `${config.app.name} <${config.app.noReplyEmail}>`,
           to: this.email,
-          subject: `${Config.name} account activation code`
+          subject: `${config.app.name} account activation code`
         }
       );
     }
@@ -171,12 +172,12 @@ module.exports = (sequelize, DataTypes) => {
         {
           email,
           token,
-          link: `${process.env.HOST}/reset-password?token=${token}`
+          link: `${config.server.publicHost}/reset-password?token=${token}`
         },
         {
-          from: `${Config.name} <${Config.noReplyEmail}>`,
+          from: `${config.app.name} <${config.app.noReplyEmail}>`,
           to: email,
-          subject: `${Config.name} password reset`
+          subject: `${config.app.name} password reset`
         }
       );
     }
@@ -348,6 +349,12 @@ module.exports = (sequelize, DataTypes) => {
         canCreate: true,
         canUpdate: true,
         searchable: true
+      },
+      name: {
+        type: DataTypes.VIRTUAL,
+        get: function () {
+          return this.get('first_name') + ' ' + this.get('last_name');
+        }
       },
       role: {
         type: DataTypes.STRING,
