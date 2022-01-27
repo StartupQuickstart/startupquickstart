@@ -6,7 +6,11 @@
   "homepage": "./dist",
   "license": "MIT",
   "main": "dist/server.js",
+  "bin": {
+    "startupquickstart": "./bin/cli.js"
+  },
   "files": [
+    "bin",
     "dist/lib",
     "dist/api",
     "dist/server.js",
@@ -20,8 +24,8 @@
     ".": "./dist"
   },
   "scripts": {
-    "start": "TZ=UTC node ./dist/bootstrap.js",
-    "dev": "TZ=UTC PORT=3001 nodemon --exec babel-node ./src/bootstrap.js",
+    "start": "TZ=UTC node ./dist/app.js",
+    "dev": "TZ=UTC PORT=3001 nodemon --exec babel-node ./src/app.js",
     "dev:db": "docker-compose up -d postgres",
     "client:dev": "npm start --prefix src/admin-client",
     "compile-email-assets": "node-sass ./src/emails/styles/styles.scss ./src/emails/dist/styles.css",
@@ -60,8 +64,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "nodemon": "^2.0.11",
     "npm-run-all": "^4.1.5",
-    "prompt": "^1.1.0",
-    "sequelize-cli": "^6.2.0"
+    "prompt": "^1.1.0"
   },
   "dependencies": {
     "@babel/preset-react": "^7.12.13",
