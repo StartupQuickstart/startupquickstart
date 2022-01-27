@@ -3,6 +3,31 @@
 const cli = require('commander');
 const pkg = require('../package.json');
 const shell = require('shelljs');
+const path = require('path');
+const glob = require('glob');
+const fs = require('fs');
+
+function initSequelize() {
+  const config = require('../.sequelizerc');
+
+  if (!fs.existsSync(config['seeders-path'])) {
+    fs.mkdirSync(config['seeders-path']);
+  }
+
+  if (!fs.existsSync(config['migrations-path'])) {
+    fs.mkdirSync(config['migrations-path']);
+  }
+
+  for (const seedFile of glob.sync(path.resolve(__dirname, '../seeds/**/*'))) {
+    const fileName = file.split('/').pop();
+    fs.copyFileSync(file, path.resolve(config['seeders-path'], fileName));
+  }
+
+  for (const file of glob.sync(path.resolve(__dirname, '../migrations/**/*'))) {
+    const fileName = file.split('/').pop();
+    fs.copyFileSync(file, path.resolve(config['migrations-path'], fileName));
+  }
+}
 
 cli
   .command('start')
@@ -45,21 +70,26 @@ cli
 cli
   .command('db:migrate')
   .description('Runs the database migration')
-  .action(async () => shell.exec(`npx sequelize-cli db:migrate --env default`));
+  .action(async () => {
+    initSequelize();
+    shell.exec(`npx sequelize-cli db:migrate --env default`);
+  });
 
 cli
   .command('db:seed')
   .description('Runs the database seed')
-  .action(async () =>
-    shell.exec(`npx sequelize-cli db:seed:all --env default`)
-  );
+  .action(async () => {
+    initSequelize();
+    shell.exec(`npx sequelize-cli db:seed:all --env default`);
+  });
 
 cli
   .command('db:migration <name>')
   .description('Creates a database migration')
-  .action(async (name) =>
-    shell.exec(`npx sequelize-cli migration:generate --name ${name}`)
-  );
+  .action(async (name) => {
+    initSequelize();
+    shell.exec(`npx sequelize-cli migration:generate --name ${name}`);
+  });
 
 try {
   cli.parse(process.argv);
