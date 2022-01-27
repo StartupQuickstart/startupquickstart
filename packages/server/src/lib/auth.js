@@ -2,7 +2,7 @@ import http from 'http';
 import passport from 'passport';
 import Stripe from './stripe';
 
-export default class Auth {
+export class Auth {
   /**
    * Authenticates a user with the jwt passport strategy
    * Requires an admin user
@@ -28,47 +28,71 @@ export default class Auth {
    * @param {Array} strategies Strategies to use
    * @param {Array} scope Required scope to use path
    */
-  static protected(strategies = null, requireSubscription = false, scope = 'api') {
+  static protected(
+    strategies = null,
+    requireSubscription = false,
+    scope = 'api'
+  ) {
     const hasStrategy = (strategy) =>
       !strategies ||
-      (Array.isArray(strategies) ? strategies.includes(strategy) : strategies === strategy);
+      (Array.isArray(strategies)
+        ? strategies.includes(strategy)
+        : strategies === strategy);
 
     const auth = (req, res, next) => {
       if (
         hasStrategy('jwt') &&
-        ((req.headers.authorization && req.headers.authorization.startsWith('bearer')) ||
+        ((req.headers.authorization &&
+          req.headers.authorization.startsWith('bearer')) ||
           req.query.token ||
           req.body.token)
       ) {
-        return passport.authenticate('jwt', { session: false, scope })(req, res, () => {
-          if (!req.user.scope.includes(scope)) {
-            res
-              .status(403)
-              .send({ success: false, message: 'Invalid Scope.', code: 'INVALID_SCOPE' });
-          }
+        return passport.authenticate('jwt', { session: false, scope })(
+          req,
+          res,
+          () => {
+            if (!req.user.scope.includes(scope)) {
+              res
+                .status(403)
+                .send({
+                  success: false,
+                  message: 'Invalid Scope.',
+                  code: 'INVALID_SCOPE'
+                });
+            }
 
-          return next();
-        });
+            return next();
+          }
+        );
       }
 
       if (hasStrategy('jwtCookie') && req.cookies['api-token']) {
         req.headers.authorization = `bearer ${req.cookies['api-token']}`;
 
-        return passport.authenticate('jwt', { session: false, scope })(req, res, () => {
-          if (!req.user.scope.includes(scope)) {
-            res
-              .status(403)
-              .send({ success: false, message: 'Invalid Scope.', code: 'INVALID_SCOPE' });
-          }
+        return passport.authenticate('jwt', { session: false, scope })(
+          req,
+          res,
+          () => {
+            if (!req.user.scope.includes(scope)) {
+              res
+                .status(403)
+                .send({
+                  success: false,
+                  message: 'Invalid Scope.',
+                  code: 'INVALID_SCOPE'
+                });
+            }
 
-          return next();
-        });
+            return next();
+          }
+        );
       }
 
       res.status(401).send(http.STATUS_CODES[401]);
     };
 
-    return process.env.REQUIRE_SUBSCRIPTION === 'false' || requireSubscription === false
+    return process.env.REQUIRE_SUBSCRIPTION === 'false' ||
+      requireSubscription === false
       ? [auth]
       : [auth, Auth.validateSubscription];
   }
@@ -100,7 +124,9 @@ export default class Auth {
    * Middleware taht validates a subscription
    */
   static async validateSubscription(req, res, next) {
-    const status = await Stripe.getSubscriptionStatus(req.user.account.stripe_customer_id);
+    const status = await Stripe.getSubscriptionStatus(
+      req.user.account.stripe_customer_id
+    );
 
     if (!status.hasValidSubscription) {
       return res.status(403).send(http.STATUS_CODES[403]);
@@ -111,3 +137,5 @@ export default class Auth {
     next();
   }
 }
+
+export default Auth;

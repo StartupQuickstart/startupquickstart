@@ -8,7 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import config from '@/config';
 
-export default class Mailer {
+export class Mailer {
   /**
    * Gets the amil template for the templat ename
    *
@@ -114,3 +114,5 @@ export default class Mailer {
     return await transporter.sendMail(email);
   }
 }
+
+export default Mailer;

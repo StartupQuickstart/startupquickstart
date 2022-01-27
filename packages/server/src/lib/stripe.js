@@ -1,4 +1,4 @@
-import Stripe from 'stripe';
+import stripe from 'stripe';
 import NodeCache from 'node-cache';
 import path from 'path';
 import fs from 'fs';
@@ -16,17 +16,15 @@ if (fs.existsSync(pricingPath)) {
 
 const cache = new NodeCache({ useClones: false, stdTTL: 60 * 5 });
 
-export class StripeWrapper {
-  constructor(stripeKey) {
-    this.stripe = stripeKey || config.stripe.apiKey;
-  }
+export class Stripe {
+  static stripe = new stripe(config.stripe.apiKey);
 
   /**
    * Converts a stripe timestamp toa  date
    *
    * @param {Integer} timestamp Timestamp to convert to date
    */
-  convertToDate(timestamp) {
+  static convertToDate(timestamp) {
     return timestamp ? new Date(timestamp * 1000) : null;
   }
 
@@ -36,7 +34,7 @@ export class StripeWrapper {
    * @param {String} customerId Id for the customer
    * @param {Boolean} useCache Whether or not to use the cached customer
    */
-  async getCustomer(customerId, useCache = true) {
+  static async getCustomer(customerId, useCache = true) {
     return this.retrieve(
       'customers',
       customerId,
@@ -51,7 +49,7 @@ export class StripeWrapper {
    * @param {String} productId Id for the product
    * @param {Boolean} useCache Whether or not to use the cached customer
    */
-  async getProduct(productId, useCache = true) {
+  static async getProduct(productId, useCache = true) {
     return this.retrieve('products', productId, {}, useCache);
   }
 
@@ -61,7 +59,7 @@ export class StripeWrapper {
    * @param {String} customerId Id for the customer
    * @param {Boolean} useCache Whether or not to use the cached customer
    */
-  async getSubscriptions(customerId, useCache = true) {
+  static async getSubscriptions(customerId, useCache = true) {
     const customer = await this.getCustomer(customerId, useCache);
     return customer && customer.subscriptions
       ? customer.subscriptions.data
@@ -74,7 +72,7 @@ export class StripeWrapper {
    * @param {String} customerId Id for the customer
    * @param {Boolean} useCache Whether or not to use cached data
    */
-  async getSubscriptionStatus(customerId, useCache = true) {
+  static async getSubscriptionStatus(customerId, useCache = true) {
     const cacheId = `subscription_status_${customerId}`;
 
     if (useCache && cache.has(cacheId)) {
@@ -151,7 +149,7 @@ export class StripeWrapper {
    * @param {Object} options Options to pass to retrieve
    * @param {Boolean} useCache Whether or not to use the cached
    */
-  async retrieve(objectName, id, options = {}, useCache = true) {
+  static async retrieve(objectName, id, options = {}, useCache = true) {
     const cacheId = `${objectName}_${id}`;
 
     if (useCache && cache.has(cacheId)) {
@@ -168,4 +166,4 @@ export class StripeWrapper {
   }
 }
 
-export default new StripeWrapper();
+export default Stripe;

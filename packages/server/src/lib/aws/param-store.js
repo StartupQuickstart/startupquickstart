@@ -3,7 +3,7 @@ import NodeCache from 'node-cache';
 
 const cache = new NodeCache({ stdTTL: 60 * 5 });
 
-export default class AwsParamStore {
+export class AwsParamStore {
   /**
    * Gets the param value by an exact path
    *
@@ -65,17 +65,28 @@ export default class AwsParamStore {
       options
     );
 
-    const fullPath = `/${options.app}/${options.env}${path.startsWith('/') ? path : '/' + path}`;
+    const fullPath = `/${options.app}/${options.env}${
+      path.startsWith('/') ? path : '/' + path
+    }`;
 
     const param = await this.get(path, options.env, options.app);
 
     if (!param || options.replaceExisting) {
       console.log(`Creating param store value at path ${fullPath}. (Adding)`);
-      await SSM.putParameter(fullPath, value, options.encrypted ? 'SecureString' : 'String', {
-        region: 'us-east-1'
-      });
+      await SSM.putParameter(
+        fullPath,
+        value,
+        options.encrypted ? 'SecureString' : 'String',
+        {
+          region: 'us-east-1'
+        }
+      );
     } else {
-      console.log(`Param store value at path ${fullPath} already exists. (Skipping)`);
+      console.log(
+        `Param store value at path ${fullPath} already exists. (Skipping)`
+      );
     }
   }
 }
+
+export default AwsParamStore;

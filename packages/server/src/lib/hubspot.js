@@ -6,22 +6,20 @@ import {
 } from 'axios-extensions';
 import config from '@/config';
 
-class Hubspot {
-  constructor() {
-    this.axios = axios.create({
-      baseURL: `https://api.hubapi.com`,
-      adapter: this.axiosAdapter(
-        throttleAdapterEnhancer(cacheAdapterEnhancer(axios.defaults.adapter))
-      )
-    });
-  }
+export class Hubspot {
+  static axios = axios.create({
+    baseURL: `https://api.hubapi.com`,
+    adapter: this.axiosAdapter(
+      throttleAdapterEnhancer(cacheAdapterEnhancer(axios.defaults.adapter))
+    )
+  });
 
   /**
    * Adds a contact
    *
    * @param {Object} contact Contact to add
    */
-  async addContact(contact) {
+  static async addContact(contact) {
     return await this.axios.post('/contacts/v1/contact/', {
       properties: Object.keys(contact).map((prop) => {
         return { property: prop, value: contact[prop] };
@@ -35,7 +33,7 @@ class Hubspot {
    *
    * @param {Object} axiosAdapter AxiosAdapter
    */
-  axiosAdapter(axiosAdapter) {
+  static axiosAdapter(axiosAdapter) {
     return async (config) => {
       const _url = url.parse(config.url);
       _url.query = _url.query || {};
@@ -53,7 +51,7 @@ class Hubspot {
    *
    * @param {String} email Email address to get contact for
    */
-  async getContactByEmail(email) {
+  static async getContactByEmail(email) {
     try {
       const result = await this.axios.get(
         `/contacts/v1/contact/email/${email}/profile`
@@ -74,7 +72,7 @@ class Hubspot {
    * @param {String} email Email address to get data for
    * @param {Object} data Data to use if doesnt exist in hubspot
    */
-  async getDataForEmail(email, data) {
+  static async getDataForEmail(email, data) {
     try {
       let contact = await this.getContactByEmail(email);
 
@@ -101,4 +99,4 @@ class Hubspot {
   }
 }
 
-export default new Hubspot();
+export default Hubspot;

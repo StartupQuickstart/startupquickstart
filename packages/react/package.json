@@ -8,13 +8,7 @@
   "main": "dist/index.js",
   "files": [
     "src/assets",
-    "dist/assets",
-    "dist/components",
-    "dist/context",
-    "dist/effects",
-    "dist/lib",
-    "dist/routes",
-    "dist/views",
+    "dist",
     "README.md"
   ],
   "exports": {

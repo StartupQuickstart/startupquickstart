@@ -2,22 +2,19 @@ import path from 'path';
 import glob from 'glob';
 import { Sequelize } from 'sequelize';
 import passwordGenerator from 'generate-password';
-import AwsSecretManager from './aws/secrete-manager';
+import AwsSecretManager from './aws/secret-manager';
 
 export class Database {
-  constructor() {
-    this.connected = false;
-    this.connection = null;
-    this.connect = this.connect.bind(this);
-    this.models = {};
-  }
+  static connected = false;
+  static connection = null;
+  static models = {};
 
   /**
    * Creates a database on the app environments database
    *
    * @param {String} dbName Name of the database to create
    */
-  async createDatabase(dbName) {
+  static async createDatabase(dbName) {
     const results = await this.connection.query(`
       SELECT FROM pg_catalog.pg_database
       WHERE lower(datname) = lower('${dbName}')
@@ -33,7 +30,7 @@ export class Database {
    *
    * @param {Object} options Options for connectdion
    */
-  connect(options = {}) {
+  static connect(options = {}) {
     return new Promise(async (resolve, reject) => {
       try {
         if (this.connected) {
@@ -48,15 +45,20 @@ export class Database {
           console.log('Lambda config not found.');
         }
 
-        this.connection = new Sequelize(creds.dbname, creds.username, creds.password, {
-          host: creds.host,
-          port: creds.port || 5432,
-          dialect: creds.engine,
-          directory: false,
-          ssl: true,
-          logging: false,
-          dialectOptions: { ssl: { rejectUnauthorized: false } }
-        });
+        this.connection = new Sequelize(
+          creds.dbname,
+          creds.username,
+          creds.password,
+          {
+            host: creds.host,
+            port: creds.port || 5432,
+            dialect: creds.engine,
+            directory: false,
+            ssl: true,
+            logging: false,
+            dialectOptions: { ssl: { rejectUnauthorized: false } }
+          }
+        );
 
         if (options.setRole) {
           this.connection.afterConnect(async (conn) => {
@@ -78,7 +80,7 @@ export class Database {
    * @param {String} user User to get creds for
    * @param {String} env Environment to get creds for
    */
-  async getCredentials(user, env = process.env.ENV) {
+  static async getCredentials(user, env = process.env.ENV) {
     const credentials = await AwsSecretManager.get('db/creds', user, env);
 
     if (!credentials) {
@@ -98,7 +100,7 @@ export class Database {
   /**
    * Initializes the models
    */
-  async initModels() {
+  static async initModels() {
     if (Object.keys(this.models).length) {
       return this.models;
     }
@@ -137,4 +139,4 @@ export class Database {
   }
 }
 
-export default new Database();
+export default Database;

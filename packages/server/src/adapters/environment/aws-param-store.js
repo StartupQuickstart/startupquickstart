@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import AwsParamStore from '@/lib/aws/param-store';
-import AwsSecretManager from '@/lib/aws/secrete-manager';
+import AwsSecretManager from '@/lib/aws/secret-manager';
 
 dotenv.config();
 

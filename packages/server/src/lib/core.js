@@ -1,11 +1,9 @@
 import models from '@/api/models';
 
-class Core {
-  constructor() {
-    this.features = {};
-  }
+export class Core {
+  static features = {};
 
-  get featureNames() {
+  static get featureNames() {
     return Object.keys(this.features);
   }
 
@@ -17,7 +15,12 @@ class Core {
    * @param {String} description Description of the feature
    * @param {Boolean} defaultEnabled Whether or not the feature should be enabled by default
    */
-  async registerFeature(name, label, description, defaultEnabled = true) {
+  static async registerFeature(
+    name,
+    label,
+    description,
+    defaultEnabled = true
+  ) {
     const isValid = name && /^[a-z_]+$/.test(name);
 
     if (!isValid) {
@@ -53,4 +56,4 @@ class Core {
   }
 }
 
-export default new Core();
+export default Core;

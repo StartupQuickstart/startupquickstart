@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-export default class Files {
+export class Files {
   /**
    *  Recursively searches a directory for files with extension
    *
@@ -28,3 +28,5 @@ export default class Files {
     return result;
   }
 }
+
+export default Files;

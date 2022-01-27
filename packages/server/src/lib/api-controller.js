@@ -2,7 +2,7 @@ import http from 'http';
 import models from '@/api/models';
 import Sequelize from 'sequelize';
 
-export default class ApiController {
+export class ApiController {
   constructor(model) {
     this.model = model;
 
@@ -386,3 +386,5 @@ export default class ApiController {
     return missingFields;
   }
 }
+
+export default ApiController;

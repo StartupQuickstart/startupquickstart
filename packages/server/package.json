@@ -16,7 +16,6 @@
   ],
   "exports": {
     "./api": "./dist/api",
-    "./emails": "./dist/emails",
     "./lib": "./dist/lib",
     "./passports": "./dist/passports",
     ".": "./dist"

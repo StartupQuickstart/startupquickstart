@@ -13,7 +13,7 @@ export const defaultRoutes = [
   'describe'
 ];
 
-export default (
+export function ApiRoute(
   path,
   controller,
   modelName,
@@ -21,7 +21,7 @@ export default (
   middleware = [],
   router,
   options = {}
-) => {
+) {
   const opts = Object.assign({ isPublic: false }, options);
   router = router || express.Router();
 
@@ -64,4 +64,6 @@ export default (
   }
 
   return router;
-};
+}
+
+export default ApiRoute;

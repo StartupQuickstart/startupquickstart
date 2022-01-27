@@ -5,13 +5,18 @@ const cache = new NodeCache({ stdTTL: 60 * 5 });
 
 const secretsManager = new SecretsManager({ region: 'us-east-1' });
 
-export default class AwsSecretManager {
+export class AwsSecretManager {
   /**
    * Gets the param value by an exact path
    *
    * @param {String} path Path to get param at
    */
-  static async get(path, user = 'svc_app', env = process.env.ENV, app = process.env.APP) {
+  static async get(
+    path,
+    user = 'svc_app',
+    env = process.env.ENV,
+    app = process.env.APP
+  ) {
     const base = `/${app}/${user}/${env}/`;
     const fullPath = `${base}${path}`;
 
@@ -19,7 +24,9 @@ export default class AwsSecretManager {
       return cache.get(fullPath);
     }
 
-    const result = await secretsManager.getSecretValue({ SecretId: fullPath }).promise();
+    const result = await secretsManager
+      .getSecretValue({ SecretId: fullPath })
+      .promise();
 
     if (result && result.SecretString) {
       const value = JSON.parse(result.SecretString);
@@ -30,3 +37,5 @@ export default class AwsSecretManager {
     return null;
   }
 }
+
+export default AwsSecretManager;

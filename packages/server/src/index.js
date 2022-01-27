@@ -1,3 +1,6 @@
-export { server } from 'server';
+export * as api from '@/api';
+export * as lib from '@/lib';
+export * as passports from '@/passports';
+export server from './server';
 
-export default { server };
+export default { api, lib, server };
