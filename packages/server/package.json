@@ -11,9 +11,7 @@
   },
   "files": [
     "bin",
-    "dist/lib",
-    "dist/api",
-    "dist/server.js",
+    "dist",
     "README.md"
   ],
   "exports": {
