@@ -17,8 +17,6 @@ if (fs.existsSync(pricingPath)) {
 const cache = new NodeCache({ useClones: false, stdTTL: 60 * 5 });
 
 export class Stripe {
-  static stripe = new stripe(config.stripe.apiKey);
-
   /**
    * Converts a stripe timestamp toa  date
    *
@@ -156,11 +154,13 @@ export class Stripe {
       return cache.get(cacheId);
     }
 
-    if (!id) {
+    if (!id || !config.stripe) {
       return null;
     }
 
-    const record = await this.stripe[objectName].retrieve(id, options);
+    const _stripe = new stripe(config.stripe.apiKey);
+
+    const record = await _stripe[objectName].retrieve(id, options);
     cache.set(cacheId, record);
     return record;
   }

@@ -15,10 +15,10 @@
     "README.md"
   ],
   "exports": {
-    "./api": "./dist/api",
-    "./lib": "./dist/lib",
-    "./passports": "./dist/passports",
-    ".": "./dist"
+    "./api": "./dist/api/index.js",
+    "./lib": "./dist/lib/index.js",
+    "./passports": "./dist/passports/index.js",
+    ".": "./dist/index.js"
   },
   "scripts": {
     "start": "TZ=UTC node ./dist/app.js",
