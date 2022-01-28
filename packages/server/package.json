@@ -1,6 +1,6 @@
 {
   "name": "@startupquickstart/server",
-  "version": "0.2.45",
+  "version": "0.2.44",
   "description": "Express server for rest api",
   "author": "Thomas Boles <thomas@startupquickstart.com> (https://github.com/startupquickstart)",
   "homepage": "./dist",
@@ -12,7 +12,6 @@
   "files": [
     "bin",
     "dist",
-    "src",
     "migrations",
     "seeds",
     ".sequelizerc",
