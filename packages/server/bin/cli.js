@@ -6,6 +6,9 @@ const shell = require('shelljs');
 const path = require('path');
 const glob = require('glob');
 const fs = require('fs');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 function initSequelize() {
   const config = require('../.sequelizerc');
@@ -72,7 +75,9 @@ cli
   .description('Runs the database migration')
   .action(async () => {
     initSequelize();
-    shell.exec(`npx sequelize-cli db:migrate --env default`);
+    shell.exec(
+      `cd ./node_modules/@startupquickstart/server && npx sequelize-cli db:migrate --env default`
+    );
   });
 
 cli
@@ -80,7 +85,9 @@ cli
   .description('Runs the database seed')
   .action(async () => {
     initSequelize();
-    shell.exec(`npx sequelize-cli db:seed:all --env default`);
+    shell.exec(
+      `cd ./node_modules/@startupquickstart/server && npx sequelize-cli db:seed:all --env default`
+    );
   });
 
 cli
@@ -88,7 +95,9 @@ cli
   .description('Creates a database migration')
   .action(async (name) => {
     initSequelize();
-    shell.exec(`npx sequelize-cli migration:generate --name ${name}`);
+    shell.exec(
+      `cd ./node_modules/@startupquickstart/server && npx sequelize-cli migration:generate --name ${name}`
+    );
   });
 
 try {
