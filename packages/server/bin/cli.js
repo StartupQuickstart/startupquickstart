@@ -47,7 +47,7 @@ cli
   );
 
 cli
-  .command('dev:start')
+  .command('dev')
   .description('Starts the development express server')
   .action(async () =>
     shell.exec(`TZ=UTC PORT=3001 nodemon --exec babel-node ./src/app.js`)
