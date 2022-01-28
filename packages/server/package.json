@@ -12,6 +12,7 @@
   "files": [
     "bin",
     "dist",
+    "src",
     "migrations",
     "seeds",
     ".sequelizerc",
