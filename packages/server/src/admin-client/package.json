@@ -1,5 +1,5 @@
 {
-  "name": "admin-client",
+  "name": "client",
   "version": "0.1.0",
   "dependencies": {
     "@startupquickstart/react": "^0.2.34",

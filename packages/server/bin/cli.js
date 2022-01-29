@@ -42,7 +42,7 @@ cli
   .description('Builds the code for production')
   .action(async () =>
     shell.exec(
-      `rm -rf ./dist && NODE_ENV=production babel ./src  --ignore ./src/admin-client,./src/bin --out-dir dist`
+      `rm -rf ./dist && NODE_ENV=production babel ./src  --ignore ./src/client,./src/bin --out-dir dist`
     )
   );
 
@@ -68,7 +68,7 @@ cli
   .description(
     'Starts the development client if installed (See: @startupquickstart/react)'
   )
-  .action(async () => shell.exec(`npm start --prefix src/admin-client`));
+  .action(async () => shell.exec(`npm start --prefix src/client`));
 
 cli
   .command('db:migrate')

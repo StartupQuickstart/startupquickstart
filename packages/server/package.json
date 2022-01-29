@@ -27,11 +27,11 @@
     "start": "TZ=UTC node ./dist/app.js",
     "dev": "TZ=UTC PORT=3001 nodemon --exec babel-node ./src/app.js",
     "dev:db": "docker-compose up -d postgres",
-    "client:dev": "npm start --prefix src/admin-client",
+    "client:dev": "npm start --prefix src/client",
     "compile-email-assets": "node-sass ./src/emails/styles/styles.scss ./src/emails/dist/styles.css",
     "compile-email-assets-watch": "node-sass -w ./src/emails/styles/styles.scss ./src/emails/dist/styles.css",
     "clean": "rimraf dist",
-    "build:server": "rimraf ./dist && NODE_ENV=production babel ./src  --ignore ./src/admin-client,./src/bin --out-dir dist",
+    "build:server": "rimraf ./dist && NODE_ENV=production babel ./src  --ignore ./src/client,./src/bin --out-dir dist",
     "build:server:copy": "cp -r ./src/emails ./dist/emails",
     "build": "npm-run-all clean build:server compile-email-assets build:server:copy",
     "create-migration": "npx sequelize-cli migration:generate --name $1",
@@ -43,7 +43,7 @@
   "nodemonConfig": {
     "verbose": true,
     "ignore": [
-      "./src/admin-client",
+      "./src/client",
       "./src/bin",
       "package-lock.json"
     ]
