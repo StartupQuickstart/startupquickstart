@@ -12,10 +12,12 @@ router.get('/config', (req, res) => {
     privacyPolicy: config.app.privacyPolicy,
     address: config.app.address,
     supportEmail: config.app.supportEmail,
+    supportPage: config.app.supportPage,
     logo: config.app.logo,
     host: config.server.host,
     pricing: config.app.pricing,
-    setupItems: config.app.setupItems
+    setupItems: config.app.setupItems,
+    signup: config.app.signup
   });
 });
 

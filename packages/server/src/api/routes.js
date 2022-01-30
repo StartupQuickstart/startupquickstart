@@ -12,6 +12,7 @@ import StripeRoutes from './v1/stripe/stripe.routes';
 import SystemSettingRoutes from './v1/system-setting/system-setting.routes';
 import UserRoutes from './v1/user/user.routes';
 import { ValidationError } from 'sequelize';
+import config from '@/config';
 
 export function init(app) {
   const routePath = path.resolve(__dirname, '../../api/routes.js');
@@ -92,7 +93,7 @@ export function init(app) {
     }
   });
 
-  app.use('/api/v1/*', (req, res) => {
+  app.use('/api*', (req, res) => {
     return res.status(404).send(http.STATUS_CODES[404]);
   });
 }

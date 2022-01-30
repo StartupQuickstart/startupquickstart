@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -12,21 +12,39 @@ import { coreRoutes } from '@/routes';
 import { AdminLayout } from '@/components/layouts';
 import * as views from '@/views';
 import { Private, Public } from '@/components/authenticators';
+import { PageLoading } from '@/components/common';
+import axios from 'axios';
 
 export function Admin({
   routes,
   Auth,
   Api,
   config,
+  configPath,
   callToAction,
   features,
   sidebarItems
 }) {
+  const [_config, setConfig] = useState(config);
+
+  useEffect(() => {
+    if (configPath) {
+      axios.get(configPath).then((result) => {
+        console.log(result);
+        setConfig(result.data);
+      });
+    }
+  }, [configPath]);
+
   if (!routes) {
     routes = [{ path: '/', Component: views.Home, Authenticator: Private }];
   }
 
   routes.push(...coreRoutes);
+
+  if (!_config) {
+    return <PageLoading />;
+  }
 
   return (
     <Router>
