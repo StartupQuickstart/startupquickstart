@@ -42,7 +42,7 @@ export function Admin({
 
   routes.push(...coreRoutes);
 
-  if (!_config) {
+  if (!_config && configPath) {
     return <PageLoading />;
   }
 
