@@ -46,15 +46,8 @@ export function Signup() {
    */
   function validate(values, props) {
     const errors = {};
-
-    if (config?.signup?.optionalFields?.includes('first_name')) {
-      FormValidation.validateRequired('first_name', values, errors);
-    }
-
-    if (config?.signup?.optionalFields?.includes('last_name')) {
-      FormValidation.validateRequired('last_name', values, errors);
-    }
-
+    FormValidation.validateRequired('first_name', values, errors);
+    FormValidation.validateRequired('last_name', values, errors);
     FormValidation.validateEmail('email', values, errors);
     FormValidation.validateRequired('email', values, errors);
     FormValidation.validateRequired('password', values, errors);
@@ -84,36 +77,32 @@ export function Signup() {
         }) => (
           <Form noValidate onSubmit={handleSubmit} autoComplete="off">
             {error && <div className="alert alert-danger">{error}</div>}
-            {config?.signup?.optionalFields?.includes('first_name') && (
-              <TextInput
-                id="first_name"
-                placeholder="First Name"
-                label="First Name"
-                value={values.first_name}
-                required={true}
-                size={'lg'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                disabled={isSubmitting}
-                touched={touched}
-                errors={errors}
-              />
-            )}
-            {config?.signup?.optionalFields?.includes('last_name') && (
-              <TextInput
-                id="last_name"
-                placeholder="Last Name"
-                label="Last Name"
-                value={values.last_name}
-                required={true}
-                size={'lg'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                disabled={isSubmitting}
-                touched={touched}
-                errors={errors}
-              />
-            )}
+            <TextInput
+              id="first_name"
+              placeholder="First Name"
+              label="First Name"
+              value={values.first_name}
+              required={true}
+              size={'lg'}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              disabled={isSubmitting}
+              touched={touched}
+              errors={errors}
+            />
+            <TextInput
+              id="last_name"
+              placeholder="Last Name"
+              label="Last Name"
+              value={values.last_name}
+              required={true}
+              size={'lg'}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              disabled={isSubmitting}
+              touched={touched}
+              errors={errors}
+            />
             {config?.signup?.optionalFields?.includes('company_name') && (
               <TextInput
                 id="company_name"

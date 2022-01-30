@@ -15,7 +15,7 @@ export const ConfigProvider = ({ children, ...props }) => {
       signup: {
         // heading: 'Register your 30-day unlimited-use free trial',
         // subheading: 'Start crowd sourcing your readers as proofreaders today.',
-        optionalFields: ['first_name', 'last_name', 'company_name']
+        optionalFields: ['company_name']
       },
       logo: {
         src: require('../../assets/images/logo.png'),
