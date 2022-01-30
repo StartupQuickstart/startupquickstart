@@ -176,7 +176,7 @@ export function Signup() {
             />
             <div className="d-grid gap-2">
               <SubmitButton
-                label={'Start my free trial'}
+                label={config?.signup?.btnLabel || 'Signup'}
                 isSubmitting={isSubmitting}
                 error={errors}
               />
