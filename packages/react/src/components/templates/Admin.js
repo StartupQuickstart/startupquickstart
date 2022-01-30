@@ -51,7 +51,7 @@ export function Admin({
       <ContextProvider
         Auth={Auth}
         Api={Api}
-        config={config}
+        config={_config}
         callToAction={callToAction}
         features={features}
         sidebarItems={sidebarItems}
