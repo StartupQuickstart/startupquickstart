@@ -29,10 +29,7 @@ export function Admin({
 
   useEffect(() => {
     if (configPath) {
-      axios.get(configPath).then((result) => {
-        console.log(result);
-        setConfig(result.data);
-      });
+      axios.get(configPath).then((result) => setConfig(result.data));
     }
   }, [configPath]);
 
