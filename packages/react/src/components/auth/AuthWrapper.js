@@ -6,6 +6,7 @@ import { useAuth } from '@/context/providers';
 import SetupProgress from './SetupProgress';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
+import { useConfig } from '@/context';
 
 export default function AuthWrapper({
   children,
@@ -19,6 +20,7 @@ export default function AuthWrapper({
 }) {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const { logo } = useConfig();
 
   useEffect(() => {
     if (isAuthenticated && !expectAuthenticated) {
@@ -34,8 +36,8 @@ export default function AuthWrapper({
       <div className="row">
         <div className="col-sm-10 col-md-8 col-lg-7 mx-auto d-table h-100">
           <div className="d-table-cell">
-            <div className="text-center my-5 ">
-              <Logo height="45px" width="auto" />
+            <div className="text-center mt-5 mb-3">
+              <Logo />
             </div>
 
             {heading && subheading && (
