@@ -55,6 +55,11 @@ export const start = async () => {
   return app;
 };
 
+/**
+ * Registers a directory with a static website
+ *
+ * @param {String} clientPath Path to the client
+ */
 export function registerClient(clientPath) {
   if (fs.existsSync(clientPath)) {
     server.app.use(express.static(clientPath));
@@ -67,7 +72,23 @@ export function registerClient(clientPath) {
   }
 }
 
+/**
+ * Registers a directory with static assets
+ *
+ * @param {String} route Rotue to server path at
+ * @param {String} staticPath Path to static assets
+ */
+export function registerStatic(route, staticPath) {
+  if (fs.existsSync(staticPath)) {
+    route = route.startsWith('/') ? route : '/' + route;
+    server.app.use(route, express.static(staticPath));
+  } else {
+    throw new Error(`Could not find directory at ${staticPath}`);
+  }
+}
+
 server.start = start;
 server.registerClient = registerClient;
+server.registerStatic = registerStatic;
 
 export default server;

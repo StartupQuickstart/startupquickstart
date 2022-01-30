@@ -101,7 +101,7 @@ export class Auth {
    *
    * @param {Object} data Data used for signup
    */
-  static async signup(user) {
+  async signup(user) {
     const { data } = await this.api.post('signup', user);
     return data?.token;
   }
