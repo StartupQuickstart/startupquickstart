@@ -28,9 +28,7 @@ export function Signup() {
     try {
       await signup(values);
     } catch (err) {
-      if (err?.response?.data?.message) {
-        setError(err.response.data.message || 'Unknown Error');
-      }
+      setError(err?.response?.data?.message || 'Unknown Error');
       throw err;
     } finally {
       props.setSubmitting(false);

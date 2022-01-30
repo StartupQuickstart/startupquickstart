@@ -28,12 +28,10 @@ export function Login(props) {
     try {
       await authenticate(email, password);
     } catch (err) {
-      if (err?.response?.data?.message) {
-        setError(err.response.data.message || 'Unknown Error');
-      }
-
       if (err?.response?.status === 401) {
         setError('Invalid email and password combination.');
+      } else {
+        setError(err?.response?.data?.message || 'Unknown Error');
       }
 
       throw err;
