@@ -10,7 +10,7 @@ export async function load(config) {
   const [stripe, appSecret, hubspotApiKey, google, database] =
     await Promise.all([
       AwsParamStore.getByPath('/shared/stripe'),
-      AwsParamStore.get(`/shared/${process.env.APP}/secret`),
+      AwsParamStore.get(`/shared/app/secret`),
       AwsParamStore.get('/shared/hubspot/hapi-key'),
       AwsParamStore.getByPath('/shared/google/'),
       AwsSecretManager.get('db/creds', 'svc_app')
