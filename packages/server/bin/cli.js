@@ -81,9 +81,9 @@ cli
   .description('Runs the database migration')
   .action(async () => {
     initSequelize();
-    shell.exec(
-      `cd ./node_modules/@startupquickstart/server && npx sequelize-cli db:migrate --env default`
-    );
+    // shell.exec(
+    //   `cd ./node_modules/@startupquickstart/server && npx sequelize-cli db:migrate --env default`
+    // );
   });
 
 cli
