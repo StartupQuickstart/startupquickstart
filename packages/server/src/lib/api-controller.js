@@ -40,8 +40,7 @@ export class ApiController {
   async count(req, res, next) {
     try {
       const totalRecords = await this.model.count({
-        where: req.query.filter ? req.query.filter : {},
-        order: req.query.order ? req.query.order : []
+        where: req.query.filter || {}
       });
 
       return res.status(200).send({ totalRecords });

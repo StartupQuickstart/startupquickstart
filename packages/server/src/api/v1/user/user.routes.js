@@ -1,20 +1,23 @@
 import express from 'express';
 import Controller from './user.controller';
 import Auth from '@/lib/auth';
-import ApiRouter from '@/lib/api-route';
+import ApiRoute from '@/lib/api-route';
+import ApiDoc from '@/lib/api-doc';
 
-let router = express.Router();
+export let router = express.Router();
 
 router.get('/users/me', Auth.protected(['jwt']), Controller.readMe);
 router.put('/users/me', Auth.protected(['jwt']), Controller.updateMe);
 
-router = new ApiRouter(
-  'users',
-  Controller,
-  'User',
-  ['index', 'update', 'create', 'describe'],
-  [],
-  router
-);
+const config = {
+  path: 'users',
+  controller: Controller,
+  modelName: 'User',
+  routes: ['index', 'update', 'create', 'describe'],
+  router: router
+};
+
+router = ApiRoute(config);
+export const docs = ApiDoc(config);
 
 export default router;

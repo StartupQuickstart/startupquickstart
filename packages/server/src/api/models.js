@@ -4,9 +4,10 @@ import Sequelize from 'sequelize';
 import sequelizeConfig from '@/sequelize';
 import Files from '@/lib/files';
 
-const models = {};
+export const models = {};
+const defaultExport = {};
 
-models.init = async () => {
+export const init = async () => {
   const config = (await sequelizeConfig()).default;
 
   let sequelize;
@@ -35,8 +36,11 @@ models.init = async () => {
     }
   });
 
-  models.sequelize = sequelize;
-  models.Sequelize = Sequelize;
+  defaultExport.sequelize = sequelize;
+  defaultExport.Sequelize = Sequelize;
 };
 
-module.exports = models;
+defaultExport.models = models;
+defaultExport.init = init;
+
+export default defaultExport;

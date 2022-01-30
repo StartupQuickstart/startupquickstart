@@ -1,13 +1,16 @@
 import Controller from './media.controller';
 import Auth from '@/lib/auth';
-import ApiRouter from '@/lib/api-route';
+import ApiRoute from '@/lib/api-route';
+import ApiDoc from '@/lib/api-doc';
 
-const router = new ApiRouter('media', Controller, 'Media', [
-  'index',
-  'get',
-  'create'
-]);
+const config = {
+  path: 'media',
+  controller: Controller,
+  modelName: 'Media',
+  routes: ['index', 'create', 'read', 'delete']
+};
 
-router.delete('/media', Auth.protected(), Controller.delete);
+export const router = ApiRoute(config);
+export const docs = ApiDoc(config);
 
 export default router;
