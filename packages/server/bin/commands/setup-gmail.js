@@ -5,13 +5,15 @@ const dotenv = require('dotenv');
 
 module.exports = (cli) => {
   return async (opts) => {
+    const options = Object.assign(cli.opts(), opts);
+
     const SCOPES = ['https://mail.google.com/'];
 
     async function getOAuth2Client(env, collect = true) {
       let config = await AwsParamStore.getByPath('/shared/google/', env);
 
       if (
-        (!config['client-id'] || !config['client-secret'] || opts.force) &&
+        (!config['client-id'] || !config['client-secret'] || options.force) &&
         collect
       ) {
         prompt.message = 'ENTER';
@@ -81,8 +83,7 @@ module.exports = (cli) => {
     }
 
     try {
-      const opts = cli.opts();
-      const url = await getAuthorizationUrl(opts.env);
+      const url = await getAuthorizationUrl(options.env);
 
       console.log('----------------Gmail Setup----------------');
       console.log('Authorize this app by visiting this url:');
@@ -99,7 +100,7 @@ module.exports = (cli) => {
         }
       ]);
 
-      const tokens = await getToken(code, opts.env);
+      const tokens = await getToken(code, options.env);
 
       await Promise.all([
         AwsParamStore.upsert(
@@ -107,7 +108,7 @@ module.exports = (cli) => {
           tokens.refresh_token,
           {
             encrypted: true,
-            env: opts.env,
+            env: options.env,
             replaceExisting: true
           }
         ),
@@ -116,7 +117,7 @@ module.exports = (cli) => {
           tokens.access_token,
           {
             encrypted: true,
-            env: opts.env,
+            env: options.env,
             replaceExisting: true
           }
         )
@@ -133,7 +134,7 @@ module.exports = (cli) => {
 
       await AwsParamStore.upsert('/shared/google/user', email, {
         encrypted: false,
-        env: opts.env,
+        env: options.env,
         replaceExisting: true
       });
     } catch (err) {
