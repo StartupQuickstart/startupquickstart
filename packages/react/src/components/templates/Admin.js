@@ -33,6 +33,10 @@ export function Admin({
     }
   }, [configPath]);
 
+  useEffect(() => {
+    document.title = _config?.name;
+  }, [_config?.name]);
+
   if (!routes) {
     routes = [{ path: '/', Component: views.Home, Authenticator: Private }];
   }
