@@ -10,7 +10,7 @@ export class AwsParamStore {
    * @param {String} path Path to get param at
    */
   static async get(path, env = process.env.ENV, app = process.env.APP) {
-    const base = `/${app}/${env}`;
+    const base = `/${app}/${env}${path.startsWith('/') ? '' : '/'}`;
     const fullPath = `${base}${path}`;
 
     if (cache.has(fullPath)) {

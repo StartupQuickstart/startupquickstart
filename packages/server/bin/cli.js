@@ -8,6 +8,10 @@ const glob = require('glob');
 const fs = require('fs');
 const dotenv = require('dotenv');
 
+cli
+  .version(pkg.version)
+  .option('-e, --env [env]', 'Environment to use', 'prod');
+
 dotenv.config();
 
 function initSequelize() {
@@ -98,6 +102,23 @@ cli
     shell.exec(
       `cd ./node_modules/@startupquickstart/server && npx sequelize-cli migration:generate --name ${name}`
     );
+  });
+
+cli
+  .command('setup:secret')
+  .description('Sets the app secret for the environment in aws')
+  .action(async (name) => {
+    const cmd = require('./commands/set-secret');
+    await cmd(cli)();
+  });
+
+cli
+  .command('setup:gmail')
+  .description('Sets up google mail for transactional emails')
+  .option('-f --force', 'Whether or not to force a fresh setup.')
+  .action(async (options) => {
+    const cmd = require('./commands/setup-gmail');
+    await cmd(cli)(options);
   });
 
 try {
