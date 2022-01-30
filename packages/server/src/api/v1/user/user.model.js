@@ -15,20 +15,33 @@ module.exports = (sequelize, DataTypes) => {
      */
     async activate(activationCode) {
       const now = new Date();
+      const codeMatches =
+        activationCode && activationCode === this.activation_code;
+      const isExpired = this.activation_code_expiration_date < now;
 
-      if (
-        activationCode &&
-        activationCode === this.activation_code &&
-        this.activation_code_expiration_date > now
-      ) {
+      if (codeMatches && !isExpired) {
         this.is_activated = true;
         this.activation_code = null;
         this.activation_code_expiration_date = null;
         await this.save();
-        return true;
+        return {
+          success: true,
+          message: 'Successfully activated account.',
+          code: 'ACTIVATED'
+        };
+      } else if (activationCode !== this.activation_code) {
+        return {
+          success: false,
+          message: 'activationCode is incorrect.',
+          code: 'INCORRECT_CODE'
+        };
+      } else if (isExpired) {
+        return {
+          success: false,
+          message: 'activationCode is expired.',
+          code: 'EXPIRED_CODE'
+        };
       }
-
-      return false;
     }
 
     /**

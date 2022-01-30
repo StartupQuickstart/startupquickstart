@@ -6,7 +6,6 @@ import { useAuth } from '@/context/providers';
 import SetupProgress from './SetupProgress';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
-import { useConfig } from '@/context';
 
 export default function AuthWrapper({
   children,
@@ -18,16 +17,18 @@ export default function AuthWrapper({
   setupProgress,
   expectAuthenticated
 }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, checkAuth } = useAuth();
   const navigate = useNavigate();
-  const { logo } = useConfig();
 
   useEffect(() => {
+    const isAuthenticated = checkAuth();
+
     if (isAuthenticated && !expectAuthenticated) {
       navigate('/');
     } else if (!isAuthenticated && expectAuthenticated) {
       navigate('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, navigate, expectAuthenticated]);
 
   return (

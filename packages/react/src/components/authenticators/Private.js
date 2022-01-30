@@ -1,21 +1,22 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/providers';
+import { useAuth, useSetup } from '@/context/providers';
 
 export function Private({ children }) {
-  const { isAuthenticated, checkAuth } = useAuth();
+  const { isAuthenticated, checkAuth, user } = useAuth();
+  const { hasSetupItem } = useSetup();
   const navigate = useNavigate();
 
   useEffect(() => {
-    checkAuth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const isAuthenticated = checkAuth();
 
-  useEffect(() => {
-    if (!isAuthenticated && isAuthenticated !== null) {
+    if (isAuthenticated && hasSetupItem('activate') && !user?.is_activated) {
+      navigate('/activate');
+    } else if (!isAuthenticated && isAuthenticated !== null) {
       navigate('/login');
     }
-  }, [navigate, isAuthenticated]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate, isAuthenticated, user?.is_activated]);
 
   return <>{children}</>;
 }

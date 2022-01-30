@@ -101,7 +101,9 @@ export const AuthProvider = ({ children, Auth = AuthDemo }) => {
   }
 
   async function activateAccount(activationCode) {
-    return await Auth.activateAccount(activationCode);
+    await Auth.activateAccount(activationCode);
+    const token = await Auth.refreshToken();
+    setToken(token);
   }
 
   /**

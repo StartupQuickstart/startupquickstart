@@ -1,18 +1,28 @@
-import React, { useState } from 'react';
-import { ArrowRight } from 'react-feather';
+import React, { useEffect, useState } from 'react';
 import Toast from '../../lib/toast';
 // import SupportEmail from '@/components/common/SupportEmail';
-import { useAuth, useConfig } from '@/context/providers';
+import { useAuth, useConfig, useSetup } from '@/context/providers';
 import { Formik } from 'formik';
 import { Form } from 'react-bootstrap';
 import AuthWrapper from '@/components/auth/AuthWrapper';
 import SupportEmail from '@/components/common/SupportEmail';
+import { SubmitButton } from '@/components/buttons';
+import { useNavigate } from 'react-router-dom';
 
 export function Activate() {
-  const { activate, user, sendActivationLink } = useAuth();
+  const { activateAccount, user, sendActivationLink } = useAuth();
+  const { hasSetupItem } = useSetup();
   const { config } = useConfig();
+  const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!hasSetupItem('activate') || user?.is_activated) {
+      navigate('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.is_activated]);
 
   /**
    * Submits the form to activate the account
@@ -22,7 +32,7 @@ export function Activate() {
     setSubmitting(true);
 
     try {
-      activate(code);
+      await activateAccount(code);
     } catch (err) {
       Toast.error(
         'Failed to activate account. Invalid or expired validation code.'
@@ -80,6 +90,7 @@ export function Activate() {
             {error && <div className="alert alert-danger">{error}</div>}
             <div className="input-group mb-3" style={{ width: '240px' }}>
               <input
+                name={'code'}
                 type="text"
                 className="form-control px-3"
                 placeholder="••••"
@@ -89,14 +100,11 @@ export function Activate() {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              <button
-                className="btn btn-lg btn-primary"
-                type="button"
-                onClick={activate}
-                disabled={!(values.code && values.code.length === 4)}
-              >
-                Activate <ArrowRight />
-              </button>
+              <SubmitButton
+                label={'Activate'}
+                isSubmitting={isSubmitting}
+                error={errors}
+              />
             </div>
           </Form>
         )}

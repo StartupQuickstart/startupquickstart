@@ -15,7 +15,9 @@ class AuthController {
    */
   async activate(req, res) {
     try {
-      if (!req.body.activationCode) {
+      const { activationCode } = req.body;
+
+      if (!activationCode) {
         return res.status(400).send({
           success: false,
           message: 'activationCode is required.',
@@ -23,9 +25,16 @@ class AuthController {
         });
       }
 
-      await req.user.activate(req.body.activationCode);
+      const result = await req.user.activate(req.body.activationCode);
 
-      res.status(200).send(http.STATUS_CODES[200]);
+      if (!result.success) {
+        return res.status(400).send(result);
+      }
+
+      const token = await req.user.getToken(['api']);
+      res
+        .status(200)
+        .send({ token, setupProgress: await req.user.getSetupProgress() });
     } catch (err) {
       return res.status(500).send({
         success: false,
