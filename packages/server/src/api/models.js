@@ -25,7 +25,7 @@ models.init = async () => {
 
   const parentPath = __dirname.split('node_modules')[0];
   const parentModelPaths = Files.findByExt(
-    path.resolve(parentPath, 'api'),
+    path.resolve(parentPath, 'src/api'),
     'model.js'
   );
 
