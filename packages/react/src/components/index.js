@@ -10,6 +10,6 @@ export * as inputs from './inputs';
 export * as layouts from './layouts';
 export * as media from './media';
 export * as pricing from './pricing';
-export * as record from './records';
+export * as records from './records';
 export * as templates from './templates';
 export * as user from './user';

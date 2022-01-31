@@ -10,7 +10,7 @@ import { SRLWrapper } from 'simple-react-lightbox';
 import LoadingOverlay from '@/components/common/LoadingOverlay';
 import { Toast } from '@/lib';
 import { useApi } from '@/context/providers';
-import { ViewButton } from './ViewMediaButton';
+import { ViewMediaButton } from './ViewMediaButton';
 
 export function Media({ canDelete, canCreate, params, parent, relatedToId }) {
   const [loading, setLoading] = useState(true);
@@ -113,7 +113,7 @@ export function Media({ canDelete, canCreate, params, parent, relatedToId }) {
               formatter: (createdAt, media) => {
                 return (
                   <div className="text-center d-grid d-sm-block mx-auto">
-                    <ViewButton media={media} />
+                    <ViewMediaButton media={media} />
                     <a
                       target="_blank"
                       rel="noreferrer"

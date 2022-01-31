@@ -39,3 +39,5 @@ export function PasswordRequirements({ errors, value }) {
     </div>
   );
 }
+
+export default PasswordRequirements;

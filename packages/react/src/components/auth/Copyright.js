@@ -1,7 +1,7 @@
 import React from 'react';
 import { useConfig } from '@/context/providers';
 
-export default function Copyright(props) {
+export function Copyright(props) {
   const {
     config: { legalName, website }
   } = useConfig();
@@ -16,3 +16,5 @@ export default function Copyright(props) {
     </div>
   );
 }
+
+export default Copyright;

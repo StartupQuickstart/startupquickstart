@@ -7,7 +7,7 @@ import SetupProgress from './SetupProgress';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 
-export default function AuthWrapper({
+export function AuthWrapper({
   children,
   isSubmitting,
   title,
@@ -15,7 +15,7 @@ export default function AuthWrapper({
   heading,
   subheading,
   setupProgress,
-  expectAuthenticated
+  expectAuthenticated = false
 }) {
   const { isAuthenticated, checkAuth } = useAuth();
   const navigate = useNavigate();
@@ -84,6 +84,4 @@ export default function AuthWrapper({
   );
 }
 
-AuthWrapper.defaultProps = {
-  expectAuthenticated: false
-};
+export default AuthWrapper;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Check } from 'react-feather';
 import { useSetup } from '@/context/providers';
 
-export default function SetupProgress({ active, completed }) {
+export function SetupProgress({ active, completed }) {
   const { setupItems } = useSetup();
 
   const className = (item) => (active === item ? 'active' : '');
@@ -27,3 +27,5 @@ export default function SetupProgress({ active, completed }) {
     </ul>
   );
 }
+
+export default SetupProgress;
