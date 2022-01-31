@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { Form } from 'react-bootstrap';
-import PasswordRequirements from '@/components/layout/PasswordRequirements';
+import PasswordRequirements from '@/components/auth/PasswordRequirements';
 import FormValidation from '@/lib/form-validation';
 import Auth from '@/lib/demo/auth';
 import Toast from '@/lib/toast';

@@ -2,7 +2,7 @@ import React from 'react';
 import Moment from 'react-moment';
 import Records from '@/components/records/Records';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
-import User from '@/lib/user';
+import User from '@/lib/startupquickstart-server/user';
 import { useConfig } from '@/context/providers';
 
 export function Users(props) {
