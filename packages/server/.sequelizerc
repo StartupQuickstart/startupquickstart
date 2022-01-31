@@ -3,9 +3,13 @@ require('@babel/register');
 
 const dir = 'dist';
 
-module.exports = {
-  config: path.resolve(dir, 'sequelize.js'),
-  'models-path': path.resolve(dir, 'api/models'),
-  'seeders-path': path.resolve('seeds'),
-  'migrations-path': path.resolve('migrations')
+const parentDir = __dirname.split('node_modules')[0];
+
+const config = {
+  config: path.resolve(__dirname, 'dist/sequelize.js'),
+  'models-path': path.resolve(__dirname, 'dist/api/models'),
+  'seeders-path': path.resolve(parentDir, 'seeds'),
+  'migrations-path': path.resolve(parentDir, 'migrations')
 };
+
+module.exports = config;
