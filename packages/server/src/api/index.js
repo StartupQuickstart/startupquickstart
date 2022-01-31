@@ -1,4 +1,4 @@
-import { init as initModels } from '@/api/models';
+import { init as initModels, registerModels, findModels } from '@/api/models';
 
 export async function init(app) {
   await initModels();
@@ -7,5 +7,7 @@ export async function init(app) {
 }
 
 export default {
-  init
+  init,
+  registerModels,
+  findModels
 };
