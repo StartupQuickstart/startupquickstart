@@ -1,5 +1,5 @@
 import ApiRoute from './api-route';
-import Toast from './toast';
+import Toast from '@/lib/toast';
 
 class User extends ApiRoute {
   constructor() {
