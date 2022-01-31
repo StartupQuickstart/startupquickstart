@@ -3,20 +3,8 @@ import path from 'path';
 import Sequelize from 'sequelize';
 import sequelizeConfig from '@/sequelize';
 import Files from '@/lib/files';
-import config from '@/config';
 
 const models = {};
-
-export function findModels(dir) {
-  return Files.findByExt(dir, 'model.js');
-}
-
-export const modelPaths = findModels(path.resolve(__dirname, 'v1'));
-
-export function registerModels(dir) {
-  const models = findModels(dir);
-  modelPaths.push(...models);
-}
 
 models.init = async () => {
   const config = (await sequelizeConfig()).default;
@@ -32,6 +20,16 @@ models.init = async () => {
       config
     );
   }
+
+  const modelPaths = Files.findByExt(path.resolve(__dirname), 'model.js');
+
+  const parentPath = __dirname.split('node_modules')[0];
+  const parentModelPaths = Files.findByExt(
+    path.resolve(parentPath, 'api'),
+    'model.js'
+  );
+
+  modelPaths.push(...parentModelPaths);
 
   modelPaths.forEach((file) => {
     const init = require(file);

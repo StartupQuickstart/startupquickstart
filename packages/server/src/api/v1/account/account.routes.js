@@ -1,7 +1,7 @@
 import express from 'express';
 import Controller from './account.controller';
-import Auth from '../../../lib/auth';
-import ApiRouter from '../../../lib/api-route';
+import Auth from '@/lib/auth';
+import ApiRouter from '@/lib/api-route';
 
 let router = express.Router();
 
