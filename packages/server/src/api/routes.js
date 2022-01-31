@@ -15,10 +15,11 @@ import { ValidationError } from 'sequelize';
 import config from '@/config';
 
 export function init(app) {
-  const routePath = path.resolve(__dirname, '../../api/routes.js');
+  const parentPath = __dirname.split('node_modules')[0];
+  const parentRoutePath = path.resolve(parentPath, 'api/routes.js');
 
-  if (fs.existsSync(routePath)) {
-    require(routePath).default(app);
+  if (fs.existsSync(parentRoutePath)) {
+    require(parentRoutePath).default(app);
   }
 
   app.use('/media', MediaFileRoutes);
