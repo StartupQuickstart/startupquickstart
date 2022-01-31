@@ -4,9 +4,9 @@ import Sequelize from 'sequelize';
 import sequelizeConfig from '@/sequelize';
 import Files from '@/lib/files';
 
-const models = {};
+export const models = {};
 
-models.init = async () => {
+export async function init() {
   const config = (await sequelizeConfig()).default;
 
   let sequelize;
@@ -23,7 +23,7 @@ models.init = async () => {
 
   const modelPaths = Files.findByExt(path.resolve(__dirname), 'model.js');
 
-  const parentPath = __dirname.split('node_modules')[0];
+  const parentPath = process.cwd();
   const parentModelPaths = Files.findByExt(
     path.resolve(parentPath, 'src/api'),
     'model.js'
@@ -45,6 +45,6 @@ models.init = async () => {
 
   models.sequelize = sequelize;
   models.Sequelize = Sequelize;
-};
+}
 
-module.exports = models;
+export default models;

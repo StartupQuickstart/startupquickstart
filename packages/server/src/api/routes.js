@@ -15,7 +15,7 @@ import { ValidationError } from 'sequelize';
 import config from '@/config';
 
 export function init(app) {
-  const parentPath = __dirname.split('node_modules')[0];
+  const parentPath = process.cwd();
   const parentRoutePath = path.resolve(parentPath, 'src/api/routes.js');
 
   if (fs.existsSync(parentRoutePath)) {
