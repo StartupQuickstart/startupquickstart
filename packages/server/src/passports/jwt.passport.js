@@ -23,7 +23,7 @@ export async function jwt() {
 
   passport.use(
     new JWTScopeStrategy(options, async (payload, done) => {
-      const models = require('../api/models');
+      const models = require('../api/models').default;
 
       try {
         const user = await models.User.findOne({

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { Formik } from 'formik';
 import Toast from '@/lib/toast';
@@ -132,9 +132,13 @@ export function RecordForm({
         }) => {
           return (
             <Form noValidate onSubmit={handleSubmit} autoComplete="off">
-              {columns.map((column) => {
+              {columns.map((column, index) => {
+                if (!column) {
+                  return <Fragment key={index} />;
+                }
+
                 return (
-                  <div className="form-group" key={column.name}>
+                  <div className="form-group" key={index}>
                     <label className="form-label">
                       {column.label}{' '}
                       {column.required && (
