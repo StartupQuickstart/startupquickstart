@@ -1,3 +1,4 @@
+import React from 'react';
 import { Form } from 'react-bootstrap';
 import { RecordTypeahead } from '../inputs';
 import DateInput from '../inputs/DateInput';
