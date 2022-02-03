@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus } from 'react-feather';
+import { Pencil } from 'react-feather';
 import classNames from 'classnames';
 import { Modal } from 'react-bootstrap';
 import RecordForm from './RecordForm';
@@ -37,7 +37,7 @@ export function UpdateRecordButton({
         className={classNames('btn btn-primary', className)}
         onClick={open}
       >
-        <Plus /> Update {singularLabel}
+        <Pencil /> Update {singularLabel}
       </Link>
     );
   } else {
@@ -47,7 +47,7 @@ export function UpdateRecordButton({
           className={classNames('btn btn-primary', className)}
           onClick={open}
         >
-          <Plus /> Update {singularLabel}
+          <Pencil /> Update {singularLabel}
         </button>
         <Modal show={showModal} size={'lg'} centered onHide={close}>
           <Modal.Header closeButton>

@@ -3,15 +3,19 @@ import { Form } from 'react-bootstrap';
 import { RecordTypeahead } from '../inputs';
 import DateInput from '../inputs/DateInput';
 
-export function RecordInput({ column, ...props }) {
+export function RecordInput({ column, onChange, ...props }) {
   if (column?.type?.related) {
     return (
-      <RecordTypeahead recordType={column?.type?.relatedPath} {...props} />
+      <RecordTypeahead
+        onChange={(record) => onChange(record?.id)}
+        recordType={column?.type?.relatedPath}
+        {...props}
+      />
     );
   } else if (column?.type?.type === 'DATE') {
-    return <DateInput {...props} />;
+    return <DateInput onChange={onChange} {...props} />;
   } else {
-    return <Form.Control {...props} />;
+    return <Form.Control onChange={onChange} {...props} />;
   }
 }
 
