@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useState } from 'react';
 import MissingRecords from '@/components/common/MissingRecords';
 import { Card } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -13,6 +13,7 @@ import { useApi } from '@/context/providers';
 import classNames from 'classnames';
 
 export function Records({
+  innerRef,
   actions,
   recordType,
   pluralLabel,
@@ -87,7 +88,14 @@ export function Records({
     }
   }
 
-  // this.prototype.setData = setData;
+  useImperativeHandle(
+    innerRef,
+    () => ({
+      setData
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   const setDataDebounce = debounce(500, setData);
 

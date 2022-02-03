@@ -37,7 +37,7 @@ export function UpdateRecordButton({
         className={classNames('btn btn-primary', className)}
         onClick={open}
       >
-        <Pencil /> Update {singularLabel}
+        <Edit2 /> Update {singularLabel}
       </Link>
     );
   } else {

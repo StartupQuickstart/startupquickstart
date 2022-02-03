@@ -136,7 +136,8 @@ export function RecordForm({
           handleChange,
           handleBlur,
           handleSubmit,
-          isSubmitting
+          isSubmitting,
+          setFieldValue
         }) => {
           return (
             <Form noValidate onSubmit={handleSubmit} autoComplete="off">
@@ -161,7 +162,17 @@ export function RecordForm({
                       className="form-control form-control-lg"
                       placeholder={column.label}
                       value={values && values[column.name]}
-                      onChange={handleChange}
+                      onChange={(value) => {
+                        if (value?.target) {
+                          handleChange(value);
+                        } else {
+                          setFieldValue(
+                            column.name,
+                            value === undefined ? null : value,
+                            true
+                          );
+                        }
+                      }}
                       onBlur={handleBlur}
                       isInvalid={
                         (submitAttempt || touched[column.name]) &&

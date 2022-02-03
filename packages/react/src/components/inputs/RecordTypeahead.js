@@ -30,7 +30,7 @@ export function RecordTypeahead({
   }, []);
 
   useEffect(() => {
-    setSelected(getRecordById(value));
+    setSelected(getRecordById(value, records));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
@@ -39,9 +39,9 @@ export function RecordTypeahead({
    */
   async function setData() {
     const { records } = await Api.get(recordType).index();
-    const selected = getRecordById(value);
-    setSelected(selected);
     setRecords(records);
+    const selected = getRecordById(value, records);
+    setSelected(selected);
     onLoad && onLoad({ records, selected });
   }
 
@@ -50,7 +50,7 @@ export function RecordTypeahead({
    *
    * @param {String} recordId Id of the record
    */
-  function getRecordById(recordId) {
+  function getRecordById(recordId, records) {
     return _.find(records, (record) => record.id === recordId);
   }
 
@@ -95,7 +95,7 @@ export function RecordTypeahead({
       options={records}
       onBlur={onBlur}
       placeholder={placeholder}
-      value={selected}
+      selected={(selected && [selected]) || []}
       ref={ref}
     />
   );
