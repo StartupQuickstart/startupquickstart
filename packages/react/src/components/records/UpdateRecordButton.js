@@ -10,7 +10,8 @@ export function UpdateRecordButton({
   updateLink,
   className,
   singularLabel = 'Record',
-  recordType
+  recordType,
+  record
 }) {
   const [showModal, setShowModal] = useState();
 
@@ -53,7 +54,12 @@ export function UpdateRecordButton({
             <Modal.Title>Update {singularLabel}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <RecordForm recordType={recordType} mode="Update" onSave={close} />
+            <RecordForm
+              recordType={recordType}
+              mode="Update"
+              onSave={close}
+              record={record}
+            />
           </Modal.Body>
         </Modal>
       </>
