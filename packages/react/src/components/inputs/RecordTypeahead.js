@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import Avatar from '@/components/common/Avatar';
 import { useApi } from '@/context/providers';
@@ -14,7 +14,9 @@ export function RecordTypeahead({
   name,
   id,
   onBlur,
-  placeholder,
+  placeholder = 'Select Record',
+  className,
+  isInvalid,
   ...props
 }) {
   const [records, setRecords] = useState([]);
@@ -22,12 +24,14 @@ export function RecordTypeahead({
   const ref = useRef();
   const { Api } = useApi();
 
-  useContext(() => {
+  useEffect(() => {
     setData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useContext(() => {
+  useEffect(() => {
     setSelected(getRecordById(value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   /**
@@ -69,6 +73,9 @@ export function RecordTypeahead({
   return (
     <Typeahead
       {...props}
+      isInvalid={isInvalid === 'true'}
+      id={id}
+      name={name}
       clearButton
       renderMenuItemChildren={(option, props, index) => {
         const label = props.labelKey(option);
@@ -81,7 +88,7 @@ export function RecordTypeahead({
           </span>
         );
       }}
-      inputProps={{ id, name }}
+      inputProps={{ id, name, className }}
       labelKey={(record) => record.label || record.name || 'Unknown'}
       className="typehead"
       onChange={handleChange}
@@ -93,8 +100,3 @@ export function RecordTypeahead({
     />
   );
 }
-
-RecordTypeahead.defaultProps = {
-  placeholder: 'Select Record',
-  id: null
-};

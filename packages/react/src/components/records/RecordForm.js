@@ -5,13 +5,14 @@ import Toast from '@/lib/toast';
 import FormValidation from '@/lib/form-validation';
 import LoadingOverlay from '../common/LoadingOverlay';
 import { useApi } from '@/context/providers';
+import RecordInput from './RecordInput';
 
 export function RecordForm({
   recordType,
-  mode,
+  mode = 'Create',
   onSave,
-  record,
-  singularLabel,
+  record = {},
+  singularLabel = 'Reacord',
   createForm,
   updateForm
 }) {
@@ -29,10 +30,17 @@ export function RecordForm({
    * Sets the data for the form
    */
   async function setData() {
-    const describe = await await Api.get(recordType).describe();
-    const columns = describe.columns.filter((column) => column[`can${mode}`]);
-    setColumns(columns);
-    setLoading(loading);
+    try {
+      const describe = await await Api.get(recordType).describe();
+      const columns = describe.columns.filter((column) => column[`can${mode}`]);
+      setColumns(columns);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      Toast.error('Unknown Error: Failed to load record metadata.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   /**
@@ -52,10 +60,10 @@ export function RecordForm({
       let record;
 
       if (mode === 'Create') {
-        record = await Api.get('users').create(values);
+        record = await Api.get(recordType).create(values);
         Toast.success(`Successfully created ${label}`);
       } else {
-        record = await Api.get('users').update(id, values);
+        record = await Api.get(recordType).update(id, values);
         Toast.success(`Successfully updated ${label}`);
       }
 
@@ -145,12 +153,14 @@ export function RecordForm({
                         <span className="text-danger">*</span>
                       )}
                     </label>
-                    <Form.Control
+                    <RecordInput
+                      column={column}
+                      test={column}
                       id={column.name}
                       name={column.name}
                       className="form-control form-control-lg"
                       placeholder={column.label}
-                      defaultValue={values[column.name]}
+                      value={values && values[column.name]}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       isInvalid={
@@ -186,11 +196,5 @@ export function RecordForm({
     </>
   );
 }
-
-RecordForm.defaultProps = {
-  mode: 'Create',
-  singularLabel: 'Record',
-  pluralLabel: 'Records'
-};
 
 export default RecordForm;

@@ -1,6 +1,8 @@
+import _, { endsWith } from 'lodash';
 import http from 'http';
 import models from '@/api/models';
 import Sequelize from 'sequelize';
+import { plural } from 'pluralize';
 
 export class ApiController {
   constructor(model) {
@@ -167,19 +169,41 @@ export class ApiController {
       };
 
       function getLabel(name) {
-        return name
+        let label = name
           .split('_')
           .map((part) => part[0].toUpperCase() + part.slice(1))
           .join(' ');
+
+        if (label.endsWith(' Id')) {
+          label = label.slice(0, label.length - 3);
+        }
+
+        if (label.endsWith(' Datetime')) {
+          label = label.slice(0, label.length - 8) + 'Date';
+        }
+
+        return label;
       }
 
       for (const attribute of Object.values(this.model.rawAttributes)) {
         const type = this.typeMap[attribute.type.toString()];
 
+        const association = _.find(
+          Object.values(this.model.associations),
+          (association) => {
+            return association.sourceKey === attribute.fieldName;
+          }
+        );
+
+        if (association) {
+          type.related = association.target.name;
+          type.relatedPath = plural(association.target.name).toLowerCase();
+        }
+
         meta.columns.push({
           name: attribute.fieldName,
           label: attribute.label || getLabel(attribute.fieldName),
-          type,
+          type: _.cloneDeep(type),
           required: attribute.allowNull === false,
           canCreate: attribute.canCreate === true,
           canUpdate: attribute.canUpdate === true
