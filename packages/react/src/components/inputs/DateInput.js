@@ -7,7 +7,7 @@ export function DateInput({ onChange, value, className, ...props }) {
   return (
     <DatePicker
       className={classNames('form-control', className)}
-      selected={value || new Date()}
+      selected={value ? new Date(value) : new Date()}
       onChange={onChange}
       onSelect={onChange}
       {...props}

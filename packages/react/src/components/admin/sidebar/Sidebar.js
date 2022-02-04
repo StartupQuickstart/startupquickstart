@@ -55,7 +55,7 @@ export default function Sidebar() {
                     <li
                       key={itemKey}
                       className={`sidebar-item ${item.className} ${
-                        window.location.pathname.indexOf(item.to) === 0
+                        window.location.pathname.endsWith(item.to)
                           ? 'active'
                           : ''
                       }`}

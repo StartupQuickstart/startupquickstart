@@ -194,7 +194,7 @@ export function RecordForm({
                   disabled={
                     isSubmitting ||
                     Object.keys(errors).length ||
-                    !Object.keys(touched).length
+                    (!Object.keys(touched).length && mode === 'Create')
                   }
                 >
                   {config.saveBtnLabel}

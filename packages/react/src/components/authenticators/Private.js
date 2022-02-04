@@ -10,7 +10,12 @@ export function Private({ children }) {
   useEffect(() => {
     const isAuthenticated = checkAuth();
 
-    if (isAuthenticated && hasSetupItem('activate') && !user?.is_activated) {
+    if (
+      isAuthenticated &&
+      hasSetupItem('activate') &&
+      user &&
+      !user.is_activated
+    ) {
       navigate('/activate');
     } else if (!isAuthenticated && isAuthenticated !== null) {
       navigate('/login');

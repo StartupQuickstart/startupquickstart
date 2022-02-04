@@ -66,6 +66,13 @@
 .text-link {
   cursor: pointer;
   color: $primary;
+
+  i,
+  svg {
+    width: 15px;
+    height: 15px;
+    margin-bottom: 2px;
+  }
 }
 
 .btn-text-seperator {

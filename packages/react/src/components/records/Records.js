@@ -3,14 +3,13 @@ import MissingRecords from '@/components/common/MissingRecords';
 import { Card } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 
-import LoadingOverlay from '@/components/common/LoadingOverlay';
 import CreateRecordButton from './CreateRecordButton';
 import Search from '@/components/inputs/SearchInput';
-import { debounce } from 'throttle-debounce';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import SizePerPage from './SizePerPage';
 import { useApi } from '@/context/providers';
 import classNames from 'classnames';
+import { LoadingSmall } from '../common';
 
 export function Records({
   innerRef,
@@ -42,17 +41,7 @@ export function Records({
   useEffect(() => {
     setData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    setDataDebounce();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search]);
-
-  useEffect(() => {
-    setData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pagination, dataParams]);
+  }, [pagination, dataParams, search]);
 
   useEffect(() => {
     onPagination && onPagination(pagination);
@@ -97,13 +86,12 @@ export function Records({
     []
   );
 
-  const setDataDebounce = debounce(500, setData);
-
   return (
     <>
       <div className="clearfix mb-2">
         {showLabel && <h3 className="float-start mb-0 me-3">{pluralLabel}</h3>}
         <Search onChange={setSearch} />
+        {loading && <LoadingSmall />}
         {actions && <div className="float-end">{actions}</div>}
         {canCreate && (
           <CreateRecordButton
@@ -116,7 +104,6 @@ export function Records({
         )}
       </div>
       <Card>
-        {loading && <LoadingOverlay />}
         <BootstrapTable
           remote
           keyField={keyField}

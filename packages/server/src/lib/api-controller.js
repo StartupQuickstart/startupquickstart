@@ -83,14 +83,16 @@ export class ApiController {
 
     const where = [req.query.filter ? req.query.filter : {}];
 
-    if (req.query.s) {
+    const search = req.query.s || req.query.search;
+
+    if (search) {
       const searchable = Object.values(this.model.rawAttributes)
         .filter((attribute) => attribute.searchable)
         .map((attribute) => `"${this.model.name}"."${attribute.fieldName}"`);
 
       if (searchable.length) {
         const escaped = this.model.sequelize.escape(
-          `%${req.query.s.split(' ').join('%')}%`
+          `%${search.split(' ').join('%')}%`
         );
         where.push(
           Sequelize.literal(`CONCAT(${searchable.join(',')}) ilike ${escaped}`)

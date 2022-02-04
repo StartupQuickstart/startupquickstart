@@ -38,7 +38,10 @@ export function Admin({
   }, [_config?.name]);
 
   if (!routes) {
-    routes = [{ path: '/', Component: views.Home, Authenticator: Private }];
+    routes = [
+      { path: '/', Component: views.Home, Authenticator: Private },
+      { path: '/page', Component: views.Page, Authenticator: Private }
+    ];
   }
 
   routes.push(...coreRoutes);
