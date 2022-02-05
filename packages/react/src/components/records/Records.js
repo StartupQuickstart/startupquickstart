@@ -28,6 +28,7 @@ export function Records({
   orderParamKey,
   onRecords,
   onPagination,
+  defaultRecord,
   classes,
   showLabel
 }) {
@@ -100,6 +101,7 @@ export function Records({
             singularLabel={singularLabel}
             recordType={recordType}
             createLink={createLink}
+            record={defaultRecord}
           />
         )}
       </div>
