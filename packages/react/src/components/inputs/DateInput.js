@@ -26,9 +26,7 @@ export function DateInput({
       className={classNames('form-control', className)}
       value={value}
       data-minute-increment={1}
-      onChange={([date]) => {
-        this.setState({ date });
-      }}
+      onChange={onChange}
       {...props}
     />
   );

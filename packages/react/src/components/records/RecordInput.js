@@ -16,9 +16,15 @@ export function RecordInput({ column, onChange, ...props }) {
       />
     );
   } else if (type === 'DATE') {
-    return <DateInput onChange={onChange} {...props} />;
+    return <DateInput onChange={([date]) => onChange(date)} {...props} />;
   } else if (type === 'DATETIME') {
-    return <DateInput onChange={onChange} showTime={true} {...props} />;
+    return (
+      <DateInput
+        onChange={([date]) => onChange(date)}
+        showTime={true}
+        {...props}
+      />
+    );
   } else {
     return <Form.Control onChange={onChange} {...props} />;
   }
