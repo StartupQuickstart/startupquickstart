@@ -15,7 +15,7 @@ export function DateInput({
     dateFormat = 'm/d/Y';
 
     if (showTime) {
-      dateFormat = `${dateFormat} h:mK`;
+      dateFormat = `${dateFormat} h:iK`;
     }
   }
 
@@ -25,6 +25,7 @@ export function DateInput({
       data-date-format={dateFormat}
       className={classNames('form-control', className)}
       value={value}
+      data-minute-increment={1}
       onChange={([date]) => {
         this.setState({ date });
       }}
