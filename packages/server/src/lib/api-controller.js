@@ -28,7 +28,7 @@ export class ApiController {
       UUID: { type: 'UUID' },
       'VARCHAR(255)': { type: 'TEXT', limit: 255 },
       TEXT: { type: 'TEXT' },
-      'TIMESTAMP WITH TIME ZONE': { type: 'DATE' },
+      'TIMESTAMP WITH TIME ZONE': { type: 'DATETIME' },
       BOOLEAN: { type: 'BOOLEAN' }
     };
   }
@@ -188,7 +188,14 @@ export class ApiController {
       }
 
       for (const attribute of Object.values(this.model.rawAttributes)) {
-        const type = this.typeMap[attribute.type.toString()];
+        let type = 'STRING';
+
+        const rawType = attribute.type.toString();
+        if (this.typeMap[rawType]) {
+          type = this.typeMap[rawType];
+        } else {
+          console.log(`Type ${rawType} needs to be mapped.`);
+        }
 
         const association = _.find(
           Object.values(this.model.associations),

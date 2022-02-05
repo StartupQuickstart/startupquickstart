@@ -4,16 +4,21 @@ import { RecordTypeahead } from '../inputs';
 import DateInput from '../inputs/DateInput';
 
 export function RecordInput({ column, onChange, ...props }) {
-  if (column?.type?.related) {
+  const columnType = column?.type;
+  const type = columnType?.type;
+
+  if (columnType?.related) {
     return (
       <RecordTypeahead
         onChange={(record) => onChange(record?.id)}
-        recordType={column?.type?.relatedPath}
+        recordType={columnType?.relatedPath}
         {...props}
       />
     );
-  } else if (column?.type?.type === 'DATE') {
+  } else if (type === 'DATE') {
     return <DateInput onChange={onChange} {...props} />;
+  } else if (type === 'DATETIME') {
+    return <DateInput onChange={onChange} showTime={true} {...props} />;
   } else {
     return <Form.Control onChange={onChange} {...props} />;
   }

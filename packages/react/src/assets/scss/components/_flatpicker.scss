@@ -1,0 +1,15 @@
+.flatpickr-day {
+  &.selected {
+    background: $primary !important;
+    border-color: $primary !important;
+  }
+
+  &.today {
+    border-color: $primary !important;
+  }
+}
+
+.flatpickr-input.form-control[readonly] {
+  background-color: #ffffff !important;
+  opacity: 1;
+}

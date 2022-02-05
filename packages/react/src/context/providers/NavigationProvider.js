@@ -10,7 +10,7 @@ export const NavigationProvider = ({ children, ...props }) => {
         name: '',
         items: [
           { name: 'Dashboard', to: '/', icon: 'BarChart2' },
-          { name: 'Page', to: '/page', icon: 'List' }
+          { name: 'Inputs', to: '/inputs', icon: 'List' }
           // {
           //   name: 'Settings',
           //   to: '/settings',

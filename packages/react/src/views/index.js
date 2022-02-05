@@ -1,4 +1,4 @@
 export { Home } from './Home';
-export { Page } from './Page';
+export { Inputs } from './Inputs';
 export * as auth from './auth';
 export * as common from './common';
