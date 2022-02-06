@@ -40,7 +40,8 @@ export function Admin({
   if (!routes) {
     routes = [
       { path: '/', Component: views.Home, Authenticator: Private },
-      { path: '/inputs', Component: views.Inputs, Authenticator: Private }
+      { path: '/inputs', Component: views.Inputs, Authenticator: Private },
+      { path: '/records', Component: views.Records, Authenticator: Private }
     ];
   }
 

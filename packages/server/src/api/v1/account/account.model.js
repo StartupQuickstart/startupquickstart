@@ -53,13 +53,22 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4
       },
       name: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false,
+        canCreate: true,
+        canUpdate: true
       },
       image: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        allowNull: true,
+        canCreate: true,
+        canUpdate: true
       },
       website: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: true,
+        canCreate: true,
+        canUpdate: true
       },
       is_setup: {
         type: DataTypes.BOOLEAN,

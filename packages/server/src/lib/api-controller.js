@@ -1,4 +1,4 @@
-import _, { endsWith } from 'lodash';
+import _ from 'lodash';
 import http from 'http';
 import models from '@/api/models';
 import Sequelize from 'sequelize';
@@ -12,9 +12,11 @@ export class ApiController {
     this.describe = this.describe.bind(this);
     this.index = this.index.bind(this);
     this.create = this.create.bind(this);
+    this._create = this._create.bind(this);
     this.read = this.read.bind(this);
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
+    this.addRelated = this.addRelated.bind(this);
     this.related = this.related.bind(this);
     this.getMissingFields = this.getMissingFields.bind(this);
     this.systemAttributes = [
@@ -42,8 +44,8 @@ export class ApiController {
   async count(req, res, next) {
     try {
       const totalRecords = await this.model.count({
-        where: req.query.filter ? req.query.filter : {},
-        order: req.query.order ? req.query.order : []
+        where: req.query.filter || {},
+        order: req.query.order || []
       });
 
       return res.status(200).send({ totalRecords });
@@ -81,7 +83,7 @@ export class ApiController {
       options
     );
 
-    const where = [req.query.filter ? req.query.filter : {}];
+    const where = [req.query.filter || {}];
 
     const search = req.query.s || req.query.search;
 
@@ -105,7 +107,7 @@ export class ApiController {
         offset: req.query.offset || 0,
         limit: req.query.limit || 10,
         where,
-        order: req.query.order ? req.query.order : [['created_at', 'desc']],
+        order: req.query.order || [['created_at', 'desc']],
         include: options.include,
         attributes: options.attributes
       });
@@ -124,8 +126,9 @@ export class ApiController {
    * @param {HttpRequest} req Http request to handle
    * @param {HttpResponst} res Http response to send
    */
-  async create(req, res, next) {
-    const transaction = await this.model.sequelize.transaction();
+  async _create(req, res, outsideTransaction) {
+    const transaction =
+      outsideTransaction || (await this.model.sequelize.transaction());
 
     try {
       const data = req.body;
@@ -141,19 +144,37 @@ export class ApiController {
 
       for (const as in this.model.associations) {
         const association = this.model.associations[as];
-        const idKey = association.as + '_ids';
-        const func = 'add' + as[0].toUpperCase() + as.slice(1);
 
-        if (req.body[idKey]) {
-          await record[func](req.body[idKey], { transaction });
+        const singleIdKey = association.as + '_ids';
+        const manyIdsKey = association.as + '_ids';
+        const value = req.body[singleIdKey || manyIdsKey];
+
+        const func = 'set' + _.capitalize(as);
+
+        if (value) {
+          await record[func](value, { transaction });
         }
       }
 
-      await transaction.commit();
+      !outsideTransaction && (await transaction.commit());
+      return record;
+    } catch (err) {
+      !outsideTransaction && (await transaction.rollback());
+      throw err;
+    }
+  }
 
+  /**
+   * Creates a record and returns the response
+   *
+   * @param {HttpRequest} req Http request to handle
+   * @param {HttpResponst} res Http response to send
+   */
+  async create(req, res, next) {
+    try {
+      const record = await this._create(req, res, next);
       return res.status(200).send(record);
     } catch (err) {
-      await transaction.rollback();
       return next(err);
     }
   }
@@ -275,6 +296,51 @@ export class ApiController {
   }
 
   /**
+   * Creates a related association
+   *
+   * @param {HttpRequest} req Http request to handle
+   * @param {HttpResponst} res Http response to send
+   */
+  async addRelated(req, res, next) {
+    const transaction = await this.model.sequelize.transaction();
+
+    try {
+      const name = req.params.related?.replace(/-/g, '_');
+      const association = this.model.associations[name];
+
+      if (!association) {
+        return res.status(404).send(http.STATUS_CODES[404]);
+      }
+
+      const query = Object.assign(req.query.filter, { id: req.params.id });
+      const record = await this.model.findOne({ where: query });
+
+      if (!record) {
+        return res.status(404).send(http.STATUS_CODES[404]);
+      }
+
+      let id = req.body.id;
+
+      const transaction = await this.model.sequelize.transaction();
+
+      if (!id) {
+        const controller = new ApiController(association.target);
+        const related = await controller._create(req, res, transaction);
+        id = related.id;
+      }
+
+      const funcName = 'add' + _.capitalize(name);
+      await record[funcName](id, { transaction });
+
+      await transaction.commit();
+      return res.status(200).send(record);
+    } catch (err) {
+      transaction.rollback();
+      return next(err);
+    }
+  }
+
+  /**
    * Gets the related association
    *
    * @param {HttpRequest} req Http request to handle
@@ -282,7 +348,7 @@ export class ApiController {
    */
   async related(req, res, next) {
     try {
-      const name = req.params.related;
+      const name = req.params.related?.replace(/-/g, '_');
       const association = this.model.associations[name];
 
       if (!association) {
@@ -323,9 +389,11 @@ export class ApiController {
   async update(req, res, next) {
     const transaction = await this.model.sequelize.transaction();
 
+    const query = Object.assign(req.query.filter, { id: req.params.id });
+
     try {
       const record = await this.model.findOne({
-        where: { id: req.params.id },
+        where: query,
         nest: true
       });
 
@@ -347,11 +415,15 @@ export class ApiController {
 
       for (const as in this.model.associations) {
         const association = this.model.associations[as];
-        const idKey = association.as + '_ids';
-        const func = 'set' + as[0].toUpperCase() + as.slice(1);
 
-        if (req.body[idKey]) {
-          await record[func](req.body[idKey], { transaction });
+        const singleIdKey = association.as + '_ids';
+        const manyIdsKey = association.as + '_ids';
+        const value = req.body[singleIdKey || manyIdsKey];
+
+        const func = 'set' + _.capitalize(as);
+
+        if (value) {
+          await record[func](value, { transaction });
         }
       }
 

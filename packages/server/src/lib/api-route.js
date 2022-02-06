@@ -10,6 +10,7 @@ export const defaultRoutes = [
   'delete',
   'count',
   'related',
+  'addRelated',
   'describe'
 ];
 
@@ -61,6 +62,14 @@ export function ApiRoute(
 
   if (routes.includes('related')) {
     router.get(`/${path}/:id/related/:related`, middleware, controller.related);
+  }
+
+  if (routes.includes('addRelated')) {
+    router.post(
+      `/${path}/:id/related/:related`,
+      middleware,
+      controller.addRelated
+    );
   }
 
   return router;

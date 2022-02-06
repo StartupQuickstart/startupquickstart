@@ -15,22 +15,25 @@ export function Records({
   innerRef,
   actions,
   recordType,
-  pluralLabel,
-  singularLabel,
-  canCreate,
+  parent,
+  pluralLabel = 'Records',
+  singularLabel = 'Record',
+  canCreate = true,
+  canDelete = true,
+  canAdd = true,
+  showLabel = true,
   createLink,
   columns,
-  dataParams,
-  keyField,
-  searchParamKey,
-  limitParamKey,
-  offsetParamKey,
-  orderParamKey,
+  dataParams = {},
+  keyField = 'id',
+  searchParamKey = 's',
+  limitParamKey = 'limit',
+  offsetParamKey = 'offset',
+  orderParamKey = 'order',
   onRecords,
   onPagination,
   defaultRecord,
-  classes,
-  showLabel
+  classes
 }) {
   const [loading, setLoading] = useState(true);
   const [records, setRecords] = useState([]);
@@ -42,7 +45,7 @@ export function Records({
   useEffect(() => {
     setData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pagination, dataParams, search]);
+  }, [pagination, JSON.stringify(dataParams), search]);
 
   useEffect(() => {
     onPagination && onPagination(pagination);
@@ -66,10 +69,20 @@ export function Records({
         params[searchParamKey] = search;
       }
 
-      const { records, totalRecords } = await Api.get(recordType).index(
-        params,
-        false
-      );
+      let result;
+
+      if (parent) {
+        result = await Api.get(parent.type).related(
+          parent.id,
+          recordType,
+          params,
+          false
+        );
+      } else {
+        result = await Api.get(recordType).index(params, false);
+      }
+
+      const { records, totalRecords } = result;
       setRecords(records);
       setTotalRecords(totalRecords);
       onRecords && onRecords({ records, totalRecords });
@@ -102,6 +115,7 @@ export function Records({
             recordType={recordType}
             createLink={createLink}
             record={defaultRecord}
+            parent={parent}
           />
         )}
       </div>
@@ -149,19 +163,5 @@ export function Records({
     </>
   );
 }
-
-Records.defaultProps = {
-  singularLabel: 'Record',
-  pluralLabel: 'Records',
-  canCreate: true,
-  canDelete: true,
-  showLabel: true,
-  dataParams: {},
-  keyField: 'id',
-  searchParamKey: 's',
-  limitParamKey: 'limit',
-  offsetParamKey: 'offset',
-  orderParamKey: 'order'
-};
 
 export default Records;

@@ -6,15 +6,18 @@ import FormValidation from '@/lib/form-validation';
 import LoadingOverlay from '../common/LoadingOverlay';
 import { useApi } from '@/context/providers';
 import RecordInput from './RecordInput';
+import { RecordTypeahead } from '../inputs';
 
 export function RecordForm({
   recordType,
   mode = 'Create',
+  parent,
   onSave,
   record = {},
-  singularLabel = 'Reacord',
+  singularLabel = 'Record',
   createForm,
-  updateForm
+  updateForm,
+  ...props
 }) {
   const [columns, setColumns] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,6 +35,7 @@ export function RecordForm({
   async function setData() {
     try {
       const describe = await await Api.get(recordType).describe();
+
       const columns = describe.columns.filter((column) => column[`can${mode}`]);
       setColumns(columns);
       setLoading(false);
@@ -60,8 +64,23 @@ export function RecordForm({
       let record;
 
       if (mode === 'Create') {
-        record = await Api.get(recordType).create(values);
-        Toast.success(`Successfully created ${label}`);
+        values.parent = { ...parent };
+
+        if (parent) {
+          record = await Api.get(parent.type).addRelated(
+            parent.id,
+            recordType,
+            values
+          );
+        } else {
+          record = await Api.get(recordType).create(values);
+        }
+
+        if (values.id) {
+          Toast.success(`Successfully associated ${label}`);
+        } else {
+          Toast.success(`Successfully created ${label}`);
+        }
       } else {
         record = await Api.get(recordType).update(id, values);
         Toast.success(`Successfully updated ${label}`);
@@ -70,10 +89,16 @@ export function RecordForm({
       onSave && onSave(record);
     } catch (err) {
       if (err?.response?.data?.errors) {
-        props.setErrors(err.response.data.errors);
+        props?.setErrors(err.response.data.errors);
       }
 
-      props.setSubmitting(false);
+      if (values.id) {
+        Toast.error(`Failed associate ${label}`);
+      } else {
+        Toast.error(`Failed to create ${label}`);
+      }
+
+      props?.setSubmitting(false);
       throw err;
     } finally {
       setLoading(false);
@@ -128,6 +153,25 @@ export function RecordForm({
         {config.subheading && <p>{config.subheading}</p>}
       </div>
 
+      {parent && (
+        <>
+          <div className="form-group">
+            <h4> Add an existing {singularLabel.toLowerCase()}</h4>
+            <RecordTypeahead
+              id={recordType}
+              name={recordType}
+              onChange={save}
+              className="form-control form-control-lg"
+              recordType={recordType}
+              placeholder={`Select ${singularLabel}`}
+              {...props}
+            />
+          </div>
+          <hr />
+        </>
+      )}
+
+      <h4>Create a new {singularLabel.toLowerCase()}</h4>
       <Formik initialValues={record} onSubmit={save} validate={validate}>
         {({
           values,

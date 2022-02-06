@@ -11,6 +11,7 @@ export function RecordButton({
   className,
   singularLabel = 'Record',
   recordType,
+  parent,
   record,
   label,
   asText = false,
@@ -88,12 +89,11 @@ export function RecordButton({
         {asText && <TextTo />}
         {!asText && <ButtonTo />}
         <Modal show={showModal} size={'lg'} centered onHide={close}>
-          <Modal.Header closeButton>
-            <Modal.Title>{title}</Modal.Title>
-          </Modal.Header>
+          <Modal.Header closeButton />
           <Modal.Body>
             <RecordForm
               recordType={recordType}
+              parent={parent}
               mode={mode}
               onSave={close}
               record={record}

@@ -47,6 +47,19 @@ export class ApiRoute {
   };
 
   /**
+   * Adds related records
+   *
+   * @param {String} id Id of the parent record
+   * @param {String} relatedType Type of related object
+   * @param {Object} record Record to add. Should only contain an id if associating exisitng record
+   *
+   */
+  addRelated = async (id, relatedType, record) => {
+    const res = await this.v1.post(`${id}/related/${relatedType}`, record);
+    return res.data;
+  };
+
+  /**
    * Gets realted records
    */
   related = async (id, related, params = {}, cache = true) => {
