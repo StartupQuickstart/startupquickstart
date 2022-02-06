@@ -51,11 +51,26 @@ export class ApiRoute {
    *
    * @param {String} id Id of the parent record
    * @param {String} relatedType Type of related object
-   * @param {Object} record Record to add. Should only contain an id if associating exisitng record
+   * @param {Object} related Record to add. Should only contain an id if associating exisitng record
    *
    */
-  addRelated = async (id, relatedType, record) => {
-    const res = await this.v1.post(`${id}/related/${relatedType}`, record);
+  addRelated = async (id, relatedType, related) => {
+    const res = await this.v1.post(`${id}/related/${relatedType}`, related);
+    return res.data;
+  };
+
+  /**
+   * Removes related records
+   *
+   * @param {String} id Id of the parent record
+   * @param {String} relatedType Type of related object
+   * @param {Object} recordId Record id to remove.
+   *
+   */
+  removeRelated = async (id, relatedType, relatedId) => {
+    const res = await this.v1.delete(
+      `${id}/related/${relatedType}/${relatedId}`
+    );
     return res.data;
   };
 

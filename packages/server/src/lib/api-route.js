@@ -11,6 +11,7 @@ export const defaultRoutes = [
   'count',
   'related',
   'addRelated',
+  'removeRelated',
   'describe'
 ];
 
@@ -69,6 +70,14 @@ export function ApiRoute(
       `/${path}/:id/related/:related`,
       middleware,
       controller.addRelated
+    );
+  }
+
+  if (routes.includes('removeRelated')) {
+    router.delete(
+      `/${path}/:id/related/:related/:relatedId`,
+      middleware,
+      controller.removeRelated
     );
   }
 

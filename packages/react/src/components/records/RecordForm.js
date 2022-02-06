@@ -77,7 +77,7 @@ export function RecordForm({
         }
 
         if (values.id) {
-          Toast.success(`Successfully associated ${label}`);
+          Toast.success(`Successfully added ${label}`);
         } else {
           Toast.success(`Successfully created ${label}`);
         }
@@ -93,7 +93,7 @@ export function RecordForm({
       }
 
       if (values.id) {
-        Toast.error(`Failed associate ${label}`);
+        Toast.error(`Failed add ${label}`);
       } else {
         Toast.error(`Failed to create ${label}`);
       }
@@ -156,7 +156,6 @@ export function RecordForm({
       {parent && (
         <>
           <div className="form-group">
-            <h4> Add an existing {singularLabel.toLowerCase()}</h4>
             <RecordTypeahead
               id={recordType}
               name={recordType}
@@ -168,10 +167,10 @@ export function RecordForm({
             />
           </div>
           <hr />
+          <h4>Or Create a New One</h4>
         </>
       )}
 
-      <h4>Create a new {singularLabel.toLowerCase()}</h4>
       <Formik initialValues={record} onSubmit={save} validate={validate}>
         {({
           values,

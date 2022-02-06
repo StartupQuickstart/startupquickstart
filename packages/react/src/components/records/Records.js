@@ -1,15 +1,23 @@
-import React, { useEffect, useImperativeHandle, useState } from 'react';
+import React, {
+  Fragment,
+  useEffect,
+  useImperativeHandle,
+  useState
+} from 'react';
 import MissingRecords from '@/components/common/MissingRecords';
 import { Card } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 
 import CreateRecordButton from './CreateRecordButton';
+import UpdateRecordButton from './UpdateRecordButton';
 import Search from '@/components/inputs/SearchInput';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import SizePerPage from './SizePerPage';
 import { useApi } from '@/context/providers';
 import classNames from 'classnames';
 import { LoadingSmall } from '../common';
+import DeleteRecordButton from './DeleteRecordButton';
+import { ViewRecordButton } from '.';
 
 export function Records({
   innerRef,
@@ -45,7 +53,7 @@ export function Records({
   useEffect(() => {
     setData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pagination, JSON.stringify(dataParams), search]);
+  }, [pagination, JSON.stringify(dataParams), search, parent?.id]);
 
   useEffect(() => {
     onPagination && onPagination(pagination);
@@ -99,6 +107,66 @@ export function Records({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
+  columns = columns.map((column) => {
+    if (column?.actions) {
+      column.formatter = (e, record) => {
+        return (
+          <div>
+            {column.actions.map((action, index) => {
+              if (action === 'view') {
+                return (
+                  <ViewRecordButton
+                    className="mx-1"
+                    key={index}
+                    recordType={recordType}
+                    singularLabel={singularLabel}
+                    pluralLabel={pluralLabel}
+                    record={record}
+                    iconOnly
+                    asText
+                  />
+                );
+              } else if (action === 'update') {
+                return (
+                  <UpdateRecordButton
+                    className="mx-1"
+                    key={index}
+                    recordType={recordType}
+                    singularLabel={singularLabel}
+                    pluralLabel={pluralLabel}
+                    record={record}
+                    iconOnly
+                    asText
+                    onClose={setData}
+                  />
+                );
+              } else if (action === 'delete') {
+                return (
+                  <DeleteRecordButton
+                    className="mx-1"
+                    key={index}
+                    recordType={recordType}
+                    singularLabel={singularLabel}
+                    pluralLabel={pluralLabel}
+                    parent={parent}
+                    record={record}
+                    iconOnly
+                    asText
+                    onClose={setData}
+                  />
+                );
+              }
+
+              return <Fragment key={index}>{action}</Fragment>;
+            })}
+          </div>
+        );
+      };
+    }
+
+    return column;
+  });
 
   return (
     <>

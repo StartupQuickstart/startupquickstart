@@ -17,6 +17,7 @@ export class ApiController {
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
     this.addRelated = this.addRelated.bind(this);
+    this.removeRelated = this.removeRelated.bind(this);
     this.related = this.related.bind(this);
     this.getMissingFields = this.getMissingFields.bind(this);
     this.systemAttributes = [
@@ -376,6 +377,41 @@ export class ApiController {
 
       return res.status(200).send(record[name]);
     } catch (err) {
+      return next(err);
+    }
+  }
+
+  /**
+   * Removes a related association
+   *
+   * @param {HttpRequest} req Http request to handle
+   * @param {HttpResponst} res Http response to send
+   */
+  async removeRelated(req, res, next) {
+    const transaction = await this.model.sequelize.transaction();
+
+    try {
+      const name = req.params.related?.replace(/-/g, '_');
+      const association = this.model.associations[name];
+
+      if (!association) {
+        return res.status(404).send(http.STATUS_CODES[404]);
+      }
+
+      const query = Object.assign(req.query.filter, { id: req.params.id });
+      const record = await this.model.findOne({ where: query });
+
+      if (!record) {
+        return res.status(404).send(http.STATUS_CODES[404]);
+      }
+
+      const funcName = 'remove' + _.capitalize(name);
+      await record[funcName](req.params.relatedId, { transaction });
+
+      await transaction.commit();
+      return res.status(200).send(record);
+    } catch (err) {
+      transaction.rollback();
       return next(err);
     }
   }

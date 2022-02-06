@@ -9,7 +9,7 @@ export function Examples({
   canCreate = true
 }) {
   const recordsRef = useRef();
-  const recordType = 'examples';
+  const recordType = 'seats';
 
   return (
     <Records
@@ -37,9 +37,7 @@ export function Examples({
           align: 'right',
           headerAlign: 'right',
           text: 'Actions',
-          formatter: (e, record) => {
-            return <div></div>;
-          }
+          actions: ['view', 'update', 'delete']
         }
       ]}
     />

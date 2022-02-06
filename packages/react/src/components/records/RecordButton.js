@@ -35,10 +35,19 @@ export function RecordButton({
     setShowModal(true);
   }
 
-  const btn = {
-    Create: { icon: Plus, title: 'Create' },
-    Update: { icon: Edit2, title: 'Update' }
-  }[mode];
+  let btn;
+  switch (mode) {
+    case 'Create':
+      btn = parent
+        ? { icon: Plus, title: 'Add' }
+        : { icon: Plus, title: 'Create' };
+      break;
+    case 'Update':
+      btn = { icon: Edit2, title: 'Update' };
+      break;
+    default:
+      break;
+  }
 
   const title = `${btn.title} ${singularLabel}`;
   label = iconOnly ? '' : label || title;
@@ -89,10 +98,13 @@ export function RecordButton({
         {asText && <TextTo />}
         {!asText && <ButtonTo />}
         <Modal show={showModal} size={'lg'} centered onHide={close}>
-          <Modal.Header closeButton />
+          <Modal.Header closeButton>
+            <Modal.Title>{title}</Modal.Title>
+          </Modal.Header>
           <Modal.Body>
             <RecordForm
               recordType={recordType}
+              singularLabel={singularLabel}
               parent={parent}
               mode={mode}
               onSave={close}

@@ -1,13 +1,17 @@
 import React from 'react';
 import { PageWrapper } from '@/components/admin';
-import Accounts from '@/components/account/Accounts';
 import Examples from './examples/Examples';
 
 export function Records() {
   return (
     <PageWrapper title="Getting Started" subTitle="Records">
-      <Accounts showLabel={true} />
-      <Examples showLabel={true} />
+      <Examples
+        showLabel={true}
+        parent={{
+          type: 'seating-configurations',
+          id: 'dd0768ee-80d3-4a30-a5eb-1103371ad565'
+        }}
+      />
     </PageWrapper>
   );
 }
