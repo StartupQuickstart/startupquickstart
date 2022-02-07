@@ -78,6 +78,10 @@ export class ApiRoute {
    * Gets realted records
    */
   related = async (id, related, params = {}, cache = true) => {
+    if (!id || !related) {
+      return null;
+    }
+
     const res = await this.v1.get(`${id}/related/${related}`, {
       params,
       cache
