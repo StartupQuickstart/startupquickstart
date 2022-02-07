@@ -400,15 +400,23 @@ export class ApiController {
       const countFuncName = 'count' + _.capitalize(name);
       const queryOptions = controller.getQueryOptions(req);
 
-      const [records, totalRecords] = await Promise.all([
-        record[getFuncName](queryOptions),
-        record[countFuncName]({
+      if (['hasOne', 'belongsTo'].includes(association.associationType)) {
+        const record = record[getFuncName]({
           where: queryOptions.where,
-          inlcudes: queryOptions.includes
-        })
-      ]);
-
-      return res.status(200).send({ records, totalRecords });
+          include: queryOptions.include,
+          attributes: queryOptions.attributes
+        });
+        return res.status(200).send(record);
+      } else {
+        const [records, totalRecords] = await Promise.all([
+          record[getFuncName](queryOptions),
+          record[countFuncName]({
+            where: queryOptions.where,
+            inlcudes: queryOptions.includes
+          })
+        ]);
+        return res.status(200).send({ records, totalRecords });
+      }
     } catch (err) {
       return next(err);
     }
