@@ -2,6 +2,7 @@ import React from 'react';
 import { Search } from 'react-feather';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import { Tooltip } from '@/components/common';
 
 export function ViewRecordButton({
   onClose,
@@ -16,15 +17,20 @@ export function ViewRecordButton({
   iconOnly = false,
   mode
 }) {
-  label = iconOnly ? '' : label || `View ${singularLabel}`;
+  label = label || `View ${singularLabel}`;
 
   return (
-    <Link
-      to={`/${recordType}/${record.id}`}
-      className={classNames(asText ? 'btn-text' : 'btn btn-primary', className)}
-    >
-      <Search /> {label}
-    </Link>
+    <Tooltip tooltip={iconOnly && label}>
+      <Link
+        to={`/${recordType}/${record.id}`}
+        className={classNames(
+          asText ? 'btn-text' : 'btn btn-primary',
+          className
+        )}
+      >
+        <Search /> {!iconOnly && label}
+      </Link>
+    </Tooltip>
   );
 }
 

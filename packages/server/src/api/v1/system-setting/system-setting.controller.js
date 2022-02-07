@@ -16,7 +16,7 @@ class SystemSettingController extends ApiController {
    * Gets the features for the app
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async getFeatures(req, res, next) {
     try {
@@ -36,7 +36,7 @@ class SystemSettingController extends ApiController {
    * Toggles a feature on or off
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async enableFeature(req, res, next) {
     try {

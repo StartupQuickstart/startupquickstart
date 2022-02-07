@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Modal } from 'react-bootstrap';
 import { useApi } from '@/context';
 import { Toast } from '@/lib';
+import { Tooltip } from '@/components/common';
 
 export function DeleteRecordButton({
   onClose,
@@ -65,19 +66,26 @@ export function DeleteRecordButton({
     }
   }
 
-  const title = `${parent ? 'Unassociate' : 'Delete'} ${singularLabel}`;
-  label = iconOnly ? '' : label || title;
+  const title = `${parent ? 'Remove' : 'Delete'} ${singularLabel}`;
+  label = label || title;
 
   const ButtonTo = () => (
-    <button className={classNames('btn btn-primary', className)} onClick={open}>
-      <X /> {label}
-    </button>
+    <Tooltip tooltip={iconOnly && label}>
+      <button
+        className={classNames('btn btn-primary', className)}
+        onClick={open}
+      >
+        <X /> {!iconOnly && label}
+      </button>{' '}
+    </Tooltip>
   );
 
   const TextTo = () => (
-    <span className={classNames('btn-text', className)} onClick={open}>
-      <X /> {label}
-    </span>
+    <Tooltip tooltip={iconOnly && label}>
+      <span className={classNames('btn-text', className)} onClick={open}>
+        <X /> {!iconOnly && label}
+      </span>
+    </Tooltip>
   );
 
   return (

@@ -41,7 +41,8 @@ export function Records({
   onRecords,
   onPagination,
   defaultRecord,
-  classes
+  classes,
+  className
 }) {
   const [loading, setLoading] = useState(true);
   const [records, setRecords] = useState([]);
@@ -169,7 +170,7 @@ export function Records({
   });
 
   return (
-    <>
+    <div className={classNames('mb-5', className)}>
       <div className="clearfix mb-2">
         {showLabel && <h3 className="float-start mb-0 me-3">{pluralLabel}</h3>}
         <Search onChange={setSearch} />
@@ -228,7 +229,7 @@ export function Records({
           })}
         />
       </Card>
-    </>
+    </div>
   );
 }
 

@@ -10,6 +10,8 @@ export class ApiController {
 
     this.count = this.count.bind(this);
     this.describe = this.describe.bind(this);
+    this.getIncludes = this.getIncludes.bind(this);
+    this.getQueryOptions = this.getQueryOptions.bind(this);
     this.index = this.index.bind(this);
     this.create = this.create.bind(this);
     this._create = this._create.bind(this);
@@ -40,7 +42,7 @@ export class ApiController {
    * Gets a count of records
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async count(req, res, next) {
     try {
@@ -56,29 +58,41 @@ export class ApiController {
   }
 
   /**
+   * Gets the includes for the query options
+   */
+  getIncludes() {
+    const includes = [
+      {
+        model: models.User,
+        as: 'updated_by',
+        attributes: ['id', 'first_name', 'last_name']
+      },
+      {
+        model: models.User,
+        as: 'created_by',
+        attributes: ['id', 'first_name', 'last_name']
+      }
+    ];
+
+    for (const association of Object.values(this.model.associations)) {
+      if (association.options.autoInclude) {
+        includes.push(association.as);
+      }
+    }
+
+    return includes;
+  }
+
+  /**
    * Gets a list of records
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {Object} options Default options to use
    */
-  async index(req, res, next, options = {}) {
+  getQueryOptions(req, options = {}) {
     options = Object.assign(
       {
-        include: [
-          {
-            model: models.User,
-            as: 'updated_by',
-            attributes: ['id', 'first_name', 'last_name']
-          },
-          {
-            model: models.User,
-            as: 'created_by',
-            attributes: ['id', 'first_name', 'last_name']
-          },
-          ...(this.includes || []).filter(
-            (include) => !['created_by', 'updated_by'].includes(include)
-          )
-        ],
+        include: this.getIncludes(),
         attributes: null
       },
       options
@@ -103,15 +117,28 @@ export class ApiController {
       }
     }
 
+    const queryOptions = {
+      offset: req.query.offset || 0,
+      limit: req.query.limit || 10,
+      where,
+      order: req.query.order || [['created_at', 'desc']],
+      include: options.include,
+      attributes: options.attributes
+    };
+
+    return queryOptions;
+  }
+
+  /**
+   * Gets a list of records
+   *
+   * @param {HttpRequest} req Http request to handle
+   * @param {HttpResponse} res Http response to send
+   */
+  async index(req, res, next, options = {}) {
     try {
-      const result = await this.model.findAndCountAll({
-        offset: req.query.offset || 0,
-        limit: req.query.limit || 10,
-        where,
-        order: req.query.order || [['created_at', 'desc']],
-        include: options.include,
-        attributes: options.attributes
-      });
+      const queryOptions = this.getQueryOptions(req, options);
+      const result = await this.model.findAndCountAll(queryOptions);
 
       return res
         .status(200)
@@ -125,7 +152,7 @@ export class ApiController {
    * Creates a record
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async _create(req, res, outsideTransaction) {
     const transaction =
@@ -169,7 +196,7 @@ export class ApiController {
    * Creates a record and returns the response
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async create(req, res, next) {
     try {
@@ -184,7 +211,7 @@ export class ApiController {
    * Describes a record type
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async describe(req, res, next) {
     try {
@@ -251,7 +278,7 @@ export class ApiController {
    * Reads a record
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async read(req, res, next, options = {}) {
     try {
@@ -300,7 +327,7 @@ export class ApiController {
    * Creates a related association
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async addRelated(req, res, next) {
     const transaction = await this.model.sequelize.transaction();
@@ -345,7 +372,7 @@ export class ApiController {
    * Gets the related association
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async related(req, res, next) {
     try {
@@ -356,26 +383,32 @@ export class ApiController {
         return res.status(404).send(http.STATUS_CODES[404]);
       }
 
-      const query = Object.assign(req.query.filter, { id: req.params.id });
+      const recordQuery = { id: req.params.id };
 
-      const record = await this.model.findOne({
-        attributes: [],
-        where: query,
-        nest: true,
-        include: [name]
-      });
+      if (this.model.rawAttributes.account_id) {
+        recordQuery.account_id = req.user.account_id;
+      }
+
+      const record = await this.model.findOne({ where: recordQuery });
 
       if (!record) {
         return res.status(404).send(http.STATUS_CODES[404]);
       }
 
-      if (Array.isArray(record[name])) {
-        return res
-          .status(200)
-          .send({ records: record[name], totalRecords: record[name].length });
-      }
+      const controller = new ApiController(association.target);
+      const getFuncName = 'get' + _.capitalize(name);
+      const countFuncName = 'count' + _.capitalize(name);
+      const queryOptions = controller.getQueryOptions(req);
 
-      return res.status(200).send(record[name]);
+      const [records, totalRecords] = await Promise.all([
+        record[getFuncName](queryOptions),
+        record[countFuncName]({
+          where: queryOptions.where,
+          inlcudes: queryOptions.includes
+        })
+      ]);
+
+      return res.status(200).send({ records, totalRecords });
     } catch (err) {
       return next(err);
     }
@@ -385,7 +418,7 @@ export class ApiController {
    * Removes a related association
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async removeRelated(req, res, next) {
     const transaction = await this.model.sequelize.transaction();
@@ -420,7 +453,7 @@ export class ApiController {
    * Updates a record
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async update(req, res, next) {
     const transaction = await this.model.sequelize.transaction();
@@ -476,7 +509,7 @@ export class ApiController {
    * Deletes a record
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async delete(req, res, next) {
     try {

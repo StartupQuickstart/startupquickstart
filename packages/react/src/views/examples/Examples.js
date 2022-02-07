@@ -9,18 +9,17 @@ export function Examples({
   canCreate = true
 }) {
   const recordsRef = useRef();
-  const recordType = 'seats';
 
   return (
     <Records
       innerRef={recordsRef}
-      recordType={recordType}
+      recordType={'seats'}
       parent={parent}
-      pluralLabel="Examples"
-      singularLabel="Example"
+      pluralLabel="Seats"
+      singularLabel="Seat"
       showLabel={showLabel}
       classes="table-sm"
-      canCreate={canCreate}
+      canCreate={true}
       dataParams={dataParams}
       columns={[
         {
@@ -28,8 +27,46 @@ export function Examples({
           text: 'Name',
           sort: true,
           formatter: (name, record) => {
-            return <Link to={`/examples/${record.id}`}>{name}</Link>;
+            return <Link to={`/seats/${record.id}`}>{name}</Link>;
           }
+        },
+        {
+          dataField: 'venue.name',
+          text: 'Venue',
+          align: 'center',
+          headerAlign: 'center',
+          sort: true,
+          formatter: (name, record) => {
+            return <Link to={`/venues/${record.venue_id}`}>{name}</Link>;
+          }
+        },
+        {
+          dataField: 'floor_code',
+          text: 'Floor',
+          align: 'center',
+          headerAlign: 'center',
+          sort: true
+        },
+        {
+          dataField: 'section_code',
+          text: 'Section',
+          align: 'center',
+          headerAlign: 'center',
+          sort: true
+        },
+        {
+          dataField: 'row_code',
+          text: 'Row',
+          align: 'center',
+          headerAlign: 'center',
+          sort: true
+        },
+        {
+          dataField: 'seat_code',
+          text: 'Seat',
+          align: 'center',
+          headerAlign: 'center',
+          sort: true
         },
         {
           dataField: '',

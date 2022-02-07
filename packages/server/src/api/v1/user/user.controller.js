@@ -12,7 +12,7 @@ class UserController extends ApiController {
    * Reads a record
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async readMe(req, res, next) {
     try {
@@ -37,7 +37,7 @@ class UserController extends ApiController {
    * Updates a record
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async updateMe(req, res, next) {
     req.params.id = req.user.id;

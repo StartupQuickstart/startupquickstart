@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Modal } from 'react-bootstrap';
 import RecordForm from './RecordForm';
 import { Link } from 'react-router-dom';
+import { Tooltip } from '@/components/common';
 
 export function RecordButton({
   onClose,
@@ -50,40 +51,51 @@ export function RecordButton({
   }
 
   const title = `${btn.title} ${singularLabel}`;
-  label = iconOnly ? '' : label || title;
+  label = label || title;
 
   const Icon = btn.icon;
 
   const ButtonTo = () => (
-    <button className={classNames('btn btn-primary', className)} onClick={open}>
-      <Icon /> {label}
-    </button>
+    <Tooltip tooltip={iconOnly && label}>
+      <button
+        className={classNames('btn btn-primary', className)}
+        onClick={open}
+      >
+        <Icon /> {!iconOnly && label}
+      </button>
+    </Tooltip>
   );
 
   const TextTo = () => (
-    <span className={classNames('btn-text', className)} onClick={open}>
-      <Icon /> {label}
-    </span>
+    <Tooltip tooltip={iconOnly && label}>
+      <span className={classNames('btn-text', className)} onClick={open}>
+        <Icon /> {!iconOnly && label}
+      </span>
+    </Tooltip>
   );
 
   const ButtonLink = () => (
-    <Link
-      to={link}
-      className={classNames('btn btn-primary', className)}
-      onClick={open}
-    >
-      <Edit2 /> {label}
-    </Link>
+    <Tooltip tooltip={iconOnly && label}>
+      <Link
+        to={link}
+        className={classNames('btn btn-primary', className)}
+        onClick={open}
+      >
+        <Edit2 /> {!iconOnly && label}
+      </Link>
+    </Tooltip>
   );
 
   const TextLink = () => (
-    <Link
-      to={link}
-      className={classNames('btn-text', className)}
-      onClick={open}
-    >
-      <Edit2 /> {!label}
-    </Link>
+    <Tooltip tooltip={iconOnly && label}>
+      <Link
+        to={link}
+        className={classNames('btn-text', className)}
+        onClick={open}
+      >
+        <Edit2 /> {!iconOnly && label}
+      </Link>
+    </Tooltip>
   );
 
   if (link) {

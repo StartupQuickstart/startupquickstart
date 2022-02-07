@@ -15,7 +15,7 @@ class MediaController extends ApiController {
    * Creates a media record and uploads file to s3
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async create(req, res, next) {
     const transaction = await models.Media.sequelize.transaction();
@@ -76,7 +76,7 @@ class MediaController extends ApiController {
    * Deletes a media record and uploads a file to s3
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http response to send
+   * @param {HttpResponse} res Http response to send
    */
   async delete(req, res, next) {
     try {

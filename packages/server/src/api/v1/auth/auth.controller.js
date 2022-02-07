@@ -11,7 +11,7 @@ class AuthController {
    * Activates a user
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http respone to send
+   * @param {HttpResponse} res Http respone to send
    */
   async activate(req, res) {
     try {
@@ -48,7 +48,7 @@ class AuthController {
    * Authorizes a user
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http respone to send
+   * @param {HttpResponse} res Http respone to send
    */
   async authorize(req, res) {
     if (!req.user) {
@@ -68,7 +68,7 @@ class AuthController {
    * Sends a forget password email
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http respone to send
+   * @param {HttpResponse} res Http respone to send
    */
   async forgotPassword(req, res) {
     try {
@@ -97,7 +97,7 @@ class AuthController {
    * Refreshes the users login session
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http respone to send
+   * @param {HttpResponse} res Http respone to send
    */
   async refresh(req, res) {
     const token = await req.user.getToken(req.user.scope);
@@ -110,7 +110,7 @@ class AuthController {
    * Resets a users password
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http respone to send
+   * @param {HttpResponse} res Http respone to send
    */
   async resetPassword(req, res) {
     try {
@@ -142,7 +142,7 @@ class AuthController {
    * Sends an activate email
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http respone to send
+   * @param {HttpResponse} res Http respone to send
    */
   async sendActivationEmail(req, res) {
     await req.user.sendActivationEmail();
@@ -153,7 +153,7 @@ class AuthController {
    * Signs a user up
    *
    * @param {HttpRequest} req Http request to handle
-   * @param {HttpResponst} res Http respone to send
+   * @param {HttpResponse} res Http respone to send
    */
   async signup(req, res) {
     try {
