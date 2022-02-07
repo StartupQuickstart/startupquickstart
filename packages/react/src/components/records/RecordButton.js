@@ -24,8 +24,8 @@ export function RecordButton({
   /**
    * Closes the create form modal
    */
-  function close() {
-    onClose && onClose();
+  function close(record) {
+    onClose && onClose(record);
     setShowModal(false);
   }
 

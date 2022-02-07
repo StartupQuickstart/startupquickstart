@@ -254,8 +254,8 @@ export class ApiController {
         );
 
         if (association) {
-          type.related = association.target.name;
-          type.relatedPath = plural(association.target.name).toLowerCase();
+          type.related = association.target.tableName;
+          type.relatedPath = association.target.tableName.replace(/_/g, '-');
         }
 
         meta.columns.push({
@@ -282,36 +282,9 @@ export class ApiController {
    */
   async read(req, res, next, options = {}) {
     try {
-      options = Object.assign(
-        {
-          include: [
-            {
-              model: models.User,
-              as: 'updated_by',
-              attributes: ['id', 'first_name', 'last_name']
-            },
-            {
-              model: models.User,
-              as: 'created_by',
-              attributes: ['id', 'first_name', 'last_name']
-            },
-            ...(this.includes || []).filter(
-              (include) => !['created_by', 'updated_by'].includes(include)
-            )
-          ],
-          attributes: null
-        },
-        options
-      );
+      const queryOptions = this.getQueryOptions(req, options);
 
-      const query = Object.assign(req.query.filter, { id: req.params.id });
-
-      const record = await this.model.findOne({
-        where: query,
-        nest: true,
-        include: options.include,
-        attributes: options.attributes
-      });
+      const record = await this.model.findOne(queryOptions);
 
       if (!record) {
         return res.status(404).send(http.STATUS_CODES[404]);
@@ -401,11 +374,7 @@ export class ApiController {
       const queryOptions = controller.getQueryOptions(req);
 
       if (['hasOne', 'belongsTo'].includes(association.associationType)) {
-        const record = record[getFuncName]({
-          where: queryOptions.where,
-          include: queryOptions.include,
-          attributes: queryOptions.attributes
-        });
+        const record = record[getFuncName](queryOptions);
         return res.status(200).send(record);
       } else {
         const [records, totalRecords] = await Promise.all([
