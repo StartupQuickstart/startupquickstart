@@ -1,5 +1,5 @@
-export { models } from '@/api/models';
-import { init as initModels } from '@/api/models';
+export { models, init as initModels } from '@/api/models';
+import { init as initModels, models } from '@/api/models';
 
 export async function init(app) {
   await initModels();
@@ -8,5 +8,7 @@ export async function init(app) {
 }
 
 export default {
-  init
+  init,
+  initModels,
+  models
 };
