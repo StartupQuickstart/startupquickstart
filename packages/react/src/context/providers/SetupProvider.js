@@ -4,13 +4,13 @@ import React, { useState, useContext } from 'react';
 const SetupContext = React.createContext({});
 
 export const SetupProvider = ({ requireActivation = true, children }) => {
-  const defaultIems = [{ name: 'signup', label: 'Sign up' }];
+  const defaultItems = [{ name: 'signup', label: 'Sign up' }];
 
-  if (defaultIems) {
-    requireActivation.push({ name: 'activate', label: 'Activate account' });
+  if (requireActivation) {
+    defaultItems.push({ name: 'activate', label: 'Activate account' });
   }
 
-  const [setupItems, setSetupItems] = useState(defaultIems);
+  const [setupItems, setSetupItems] = useState(defaultItems);
 
   /**
    * Checks to see if the setup item exists
