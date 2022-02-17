@@ -3,10 +3,10 @@ import React, { useState, useContext } from 'react';
 
 const SetupContext = React.createContext({});
 
-export const SetupProvider = ({ requireActivation = true, children }) => {
+export const SetupProvider = ({ children, ...props }) => {
   const defaultItems = [{ name: 'signup', label: 'Sign up' }];
 
-  if (requireActivation) {
+  if (props.requireActivation !== false) {
     defaultItems.push({ name: 'activate', label: 'Activate account' });
   }
 
