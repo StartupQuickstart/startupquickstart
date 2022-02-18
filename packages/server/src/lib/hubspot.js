@@ -1,17 +1,11 @@
 import axios from 'axios';
 import url from 'url';
-import {
-  cacheAdapterEnhancer,
-  throttleAdapterEnhancer
-} from 'axios-extensions';
 import config from '@/config';
 
 export class Hubspot {
   static axios = axios.create({
     baseURL: `https://api.hubapi.com`,
-    adapter: this.axiosAdapter(
-      throttleAdapterEnhancer(cacheAdapterEnhancer(axios.defaults.adapter))
-    )
+    adapter: this.axiosAdapter(axios.defaults.adapter)
   });
 
   /**

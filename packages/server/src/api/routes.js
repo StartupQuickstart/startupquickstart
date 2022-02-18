@@ -18,7 +18,7 @@ export function init(app) {
   const parentPath = process.cwd();
   const parentRoutePath = path.resolve(parentPath, 'src/api/routes.js');
 
-  if (fs.existsSync(parentRoutePath)) {
+  if (parentRoutePath !== __filename && fs.existsSync(parentRoutePath)) {
     require(parentRoutePath).default(app);
   }
 

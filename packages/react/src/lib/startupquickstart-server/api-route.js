@@ -1,24 +1,11 @@
 import axios from 'axios';
 
-import {
-  cacheAdapterEnhancer,
-  throttleAdapterEnhancer
-} from 'axios-extensions';
-
 export class ApiRoute {
-  constructor(route, Auth, cache = true, throttle = true) {
+  constructor(route, Auth) {
     this.route = route;
     this.Auth = Auth;
 
     let adapter = axios.defaults.adapter;
-
-    if (cache) {
-      adapter = cacheAdapterEnhancer(adapter);
-    }
-
-    if (throttle) {
-      adapter = throttleAdapterEnhancer(adapter);
-    }
 
     const config = {
       baseURL: `/api/v1/${this.route}/`
