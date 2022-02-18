@@ -1,4 +1,4 @@
-import { Private } from '@/components/authenticators';
+import { Private } from '@/authenticators';
 import { EmptyLayout } from '@/components/layouts';
 import * as views from '@/views';
 

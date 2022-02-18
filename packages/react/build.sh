@@ -1,11 +1,13 @@
 rm -rf dist
 mkdir dist
+babel ./src/authenticators -d dist/authenticators --copy-files
 babel ./src/components -d dist/components --copy-files
 babel ./src/context -d dist/context --copy-files
 babel ./src/effects -d dist/effects --copy-files
 babel ./src/lib -d dist/lib --copy-files
 babel ./src/routes -d dist/routes --copy-files
 babel ./src/views -d dist/views --copy-files
+babel ./src/exports.js -d dist
 
 mkdir -p ./dist/assets
 mkdir ./dist/assets/css

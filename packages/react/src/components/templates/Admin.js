@@ -11,20 +11,11 @@ import { ContextProvider } from '@/context/ContextProvider';
 import { coreRoutes } from '@/routes';
 import { AdminLayout } from '@/components/layouts';
 import * as views from '@/views';
-import { Private, Public } from '@/components/authenticators';
+import { Private, Public } from '@/authenticators';
 import { PageLoading } from '@/components/common';
 import axios from 'axios';
 
-export function Admin({
-  routes,
-  Auth,
-  Api,
-  config,
-  configPath,
-  callToAction,
-  features,
-  sidebarItems
-}) {
+export function Admin({ config, configPath, routes, ...props }) {
   const [_config, setConfig] = useState(config);
 
   useEffect(() => {
@@ -53,14 +44,7 @@ export function Admin({
 
   return (
     <Router>
-      <ContextProvider
-        Auth={Auth}
-        Api={Api}
-        config={_config}
-        callToAction={callToAction}
-        features={features}
-        sidebarItems={sidebarItems}
-      >
+      <ContextProvider {...props} config={_config}>
         <Routes>
           {routes.map(
             (
