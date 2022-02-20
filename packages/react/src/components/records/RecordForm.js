@@ -199,7 +199,6 @@ export function RecordForm({
                     </label>
                     <RecordInput
                       column={column}
-                      test={column}
                       id={column.name}
                       name={column.name}
                       className="form-control form-control-lg"

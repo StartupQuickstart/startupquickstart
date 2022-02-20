@@ -1,6 +1,6 @@
 import React from 'react';
 import { PageWrapper } from '@/components/admin';
-import { Records as RecordsComponent } from '../components/examples/Records';
+import { Records as RecordsComponent } from '@/components/examples/Records';
 
 export function Records() {
   return (

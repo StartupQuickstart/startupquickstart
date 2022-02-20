@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -28,6 +30,8 @@ export function Admin({ config, configPath, routes, ...props }) {
     document.title = _config?.name;
   }, [_config?.name]);
 
+  const queryClient = useMemo(() => new QueryClient(), []);
+
   if (!routes) {
     routes = [
       { path: '/', Component: views.Home, Authenticator: Private },
@@ -44,44 +48,46 @@ export function Admin({ config, configPath, routes, ...props }) {
 
   return (
     <Router>
-      <ContextProvider {...props} config={_config}>
-        <Routes>
-          {routes.map(
-            (
-              {
-                path,
-                Component,
-                redirect = false,
-                exact = false,
-                Authenticator = Public,
-                Layout = AdminLayout
-              },
-              index
-            ) => {
-              const Element = (props) => {
-                return (
-                  <Authenticator>
-                    <Layout {...props}>
-                      <ToastContainer />
-                      {redirect && <Navigate repalce to={redirect} />}
-                      {!redirect && <Component {...props} />}
-                    </Layout>
-                  </Authenticator>
-                );
-              };
+      <QueryClientProvider client={queryClient}>
+        <ContextProvider {...props} config={_config}>
+          <Routes>
+            {routes.map(
+              (
+                {
+                  path,
+                  Component,
+                  redirect = false,
+                  exact = false,
+                  Authenticator = Public,
+                  Layout = AdminLayout
+                },
+                index
+              ) => {
+                const Element = (props) => {
+                  return (
+                    <Authenticator>
+                      <Layout {...props}>
+                        <ToastContainer />
+                        {redirect && <Navigate repalce to={redirect} />}
+                        {!redirect && <Component {...props} />}
+                      </Layout>
+                    </Authenticator>
+                  );
+                };
 
-              return (
-                <Route
-                  key={index}
-                  path={path}
-                  exact={exact}
-                  element={<Element />}
-                />
-              );
-            }
-          )}
-        </Routes>
-      </ContextProvider>
+                return (
+                  <Route
+                    key={index}
+                    path={path}
+                    exact={exact}
+                    element={<Element />}
+                  />
+                );
+              }
+            )}
+          </Routes>
+        </ContextProvider>
+      </QueryClientProvider>
     </Router>
   );
 }

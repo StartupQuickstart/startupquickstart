@@ -9,38 +9,47 @@ export function Records({
   canCreate = true
 }) {
   const recordsRef = useRef();
+  const recordType = 'users';
 
   return (
     <RecordsComponent
       innerRef={recordsRef}
-      recordType={'records'}
+      recordType={'users'}
       parent={parent}
-      pluralLabel="Records"
-      singularLabel="Record"
+      pluralLabel="Users"
+      singularLabel="User"
       showLabel={showLabel}
-      classes="table-sm"
       canCreate={true}
       dataParams={dataParams}
       columns={[
         {
-          dataField: 'name',
-          text: 'Name',
+          id: 'first_name',
+          Header: 'First Name',
           sort: true,
-          formatter: (name, record) => {
-            return <Link to={`/seats/${record.id}`}>{name}</Link>;
+          accessor: (record, index) => {
+            return (
+              <Link to={`/${recordType}/${record.id}`}>
+                {record.first_name}
+              </Link>
+            );
           }
         },
         {
-          dataField: 'created_dt',
-          text: 'Name',
-          sort: true
+          id: 'last_name',
+          Header: 'Last Name',
+          sort: true,
+          accessor: (record, index) => {
+            return (
+              <Link to={`/${recordType}/${record.id}`}>{record.last_name}</Link>
+            );
+          }
         },
         {
-          dataField: '',
-          isDummyField: true,
+          id: 'actions',
+          Header: 'Actions',
+          disableSortBy: true,
           align: 'right',
           headerAlign: 'right',
-          text: 'Actions',
           actions: ['view', 'update', 'delete']
         }
       ]}
