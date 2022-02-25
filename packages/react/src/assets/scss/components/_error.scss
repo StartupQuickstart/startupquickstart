@@ -1,6 +1,6 @@
 #error {
   position: relative;
-  height: 100vh;
+  margin-top: 250px;
 }
 
 #error .error {
@@ -8,8 +8,8 @@
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .error {
@@ -37,8 +37,8 @@
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .error .error-code h2 {
@@ -72,7 +72,7 @@
 }
 
 .error a:hover {
-  color: #FFFFFF;
+  color: #ffffff;
   background: $secondary;
 }
 

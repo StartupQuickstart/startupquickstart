@@ -12,7 +12,7 @@ export const config = {
   },
   app: {
     name: process.env.APP,
-    legalName: 'SuggestEdit, LLC',
+    legalName: 'Startup Quickstart, LLC',
     website: 'https://www.startupquickstart.com',
     termsOfService: 'https://www.startupquickstart.com/terms-of-service',
     privacyPolicy: 'https://www.startupquickstart.com/privacy-policy',

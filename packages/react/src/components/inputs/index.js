@@ -6,4 +6,5 @@ export { PasswordInput } from './PasswordInput';
 export { PositionInput } from './PositionInput';
 export { RecordTypeahead } from './RecordTypeahead';
 export { SearchInput } from './SearchInput';
+export { SelectInput } from './SelectInput';
 export { TextInput } from './TextInput';

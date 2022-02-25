@@ -4,7 +4,7 @@ import { routes as authRoutes } from './auth.routes';
 
 export const routes = [
   ...authRoutes,
-  { path: '/error/:code', Component: views.common.Error, Layout: EmptyLayout }
+  { path: '/error/:code', Component: views.Error, Layout: EmptyLayout }
 ];
 
 export default routes;

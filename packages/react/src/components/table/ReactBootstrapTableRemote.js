@@ -1,8 +1,9 @@
 import React, { useImperativeHandle, useState } from 'react';
 import { useQuery } from 'react-query';
 import ReactBootstrapTable from './ReactBootstrapTable';
+import { Error } from '@/views';
 
-export function ReactBootstrapTableRemote({ innerRef, ...props }) {
+export function ReactBootstrapTableRemote({ id, innerRef, ...props }) {
   const [query, setQuery] = useState({
     pageIndex: props.defaultPage - 1,
     pageSize: props.defaultPageSize,
@@ -14,31 +15,45 @@ export function ReactBootstrapTableRemote({ innerRef, ...props }) {
   useImperativeHandle(
     innerRef,
     () => ({
-      fetchData: result.refetch
+      fetchData: refetch
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
-  const result = useQuery(
-    ['ReactBootstrapTable', 'fetchData', query],
+  const { data, error, refetch } = useQuery(
+    ['ReactBootstrapTable', 'fetchData', id, query],
     () => {
       return props.fetchData(query);
     },
-    {}
+    {
+      retry: (retryCount, error) => {
+        return (
+          ![401, 403, 404].includes(error.response.status) && retryCount < 2
+        );
+      }
+    }
   );
 
   function fetchData(query) {
     setQuery(query);
   }
 
-  const data = result?.data?.records || [];
+  if ([401, 403, 404].includes(error?.response?.status)) {
+    return (
+      <Error
+        code={error?.response?.status}
+        message={error?.response?.data?.message || error?.response?.data}
+      />
+    );
+  }
 
   return (
     <ReactBootstrapTable
       {...props}
-      data={data}
-      count={result?.data?.totalRecords}
+      error={error}
+      data={data?.records || []}
+      count={data?.totalRecords}
       fetchData={fetchData}
     />
   );

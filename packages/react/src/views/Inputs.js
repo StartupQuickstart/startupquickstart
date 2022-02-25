@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PageWrapper } from '@/components/admin';
 import { RecordInput } from '@/components/records';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Card } from 'react-bootstrap';
+import { RichText } from '@/components';
 
 export function Inputs() {
+  const [richText, setRichText] = useState('Rich Text');
+
   const inputs = [
     {
       column: { label: 'Text Input', type: { type: 'TEXT' } },
@@ -16,14 +19,34 @@ export function Inputs() {
     {
       column: { label: 'Date/Time Input', type: { type: 'DATETIME' } },
       value: new Date()
+    },
+    {
+      column: {
+        label: 'Select Input',
+        type: {
+          type: 'STRING',
+          enum: ['option 1', 'option 2', { value: '', label: 'Option 0' }]
+        }
+      },
+      value: ''
+    },
+    {
+      column: {
+        label: 'Rich Text',
+        type: {
+          type: 'RICHTEXT'
+        }
+      },
+      value: richText,
+      onChange: setRichText
     }
   ];
 
   return (
     <PageWrapper title="Getting Started" subTitle="Inputs">
       <Row>
-        <Col md="12" lg="6">
-          {inputs.map(({ column, value }, index) => (
+        <Col md="12" lg="12">
+          {inputs.map(({ column, value, onChange }, index) => (
             <div className="form-group" key={index}>
               <label className="form-label">
                 {column.label}{' '}
@@ -37,9 +60,15 @@ export function Inputs() {
                 placeholder={column.label}
                 value={value}
                 required={column.required}
+                onChange={onChange}
               />
             </div>
           ))}
+          <Card>
+            <Card.Body>
+              <RichText>{richText}</RichText>
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
     </PageWrapper>

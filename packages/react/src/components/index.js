@@ -7,7 +7,6 @@ export * from './data';
 export * from './editors';
 export * from './inputs';
 export * from './layouts';
-export * from './media';
 export * from './pricing';
 export * from './records';
 export * from './templates';

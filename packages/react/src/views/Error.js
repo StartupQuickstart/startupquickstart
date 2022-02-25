@@ -1,13 +1,15 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-export function Error(props) {
+export function Error({ code = 404, message }) {
   const params = useParams();
-  const code = props.code || params.code;
-  const message =
-    props.message ||
+  code = code || params.code;
+  message =
+    message ||
     {
-      404: "The Page can't be found"
+      404: "The Page can't be found",
+      401: 'Unauthorized',
+      403: 'Forbidden'
     }[code] ||
     'Unknown Error';
 
@@ -21,15 +23,11 @@ export function Error(props) {
               {code} - {message}
             </h2>
           </div>
-          <Link to="/">Go To Dashboard</Link>
+          {code !== 401 && <Link to="/">Go To Dashboard</Link>}
+          {code === 401 && <Link to="/login">Login</Link>}
         </div>
       </div>
     </>
   );
 }
-
-Error.defaultProps = {
-  code: 404
-};
-
 export default Error;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
-import { RecordTypeahead } from '../inputs';
+import { RichTextEditor } from '@/components/editors/RichTextEditor';
+import { RecordTypeahead, SelectInput } from '../inputs';
 import DateInput from '../inputs/DateInput';
 
 export function RecordInput({ column, onChange, ...props }) {
@@ -24,6 +25,18 @@ export function RecordInput({ column, onChange, ...props }) {
         showTime={true}
         {...props}
       />
+    );
+  } else if (type === 'RICHTEXT') {
+    return (
+      <RichTextEditor
+        onChange={onChange}
+        defaultValue={props.value}
+        {...props}
+      />
+    );
+  } else if (columnType?.enum) {
+    return (
+      <SelectInput onChange={onChange} options={columnType.enum} {...props} />
     );
   } else {
     return <Form.Control onChange={onChange} {...props} />;

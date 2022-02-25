@@ -1,12 +1,19 @@
-import React, { Fragment, useImperativeHandle, useState, useRef } from 'react';
+import React, {
+  Fragment,
+  useImperativeHandle,
+  useState,
+  useRef,
+  useEffect
+} from 'react';
 
 import UpdateRecordButton from './UpdateRecordButton';
 import { useApi } from '@/context/providers';
 import DeleteRecordButton from './DeleteRecordButton';
-import { ViewRecordButton } from '.';
+import { CreateRecordButton, ViewRecordButton } from '.';
 import ReactBootstrapTableRemote from '../table/ReactBootstrapTableRemote';
 
 export function Records({
+  id,
   innerRef,
   actions,
   recordType,
@@ -14,8 +21,6 @@ export function Records({
   pluralLabel = 'Records',
   singularLabel = 'Record',
   canCreate = true,
-  canDelete = true,
-  canAdd = true,
   showLabel = true,
   createLink,
   columns,
@@ -74,6 +79,10 @@ export function Records({
 
     return result;
   }
+
+  useEffect(() => {
+    tableRef.current?.fetchData();
+  }, [dataParams]);
 
   useImperativeHandle(
     innerRef,
@@ -147,12 +156,33 @@ export function Records({
   });
 
   return (
-    <ReactBootstrapTableRemote
-      innerRef={tableRef}
-      columns={columns}
-      pluralLabel={pluralLabel}
-      fetchData={fetchData}
-    />
+    <div id={id} className="records">
+      <ReactBootstrapTableRemote
+        id={recordType}
+        innerRef={tableRef}
+        columns={columns}
+        pluralLabel={pluralLabel}
+        fetchData={fetchData}
+        actions={
+          <div className="actions">
+            {canCreate && (
+              <CreateRecordButton
+                className="float-end ms-2"
+                onClose={() => tableRef.current?.fetchData()}
+                singularLabel={singularLabel}
+                recordType={recordType}
+                createLink={createLink}
+                record={defaultRecord}
+                parent={parent}
+              />
+            )}
+            <div className="d-inline-block" style={{ lineHeight: '32px' }}>
+              {actions && actions}
+            </div>
+          </div>
+        }
+      />
+    </div>
   );
 }
 

@@ -9,8 +9,9 @@ export class Api {
    *
    * @param {String} route Route prefix to get
    */
-  static get = (route) => {
-    this.routes[route] = this.routes[route] || new ApiRoute(route, Api.Auth);
+  static get = (route, version = 'v1') => {
+    this.routes[route] =
+      this.routes[route] || new ApiRoute(route, Api.Auth, { version });
     return this.routes[route];
   };
 

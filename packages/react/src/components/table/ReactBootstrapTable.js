@@ -8,6 +8,7 @@ import Search from '@/components/inputs/SearchInput';
 import { ArrowDown, ArrowUp } from 'react-feather';
 
 export function ReactBootstrapTable({
+  id,
   columns,
   loading,
   fetchData,
@@ -28,7 +29,8 @@ export function ReactBootstrapTable({
   showLabel = true,
   pluralLabel = 'Records',
   className,
-  actions
+  actions,
+  error
 }) {
   const [search, setSearch] = useState(defaultSearch);
   defaultPageSize = defaultPageSize || pageSizeOptions[0];
@@ -81,7 +83,7 @@ export function ReactBootstrapTable({
   }, [JSON.stringify({ pageIndex, pageSize, search, sortBy, selectedRowIds })]);
 
   return (
-    <div className={classNames('mb-5', className)}>
+    <div id={id} className={classNames('mb-5', className)}>
       <div className="clearfix mb-2">
         {showLabel && <h3 className="float-start mb-0 me-3">{pluralLabel}</h3>}
         {showSearch && (
@@ -101,32 +103,34 @@ export function ReactBootstrapTable({
           <thead>
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
-                    <span {...column.getSortByToggleProps()}>
-                      {column.render('Header')}
-                      {column.canSort && (
-                        <>
-                          {!column.isSorted && (
-                            <>
-                              <ArrowDown className="sort-desc" />
-                              <ArrowUp className="sort-asc" />
-                            </>
-                          )}
-                          {column.isSorted ? (
-                            column.isSortedDesc ? (
-                              <ArrowDown className="sort-desc" />
+                {headerGroup.headers.map((column) => {
+                  return (
+                    <th {...column.getHeaderProps()}>
+                      <span {...column.getSortByToggleProps()}>
+                        {column.render('Header')}
+                        {column.canSort && (
+                          <>
+                            {!column.isSorted && (
+                              <>
+                                <ArrowDown className="sort-desc" />
+                                <ArrowUp className="sort-asc" />
+                              </>
+                            )}
+                            {column.isSorted ? (
+                              column.isSortedDesc ? (
+                                <ArrowDown className="sort-desc" />
+                              ) : (
+                                <ArrowUp className="sort-asc" />
+                              )
                             ) : (
-                              <ArrowUp className="sort-asc" />
-                            )
-                          ) : (
-                            ''
-                          )}
-                        </>
-                      )}
-                    </span>
-                  </th>
-                ))}
+                              ''
+                            )}
+                          </>
+                        )}
+                      </span>
+                    </th>
+                  );
+                })}
               </tr>
             ))}
           </thead>
@@ -145,10 +149,19 @@ export function ReactBootstrapTable({
             })}
           </tbody>
         </Table>
-        {!page.length && (
+        {!page.length && !error && (
           <Card.Body className="border-bottom">
             <MissingRecords
               title={`No ${pluralLabel} Found`}
+              description={`Please try again later.`}
+            />
+          </Card.Body>
+        )}
+        {!page.length && error && (
+          <Card.Body className="border-bottom">
+            <MissingRecords
+              variant="danger"
+              title={`Failed to retrieve ${pluralLabel}.`}
               description={`Please try again later.`}
             />
           </Card.Body>

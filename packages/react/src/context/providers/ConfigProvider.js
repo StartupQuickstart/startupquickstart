@@ -6,7 +6,7 @@ export const ConfigProvider = ({ children, ...props }) => {
   const [config, setConfig] = useState(
     props.config || {
       website: 'https://github.com/StartupQuickstart/startupquickstart',
-      legalName: 'SuggestEdit, LLC',
+      legalName: 'Startup Quickstart, LLC',
       supportPage:
         'https://github.com/StartupQuickstart/startupquickstart/issues',
       privacyPolicy: 'https://app.startupquickstart.com/privacy-policy',

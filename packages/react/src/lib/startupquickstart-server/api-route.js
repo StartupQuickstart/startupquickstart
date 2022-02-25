@@ -1,27 +1,32 @@
 import axios from 'axios';
 
 export class ApiRoute {
-  constructor(route, Auth) {
+  constructor(route, Auth, options = {}) {
     this.route = route;
     this.Auth = Auth;
+    this.options = Object.assign(
+      { relatedPathPrefix: '/related', version: 'v1' },
+      options
+    );
 
     let adapter = axios.defaults.adapter;
 
     const config = {
-      baseURL: `/api/v1/${this.route}/`
+      baseURL: `/api/${this.options.version}/${this.route}/`
     };
 
     config.adapter = this.Auth?.axiosAdapter
       ? this.Auth.axiosAdapter(adapter)
       : adapter;
-    this.v1 = axios.create(config);
+
+    this.axios = axios.create(config);
   }
 
   /**
    * Performs an action on a record
    */
   action = async (id, action, data) => {
-    const res = await this.v1.post(`${id}/actions/${action}`, data);
+    const res = await this.axios.post(`${id}/actions/${action}`, data);
     return res.data;
   };
 
@@ -29,7 +34,7 @@ export class ApiRoute {
    * Gets the meta data for an object
    */
   describe = async (id, action, data) => {
-    const res = await this.v1.get('describe', data);
+    const res = await this.axios.get('describe', data);
     return res.data;
   };
 
@@ -42,7 +47,10 @@ export class ApiRoute {
    *
    */
   addRelated = async (id, relatedType, related) => {
-    const res = await this.v1.post(`${id}/related/${relatedType}`, related);
+    const res = await this.axios.post(
+      this.getRelatedPath(id, relatedType),
+      related
+    );
     return res.data;
   };
 
@@ -55,8 +63,8 @@ export class ApiRoute {
    *
    */
   removeRelated = async (id, relatedType, relatedId) => {
-    const res = await this.v1.delete(
-      `${id}/related/${relatedType}/${relatedId}`
+    const res = await this.axios.delete(
+      this.getRelatedPath(id, `${relatedType}/${relatedId}`)
     );
     return res.data;
   };
@@ -64,12 +72,12 @@ export class ApiRoute {
   /**
    * Gets realted records
    */
-  related = async (id, related, params = {}, cache = true) => {
-    if (!id || !related) {
+  related = async (id, relatedType, params = {}, cache = true) => {
+    if (!id || !relatedType) {
       return null;
     }
 
-    const res = await this.v1.get(`${id}/related/${related}`, {
+    const res = await this.axios.get(this.getRelatedPath(id, relatedType), {
       params,
       cache
     });
@@ -77,10 +85,21 @@ export class ApiRoute {
   };
 
   /**
+   * Gets the related path
+   *
+   * @param {String} id Id of the parth objectt
+   * @param {String} path Path to the resource
+   */
+  getRelatedPath = (id, path) => {
+    const relatedPath = `/${id}${this.options.relatedPathPrefix || ''}/${path}`;
+    return relatedPath;
+  };
+
+  /**
    * Gets the count of records
    */
   count = async () => {
-    const res = await this.v1.get('count');
+    const res = await this.axios.get('count');
     return res.data;
   };
 
@@ -90,7 +109,7 @@ export class ApiRoute {
    * @param {Object} record Record to create
    */
   create = async (record) => {
-    const res = await this.v1.post('', record);
+    const res = await this.axios.post('', record);
     return res.data;
   };
 
@@ -100,7 +119,7 @@ export class ApiRoute {
    * @param {String} id Id of the record
    */
   delete = async (id) => {
-    const res = await this.v1.delete(id);
+    const res = await this.axios.delete(id);
     return res.data;
   };
 
@@ -111,7 +130,7 @@ export class ApiRoute {
    * @param {Boolean} cache Whether or not to cache the query
    */
   index = async (params, cache = true) => {
-    const res = await this.v1.get('', { params, cache });
+    const res = await this.axios.get('', { params, cache });
     return res.data;
   };
 
@@ -123,7 +142,7 @@ export class ApiRoute {
    * @param {Boolean} cache Whether or not to cache the query
    */
   read = async (id, params = {}, cache = true) => {
-    const res = await this.v1.get(id, { params, cache });
+    const res = await this.axios.get(id, { params, cache });
     return res.data;
   };
 
@@ -134,7 +153,7 @@ export class ApiRoute {
    * @param {Object} updates Data to update record with
    */
   update = async (id, updates) => {
-    const res = await this.v1.put(id, updates);
+    const res = await this.axios.put(id, updates);
     return res.data;
   };
 }
