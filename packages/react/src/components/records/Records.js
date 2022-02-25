@@ -11,6 +11,7 @@ import { useApi } from '@/context/providers';
 import DeleteRecordButton from './DeleteRecordButton';
 import { CreateRecordButton, ViewRecordButton } from '.';
 import ReactBootstrapTableRemote from '../table/ReactBootstrapTableRemote';
+import classNames from 'classnames';
 
 export function Records({
   id,
@@ -33,7 +34,7 @@ export function Records({
   onRecords,
   onPagination,
   defaultRecord,
-  classes,
+  tableClassName,
   className
 }) {
   const { Api } = useApi();
@@ -156,9 +157,10 @@ export function Records({
   });
 
   return (
-    <div id={id} className="records">
+    <div id={id} className={classNames('records', className)}>
       <ReactBootstrapTableRemote
         id={recordType}
+        className={tableClassName}
         innerRef={tableRef}
         columns={columns}
         pluralLabel={pluralLabel}
