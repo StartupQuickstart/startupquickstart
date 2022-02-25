@@ -34,6 +34,7 @@ export function Records({
   onRecords,
   onPagination,
   defaultRecord,
+  tableProps,
   tableClassName,
   className
 }) {
@@ -183,9 +184,14 @@ export function Records({
             </div>
           </div>
         }
+        {...tableProps}
       />
     </div>
   );
 }
+
+Records.defaulProps = {
+  tableProps: { striped: false, bordered: false, hover: false }
+};
 
 export default Records;
