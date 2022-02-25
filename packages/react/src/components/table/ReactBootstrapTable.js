@@ -6,6 +6,7 @@ import MissingRecords from '../common/MissingRecords';
 import ReactBootstrapTablePagination from './ReactBootstrapTablePagination';
 import Search from '@/components/inputs/SearchInput';
 import { ArrowDown, ArrowUp } from 'react-feather';
+import { Loading } from '..';
 
 export function ReactBootstrapTable({
   id,
@@ -149,7 +150,12 @@ export function ReactBootstrapTable({
             })}
           </tbody>
         </Table>
-        {!page.length && !error && (
+        {loading && (
+          <Card.Body className="border-bottom">
+            <Loading />
+          </Card.Body>
+        )}
+        {!loading && !page.length && !error && (
           <Card.Body className="border-bottom">
             <MissingRecords
               title={`No ${pluralLabel} Found`}
@@ -157,7 +163,7 @@ export function ReactBootstrapTable({
             />
           </Card.Body>
         )}
-        {!page.length && error && (
+        {!loading && !page.length && error && (
           <Card.Body className="border-bottom">
             <MissingRecords
               variant="danger"
