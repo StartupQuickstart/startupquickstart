@@ -136,12 +136,7 @@ const Leaf = ({ attributes, children, leaf }) => {
 
 RichTextEditor.defaultProps = {
   placeholder: 'Enter text here',
-  defaultValue: [
-    {
-      type: 'paragraph',
-      children: [{ text: '' }]
-    }
-  ]
+  defaultValue: '<p><p/>'
 };
 
 export default RichTextEditor;
