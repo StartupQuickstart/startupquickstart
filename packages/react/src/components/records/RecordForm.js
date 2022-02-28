@@ -17,6 +17,7 @@ export function RecordForm({
   singularLabel = 'Record',
   createForm,
   updateForm,
+  canAddExisting,
   ...props
 }) {
   const [columns, setColumns] = useState([]);
@@ -153,7 +154,7 @@ export function RecordForm({
         {config.subheading && <p>{config.subheading}</p>}
       </div>
 
-      {parent && (
+      {canAddExisting && (
         <>
           <div className="form-group">
             <RecordTypeahead

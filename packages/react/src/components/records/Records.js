@@ -175,6 +175,7 @@ export function Records({
                 singularLabel={singularLabel}
                 recordType={recordType}
                 createLink={createLink}
+                canAddExisting={canCreate.canAddExisting}
                 record={defaultRecord}
                 parent={parent}
               />

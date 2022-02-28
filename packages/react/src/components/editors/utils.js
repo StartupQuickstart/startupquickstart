@@ -129,7 +129,7 @@ export function serialize(nodes) {
         const element = nodeConfig.element;
         html += `<${element}>${serialize(node.children)}</${element}>`;
       } else {
-        html += `<span>${serialize(node.children)}</span>`;
+        html += `<p>${serialize(node.children)}</p>`;
       }
     }
   }

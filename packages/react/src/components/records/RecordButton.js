@@ -17,6 +17,7 @@ export function RecordButton({
   label,
   asText = false,
   iconOnly = false,
+  canAddExisting = false,
   mode
 }) {
   const [showModal, setShowModal] = useState();
@@ -118,6 +119,7 @@ export function RecordButton({
               recordType={recordType}
               singularLabel={singularLabel}
               parent={parent}
+              canAddExisting={canAddExisting}
               mode={mode}
               onSave={close}
               record={record}
