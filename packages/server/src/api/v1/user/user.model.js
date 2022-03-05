@@ -95,7 +95,8 @@ module.exports = (sequelize, DataTypes) => {
           last_name: this.last_name,
           name: this.name,
           email: this.email,
-          is_activated: this.is_activated
+          is_activated: this.is_activated,
+          role: this.role
         },
         config.enc.secret,
         { expiresIn }

@@ -13,7 +13,7 @@ import { ContextProvider } from '@/context/ContextProvider';
 import { coreRoutes } from '@/routes';
 import { AdminLayout } from '@/components/layouts';
 import * as views from '@/views';
-import { Private, Public } from '@/authenticators';
+import { Private, PrivateWithRole, Public } from '@/authenticators';
 import { PageLoading } from '@/components/common';
 import axios from 'axios';
 
@@ -36,7 +36,12 @@ export function Admin({ config, configPath, routes, ...props }) {
     routes = [
       { path: '/', Component: views.Home, Authenticator: Private },
       { path: '/inputs', Component: views.Inputs, Authenticator: Private },
-      { path: '/records', Component: views.Records, Authenticator: Private }
+      { path: '/records', Component: views.Records, Authenticator: Private },
+      {
+        path: '/require-role/admin',
+        Component: views.Records,
+        Authenticator: PrivateWithRole(['Admin', 'Super Admin'])
+      }
     ];
   }
 
