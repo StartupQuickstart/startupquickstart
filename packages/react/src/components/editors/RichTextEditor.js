@@ -20,7 +20,11 @@ export function RichTextEditor({
   onBlur,
   height
 }) {
-  const transformed = useMemo(() => deserialize(defaultValue), [defaultValue]);
+  const transformed = useMemo(
+    () =>
+      deserialize('<p>' + defaultValue.split('\n').join('</p><p>') + '</p>'),
+    [defaultValue]
+  );
 
   const [value, setValue] = useState(transformed);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);

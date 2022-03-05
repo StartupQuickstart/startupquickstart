@@ -60,15 +60,13 @@ export function Inputs() {
                 placeholder={column.label}
                 value={value}
                 required={column.required}
-                onChange={onChange}
+                onChange={onChange || console.log}
               />
             </div>
           ))}
           <Card>
             <Card.Body>
-              <RichText>
-                <p>{richText}</p>
-              </RichText>
+              <RichText>{richText}</RichText>
             </Card.Body>
           </Card>
         </Col>

@@ -5,10 +5,10 @@ dotenv.config();
 
 export const config = {
   server: {
-    host: process.env.HOST || 'http://localhost:3001',
+    host: process.env.HOST || 'http://localhost:3501',
     publicHost:
-      process.env.PUBLIC_HOST || process.env.HOST || 'http://localhost:3000',
-    port: process.env.PORT || 3001
+      process.env.PUBLIC_HOST || process.env.HOST || 'http://localhost:3500',
+    port: process.env.PORT || 3501
   },
   app: {
     name: process.env.APP,
@@ -20,11 +20,11 @@ export const config = {
     supportEmail: 'support@startupquickstart.com',
     noReplyEmail: 'noreply@startupquickstart.com',
     logo: {
-      src: 'http://localhost:3000/static/media/logo.c65011228bd2c6f8bb3f.png',
+      src: 'http://localhost:3500/static/media/logo.c65011228bd2c6f8bb3f.png',
       width: 91,
       height: 45
     },
-    host: process.env.HOST || 'http://localhost:3001',
+    host: process.env.HOST || 'http://localhost:3501',
     pricing: {},
     setupItems: {}
   },

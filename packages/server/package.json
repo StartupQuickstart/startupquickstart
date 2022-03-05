@@ -26,7 +26,7 @@
   },
   "scripts": {
     "start": "TZ=UTC node ./dist/app.js",
-    "dev": "TZ=UTC PORT=3001 nodemon --exec babel-node ./src/app.js",
+    "dev": "TZ=UTC PORT=3501 nodemon --exec babel-node ./src/app.js",
     "dev:db": "docker-compose up -d postgres",
     "client:dev": "npm start --prefix src/client",
     "compile-email-assets": "node-sass ./src/emails/styles/styles.scss ./src/emails/dist/styles.css",
