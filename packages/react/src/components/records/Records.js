@@ -9,7 +9,8 @@ import React, {
 import UpdateRecordButton from './UpdateRecordButton';
 import { useApi } from '@/context/providers';
 import DeleteRecordButton from './DeleteRecordButton';
-import { CreateRecordButton, ViewRecordButton } from '.';
+import ViewRecordButton from './ViewRecordButton';
+import CreateRecordButton from './CreateRecordButton';
 import ReactBootstrapTableRemote from '../table/ReactBootstrapTableRemote';
 import classNames from 'classnames';
 

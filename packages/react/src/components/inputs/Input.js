@@ -19,6 +19,14 @@ export function Input({
   showErrors,
   ...props
 }) {
+  const valueProps = {};
+  if (onChange) {
+    valueProps.value = value || '';
+    valueProps.onChange = onChange;
+  } else {
+    valueProps.defaultValue = value;
+  }
+
   return (
     <div className="form-group">
       <label className="form-label">
@@ -28,9 +36,8 @@ export function Input({
         id={id}
         className={`form-control-${size}`}
         placeholder={placeholder}
-        value={value || ''}
+        {...valueProps}
         type={type}
-        onChange={onChange}
         onBlur={onBlur}
         isInvalid={touched[id] && errors[id]}
         disabled={disabled}

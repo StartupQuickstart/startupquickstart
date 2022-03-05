@@ -1,5 +1,5 @@
 import { EmptyLayout } from '@/components/layouts';
-import * as views from '../views';
+import * as views from '@/views';
 import { routes as authRoutes } from './auth.routes';
 
 export const routes = [

@@ -6,7 +6,7 @@ import MissingRecords from '../common/MissingRecords';
 import ReactBootstrapTablePagination from './ReactBootstrapTablePagination';
 import Search from '@/components/inputs/SearchInput';
 import { ArrowDown, ArrowUp } from 'react-feather';
-import { Loading } from '..';
+import { Loading } from '@/components/common';
 
 export function ReactBootstrapTable({
   id,

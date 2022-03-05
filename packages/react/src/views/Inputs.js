@@ -66,7 +66,9 @@ export function Inputs() {
           ))}
           <Card>
             <Card.Body>
-              <RichText>{richText}</RichText>
+              <RichText>
+                <p>{richText}</p>
+              </RichText>
             </Card.Body>
           </Card>
         </Col>
