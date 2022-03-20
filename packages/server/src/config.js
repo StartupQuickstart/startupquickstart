@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { AwsParamStore, Env } from '@/adapters/environment';
+import { Aws, Env } from '@/adapters/environment';
 
 dotenv.config();
 
@@ -50,7 +50,7 @@ export async function loadConfig() {
     .map((adapter) => adapter.trim());
 
   if (envAdapters.includes('aws')) {
-    adapters.push(AwsParamStore);
+    adapters.push(Aws);
   }
 
   await Env.load(config);

@@ -12,16 +12,23 @@ export class AwsSecretManager {
    * @param {String} path Path to get param at
    */
   static async get(path, env = process.env.ENV, app = process.env.APP) {
-    const base = `/${app}/${env}/`;
-    const fullPath = `${base}${path}`;
+    const base = `/${app}/${env}`;
+    const fullPath = `${base}${path.startsWith('/') ? '' : '/'}${path}`;
 
     if (cache.has(fullPath)) {
       return cache.get(fullPath);
     }
 
-    const result = await secretsManager
-      .getSecretValue({ SecretId: fullPath })
-      .promise();
+    try {
+      const result = await secretsManager
+        .getSecretValue({ SecretId: fullPath })
+        .promise();
+    } catch (err) {
+      console.log(`Could not find secret at ${fullPath}`);
+      if (err.code === 'ResourceNotFoundException') {
+        return null;
+      }
+    }
 
     if (result && result.SecretString) {
       const value = JSON.parse(result.SecretString);
