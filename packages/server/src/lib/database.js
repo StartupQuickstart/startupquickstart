@@ -81,7 +81,10 @@ export class Database {
    * @param {String} env Environment to get creds for
    */
   static async getCredentials(user, env = process.env.ENV) {
-    const credentials = await AwsSecretManager.get('db/creds', user, env);
+    const credentials = await AwsSecretManager.get(
+      `app-database/users/${user}/creds`,
+      env
+    );
 
     if (!credentials) {
       throw new Error(`Could not find creds for user ${user}`);

@@ -11,13 +11,8 @@ export class AwsSecretManager {
    *
    * @param {String} path Path to get param at
    */
-  static async get(
-    path,
-    user = 'svc_app',
-    env = process.env.ENV,
-    app = process.env.APP
-  ) {
-    const base = `/${app}/${user}/${env}/`;
+  static async get(path, env = process.env.ENV, app = process.env.APP) {
+    const base = `/${app}/${env}/`;
     const fullPath = `${base}${path}`;
 
     if (cache.has(fullPath)) {

@@ -1,2 +1,2 @@
-export * as AwsParamStore from './aws-param-store';
+export * as Aws from './aws';
 export * as Env from './env';

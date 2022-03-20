@@ -13,7 +13,7 @@ export async function load(config) {
       AwsParamStore.get(`/shared/_/secret`),
       AwsParamStore.get('/shared/hubspot/hapi-key'),
       AwsParamStore.getByPath('/shared/google/'),
-      AwsSecretManager.get('db/creds', 'svc_app')
+      AwsSecretManager.get('/app-database/users/master/creds')
     ]);
 
   const awsConfig = {
