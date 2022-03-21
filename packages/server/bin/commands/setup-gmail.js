@@ -10,7 +10,7 @@ module.exports = (cli) => {
     const SCOPES = ['https://mail.google.com/'];
 
     async function getOAuth2Client(env, collect = true) {
-      let config = (await ssm.getParam('/shared/google', env)) || {};
+      const config = (await ssm.getParam('/shared/google', env)) || {};
 
       if (
         (!config.clientId || !config.clientSecret || options.force) &&
@@ -33,7 +33,7 @@ module.exports = (cli) => {
         config.clientId = clientId;
         config.clientSecret = clientSecret;
 
-        ssm.setParam('/shared/google', config, true, env);
+        await ssm.setParam('/shared/google', config, true, env);
       }
 
       const oAuth2Client = new google.auth.OAuth2(
@@ -74,6 +74,7 @@ module.exports = (cli) => {
 
     try {
       const url = await getAuthorizationUrl(options.env);
+      const config = (await ssm.getParam('/shared/google', env)) || {};
 
       console.log('----------------Gmail Setup----------------');
       console.log('Authorize this app by visiting this url:');
