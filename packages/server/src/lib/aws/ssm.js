@@ -39,7 +39,7 @@ export class ssm {
   ) {
     const _value = typeof value === 'string' ? value : JSON.stringify(value);
 
-    const fullName = this.getName(name, app, env);
+    const fullName = this.getName(name, env, app);
 
     cache.set(fullName, _value);
 
@@ -64,7 +64,7 @@ export class ssm {
   static async getParam(name, env = process.env.ENV, app = process.env.APP) {
     let result, fullName;
     try {
-      fullName = this.getName(name);
+      fullName = this.getName(name, env, app);
 
       if (cache.has(fullName)) {
         return cache.get(fullName);
