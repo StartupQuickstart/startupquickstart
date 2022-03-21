@@ -29,7 +29,7 @@ export function ReactBootstrapTableRemote({ id, innerRef, ...props }) {
     {
       retry: (retryCount, error) => {
         return (
-          ![401, 403, 404].includes(error.response.status) && retryCount < 2
+          ![401, 403, 404].includes(error?.response?.status) && retryCount < 2
         );
       }
     }
