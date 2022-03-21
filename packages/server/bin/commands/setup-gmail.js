@@ -73,7 +73,8 @@ module.exports = (cli) => {
     }
 
     try {
-      const url = await getAuthorizationUrl(options.env);
+      const env = options.env;
+      const url = await getAuthorizationUrl(env);
       const config = (await ssm.getParam('/shared/google', env)) || {};
 
       console.log('----------------Gmail Setup----------------');
@@ -91,7 +92,7 @@ module.exports = (cli) => {
         }
       ]);
 
-      const tokens = await getToken(code, options.env);
+      const tokens = await getToken(code, env);
 
       prompt.message = 'EMAIL';
       const { email } = await prompt.get([
@@ -106,7 +107,7 @@ module.exports = (cli) => {
       config.accessToken = tokens.access_token;
       config.user = email;
 
-      await ssm.setParam('/shared/google', config, true, options.env);
+      await ssm.setParam('/shared/google', config, true, env);
     } catch (err) {
       console.log(err);
     }
