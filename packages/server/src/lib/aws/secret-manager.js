@@ -18,8 +18,8 @@ export class secretsManager {
    * @param {String} app App to get the secret for
    * @returns {String} Path to the secret
    */
-  static getPath(name, env = process.env.ENV, app = process.env.APP) {
-    return `/${app}/${env}${path.startsWith('/') ? '' : '/'}${name}`;
+  static getName(name, env = process.env.ENV, app = process.env.APP) {
+    return `/${app}/${env}${name.startsWith('/') ? '' : '/'}${name}`;
   }
 
   /**
@@ -30,16 +30,16 @@ export class secretsManager {
    * @returns {Object} Result of the set call
    */
   static async getSecret(name, env = process.env.ENV, app = process.env.APP) {
-    let result;
+    let result, fullName;
     try {
-      const path = this.getPath(name);
+      fullName = this.getName(name);
 
-      if (cache.has(path)) {
-        return cache.get(path);
+      if (cache.has(fullName)) {
+        return cache.get(fullName);
       }
 
       const command = new GetSecretValueCommand({
-        SecretId: name,
+        SecretId: fullName,
         WithDecryption: true
       });
       result = await this.client.send(command);
@@ -57,7 +57,7 @@ export class secretsManager {
       value = JSON.parse(value);
     } catch (err) {}
 
-    cache.set(path, value);
+    cache.set(fullName, value);
 
     return value;
   }

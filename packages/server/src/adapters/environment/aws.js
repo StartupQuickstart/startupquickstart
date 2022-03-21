@@ -5,8 +5,6 @@ dotenv.config();
 
 export async function load(config) {
   console.log('Loading environment config from AWS.');
-  console.log('start');
-
   const [stripe, appSecret, hubspotApiKey, google, database] =
     await Promise.all([
       ssm.getParam('/shared/stripe'),
@@ -18,9 +16,9 @@ export async function load(config) {
       if (err.code === 'CredentialsError') {
         throw new Error(err.message);
       }
-    });
 
-  console.log('end');
+      throw err;
+    });
 
   const awsConfig = {
     enc: {
@@ -28,21 +26,19 @@ export async function load(config) {
     },
     database,
     google: {
-      user: google.user,
-      clientId: google.clientId,
-      clientSecret: google.clientSecret,
-      refreshToken: google.refreshToken
+      user: google?.user,
+      clientId: google?.clientId,
+      clientSecret: google?.clientSecret,
+      refreshToken: google?.refreshToken
     },
     hubspot: {
       apiKey: hubspotApiKey
     },
     stripe: {
-      apiKey: stripe.key,
-      publishableKey: stripe.publishableKey
+      apiKey: stripe?.key,
+      publishableKey: stripe?.publishableKey
     }
   };
-
-  console.log('database', database);
 
   for (const key in awsConfig) {
     if (config[key]) {

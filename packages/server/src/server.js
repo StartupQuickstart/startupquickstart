@@ -13,6 +13,11 @@ import api from '@/api';
 
 export const server = {};
 
+process.on('uncaughtException', function (err) {
+  // Handle the error safely
+  console.log(err);
+});
+
 export const start = async () => {
   const config = await loadConfig();
   const app = new express();
