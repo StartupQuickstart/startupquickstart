@@ -11,7 +11,7 @@ export async function load(config) {
       ssm.getParam(`/shared/_/secret`),
       ssm.getParam('/shared/hubspot/hapi-key'),
       ssm.getParam('/shared/google'),
-      secretsManager.getSecret('/app-database/users/master/creds')
+      secretsManager.getSecret('/app-database/users/svc_app/creds')
     ]).catch((err) => {
       if (err.code === 'CredentialsError') {
         throw new Error(err.message);
