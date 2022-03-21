@@ -1,5 +1,5 @@
 const prompt = require('prompt');
-const { AwsParamStore } = require('../../dist/lib/aws/param-store');
+const { ssm } = require('../../dist/lib/aws');
 const { google } = require('googleapis');
 const dotenv = require('dotenv');
 
@@ -10,10 +10,10 @@ module.exports = (cli) => {
     const SCOPES = ['https://mail.google.com/'];
 
     async function getOAuth2Client(env, collect = true) {
-      let config = await AwsParamStore.getByPath('/shared/google/', env);
+      let config = (await ssm.getParam('/shared/google', env)) || {};
 
       if (
-        (!config['client-id'] || !config['client-secret'] || options.force) &&
+        (!config.clientId || !config.clientSecret || options.force) &&
         collect
       ) {
         prompt.message = 'ENTER';
@@ -30,25 +30,15 @@ module.exports = (cli) => {
           }
         ]);
 
-        await Promise.all([
-          AwsParamStore.upsert('/shared/google/client-id', clientId, {
-            encrypted: false,
-            env,
-            replaceExisting: true
-          }),
-          AwsParamStore.upsert('/shared/google/client-secret', clientSecret, {
-            encrypted: true,
-            env,
-            replaceExisting: true
-          })
-        ]);
+        config.clientId = clientId;
+        config.clientSecret = clientSecret;
 
-        config = await AwsParamStore.getByPath('/shared/google/', env);
+        ssm.setParam('/shared/google', config, true, env);
       }
 
       const oAuth2Client = new google.auth.OAuth2(
-        config['client-id'],
-        config['client-secret'],
+        config.clientId,
+        config.clientSecret,
         'urn:ietf:wg:oauth:2.0:oob'
       );
       oAuth2Client.setCredentials({
@@ -102,27 +92,6 @@ module.exports = (cli) => {
 
       const tokens = await getToken(code, options.env);
 
-      await Promise.all([
-        AwsParamStore.upsert(
-          '/shared/google/refresh-token',
-          tokens.refresh_token,
-          {
-            encrypted: true,
-            env: options.env,
-            replaceExisting: true
-          }
-        ),
-        AwsParamStore.upsert(
-          '/shared/google/access-token',
-          tokens.access_token,
-          {
-            encrypted: true,
-            env: options.env,
-            replaceExisting: true
-          }
-        )
-      ]);
-
       prompt.message = 'EMAIL';
       const { email } = await prompt.get([
         {
@@ -132,11 +101,11 @@ module.exports = (cli) => {
         }
       ]);
 
-      await AwsParamStore.upsert('/shared/google/user', email, {
-        encrypted: false,
-        env: options.env,
-        replaceExisting: true
-      });
+      config.refreshToken = tokens.refresh_token;
+      config.accessToken = tokens.access_token;
+      config.email = email;
+
+      await ssm.setParam('/shared/google', config, true, options.env);
     } catch (err) {
       console.log(err);
     }

@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { AwsParamStore } = require('../../dist/lib/aws/param-store');
+const { ssm } = require('../../dist/lib/aws');
 
 module.exports = (cli) => {
   return async (bytes = 64, opts) => {
@@ -7,20 +7,13 @@ module.exports = (cli) => {
       const options = Object.assign(cli.opts(), opts);
       const key = `shared/_/secret`;
 
-      const existing = await AwsParamStore.get(
-        key,
-        options.env,
-        process.env.APP
-      );
+      const existing = await ssm.get(key, options.env, process.env.APP);
 
       if (existing) {
         console.log('Secret is already set');
       } else {
         const secret = crypto.randomBytes(bytes).toString('hex');
-        await AwsParamStore.upsert(key, secret, {
-          encrypted: true,
-          env: options.env
-        });
+        await ssm.setParam(key, secret, true, options.env);
       }
     } catch (err) {
       console.log(err);

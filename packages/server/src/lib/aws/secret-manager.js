@@ -1,43 +1,66 @@
-import { SecretsManager } from 'aws-sdk';
+import {
+  SecretsManagerClient,
+  PutSecretValueCommand,
+  GetSecretValueCommand,
+  CreateSecretCommand
+} from '@aws-sdk/client-secrets-manager';
 import NodeCache from 'node-cache';
 
 const cache = new NodeCache({ stdTTL: 60 * 5 });
 
-const secretsManager = new SecretsManager({ region: 'us-east-1' });
+export class secretsManager {
+  static client = new SecretsManagerClient();
 
-export class AwsSecretManager {
   /**
-   * Gets the param value by an exact path
-   *
-   * @param {String} path Path to get param at
+   * Gets the path to the secret
+   * @param {String} name Name of the secret
+   * @param {String} env Environment to get the secret for
+   * @param {String} app App to get the secret for
+   * @returns {String} Path to the secret
    */
-  static async get(path, env = process.env.ENV, app = process.env.APP) {
-    const base = `/${app}/${env}`;
-    const fullPath = `${base}${path.startsWith('/') ? '' : '/'}${path}`;
+  static getPath(name, env = process.env.ENV, app = process.env.APP) {
+    return `/${app}/${env}${path.startsWith('/') ? '' : '/'}${name}`;
+  }
 
-    if (cache.has(fullPath)) {
-      return cache.get(fullPath);
-    }
-
+  /**
+   * Gets a secret manager value
+   *
+   * @param {String} secretId Id of the secret
+   * @param {Object} options Any other options you want to pass in.
+   * @returns {Object} Result of the set call
+   */
+  static async getSecret(name, env = process.env.ENV, app = process.env.APP) {
+    let result;
     try {
-      const result = await secretsManager
-        .getSecretValue({ SecretId: fullPath })
-        .promise();
+      const path = this.getPath(name);
+
+      if (cache.has(path)) {
+        return cache.get(path);
+      }
+
+      const command = new GetSecretValueCommand({
+        SecretId: name,
+        WithDecryption: true
+      });
+      result = await this.client.send(command);
     } catch (err) {
-      console.log(`Could not find secret at ${fullPath}`);
-      if (err.code === 'ResourceNotFoundException') {
-        return null;
+      if (err.name === 'ResourceNotFoundException') {
+        result = { SecretString: null };
+      } else {
+        throw err;
       }
     }
 
-    if (result && result.SecretString) {
-      const value = JSON.parse(result.SecretString);
-      cache.set(fullPath, value);
-      return value;
-    }
+    let value = result.SecretString;
 
-    return null;
+    try {
+      value = JSON.parse(value);
+    } catch (err) {}
+
+    cache.set(path, value);
+
+    return value;
   }
 }
 
-export default AwsSecretManager;
+export default secretsManager;

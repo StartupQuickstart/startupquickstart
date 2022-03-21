@@ -1,20 +1,26 @@
 import dotenv from 'dotenv';
-import AwsParamStore from '@/lib/aws/param-store';
-import AwsSecretManager from '@/lib/aws/secret-manager';
+import { ssm, secretsManager } from '@/lib/aws';
 
 dotenv.config();
 
 export async function load(config) {
   console.log('Loading environment config from AWS.');
+  console.log('start');
 
   const [stripe, appSecret, hubspotApiKey, google, database] =
     await Promise.all([
-      AwsParamStore.getByPath('/shared/stripe'),
-      AwsParamStore.get(`/shared/_/secret`),
-      AwsParamStore.get('/shared/hubspot/hapi-key'),
-      AwsParamStore.getByPath('/shared/google/'),
-      AwsSecretManager.get('/app-database/users/master/creds')
-    ]);
+      ssm.getParam('/shared/stripe'),
+      ssm.getParam(`/shared/_/secret`),
+      ssm.getParam('/shared/hubspot/hapi-key'),
+      ssm.getParam('/shared/google'),
+      secretsManager.getSecret('/app-database/users/master/creds')
+    ]).catch((err) => {
+      if (err.code === 'CredentialsError') {
+        throw new Error(err.message);
+      }
+    });
+
+  console.log('end');
 
   const awsConfig = {
     enc: {
@@ -35,6 +41,8 @@ export async function load(config) {
       publishableKey: stripe['publishable-key']
     }
   };
+
+  console.log('database', database);
 
   for (const key in awsConfig) {
     if (config[key]) {
