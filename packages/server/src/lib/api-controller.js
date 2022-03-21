@@ -155,6 +155,7 @@ export class ApiController {
    * @param {HttpResponse} res Http response to send
    */
   async _create(req, res, outsideTransaction) {
+    console.log('Creating record');
     const transaction =
       outsideTransaction || (await this.model.sequelize.transaction());
 
@@ -200,7 +201,7 @@ export class ApiController {
    */
   async create(req, res, next) {
     try {
-      const record = await this._create(req, res, next);
+      const record = await this._create(req, res);
       return res.status(200).send(record);
     } catch (err) {
       return next(err);
