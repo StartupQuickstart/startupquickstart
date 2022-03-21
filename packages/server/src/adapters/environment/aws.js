@@ -28,17 +28,17 @@ export async function load(config) {
     },
     database,
     google: {
-      user: google['user'],
-      clientId: google['client-id'],
-      clientSecret: google['client-secret'],
-      refreshToken: google['refresh-token']
+      user: google.user,
+      clientId: google.clientId,
+      clientSecret: google.clientSecret,
+      refreshToken: google.refreshToken
     },
     hubspot: {
       apiKey: hubspotApiKey
     },
     stripe: {
-      apiKey: stripe['key'],
-      publishableKey: stripe['publishable-key']
+      apiKey: stripe.key,
+      publishableKey: stripe.publishableKey
     }
   };
 

@@ -103,7 +103,7 @@ module.exports = (cli) => {
 
       config.refreshToken = tokens.refresh_token;
       config.accessToken = tokens.access_token;
-      config.email = email;
+      config.user = email;
 
       await ssm.setParam('/shared/google', config, true, options.env);
     } catch (err) {
