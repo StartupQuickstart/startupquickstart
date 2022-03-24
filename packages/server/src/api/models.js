@@ -24,8 +24,9 @@ export async function init() {
   const modelPaths = Files.findByExt(path.resolve(__dirname), 'model.js');
 
   const parentPath = process.cwd();
+  const dir = process.env.NODE_ENV === 'production' ? 'dist' : 'src';
   const parentModelPaths = Files.findByExt(
-    path.resolve(parentPath, 'src/api'),
+    path.resolve(parentPath, dir, 'api'),
     'model.js'
   );
 
