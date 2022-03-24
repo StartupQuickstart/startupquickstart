@@ -39,14 +39,19 @@ function initSequelize() {
 cli
   .command('start')
   .description('Starts the express server')
-  .action(async () => shell.exec(`TZ=UTC node ./dist/app.js`));
+  .action(async () =>
+    shell.exec(` NODE_ENV=production TZ=UTC node ./dist/app.js`)
+  );
 
 cli
   .command('build')
   .description('Builds the code for production')
   .action(async () =>
     shell.exec(
-      `rm -rf ./dist && NODE_ENV=production babel ./src  --ignore ./src/client,./src/bin --out-dir dist`
+      `
+        rm -rf ./dist && NODE_ENV=production babel ./src  --ignore ./src/client,./src/bin --out-dir dist
+        npm run build --prefix ./src/client
+      `
     )
   );
 

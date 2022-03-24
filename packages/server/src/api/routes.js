@@ -16,7 +16,8 @@ import config from '@/config';
 
 export function init(app) {
   const parentPath = process.cwd();
-  const parentRoutePath = path.resolve(parentPath, 'src/api/routes.js');
+  const dir = process.env.NODE_ENV === 'production' ? 'dist' : 'src';
+  const parentRoutePath = path.resolve(parentPath, dir, '/api/routes.js');
 
   if (parentRoutePath !== __filename && fs.existsSync(parentRoutePath)) {
     require(parentRoutePath).default(app);
