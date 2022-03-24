@@ -51,6 +51,7 @@ cli
       `
         rm -rf ./dist && NODE_ENV=production babel ./src  --ignore ./src/client,./src/bin --out-dir dist
         npm run build --prefix ./src/client
+        cp -r ./src/client/build ./dist/client/build
       `
     )
   );
