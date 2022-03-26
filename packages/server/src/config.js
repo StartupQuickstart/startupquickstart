@@ -8,7 +8,7 @@ export const config = {
   server: {
     host: process.env.HOST || 'http://localhost:3501',
     publicHost:
-      process.env.PUBLIC_HOST || process.env.HOST || 'http://localhost:3500',
+      process.env.PUBLIC_HOST || process.env.HOST || 'http://localhost:3000',
     port: process.env.PORT || 3501
   },
   app: {
