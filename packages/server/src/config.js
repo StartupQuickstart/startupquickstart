@@ -1,3 +1,4 @@
+import path from 'path';
 import dotenv from 'dotenv';
 import { Aws, Env } from '@/adapters/environment';
 
@@ -24,10 +25,7 @@ export const config = {
       width: 91,
       height: 45
     },
-    emailStylePath: config.emailStylePath.resolve(
-      __dirname,
-      './email/dist/styles.css'
-    ),
+    emailStylePath: path.resolve(__dirname, './email/dist/styles.css'),
     host: process.env.HOST || 'http://localhost:3501',
     pricing: {},
     setupItems: {}
