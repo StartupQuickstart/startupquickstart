@@ -10,8 +10,7 @@ export default class EmailWrapper extends EmailComponent {
   renderHtml() {
     const data = this.props.data;
 
-    const appStylesPath = path.resolve(__dirname, '../dist/styles.css');
-    const styles = fs.readFileSync(appStylesPath, 'utf-8');
+    const styles = fs.readFileSync(config.emailStylePath, 'utf-8');
 
     return (
       <AppContext.Provider
