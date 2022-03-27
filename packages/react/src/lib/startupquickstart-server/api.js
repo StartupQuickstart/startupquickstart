@@ -1,8 +1,12 @@
+import User from './user';
 import ApiRoute from './api-route';
 
 export class Api {
   static Auth;
   static routes = {};
+  static constructors = {
+    users: User
+  };
 
   /**
    * Gets an api route
@@ -10,10 +14,21 @@ export class Api {
    * @param {String} route Route prefix to get
    */
   static get = (route, version = 'v1') => {
+    const ApiRouteC = this.constructors[route] || ApiRoute;
+
     Api.routes[route] =
-      Api.routes[route] || new ApiRoute(route, Api.Auth, { version });
+      Api.routes[route] || new ApiRouteC(route, Api.Auth, { version });
     return Api.routes[route];
   };
+
+  /**
+   * Registers a new api route
+   * @param {String} route Route prefix to register
+   * @param {Class} constructor Constructor to use for the route
+   */
+  static register(route, constructor) {
+    this.constructors[route] = constructor;
+  }
 
   /**
    * Sets the auth Provider

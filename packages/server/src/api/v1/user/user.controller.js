@@ -24,13 +24,13 @@ class UserController extends ApiController {
         include: ['account']
       });
 
-      if (!record) {
+      if (!user) {
         return res.status(404).send(http.STATUS_CODES[404]);
       }
 
       await this.model.inviteUser(user);
 
-      return res.status(200).send(record);
+      return res.status(200).send(http.STATUS_CODES[200]);
     } catch (err) {
       return next(err);
     }

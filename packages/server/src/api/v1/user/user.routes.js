@@ -7,12 +7,12 @@ let router = express.Router();
 
 const withAdminRole = Auth.withRole(['Admin', 'Super Admin']);
 
-router.get('/users/me', Auth.protected(['jwt']), Controller.readMe);
-router.put('/users/me', Auth.protected(['jwt']), Controller.updateMe);
+router.get('/users/me', Auth.protected(), Controller.readMe);
+router.put('/users/me', Auth.protected(), Controller.updateMe);
 
 router.get(
   '/users/:id/send-invite-email',
-  [Auth.protected(['jwt']), withAdminRole],
+  [Auth.protected(), withAdminRole],
   Controller.inviteUser
 );
 

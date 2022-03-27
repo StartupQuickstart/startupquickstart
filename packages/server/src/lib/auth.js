@@ -14,11 +14,11 @@ export class Auth {
     requireSubscription = false,
     scope = 'api'
   ) {
+    strategies = strategies || ['bearer'];
     const hasStrategy = (strategy) =>
-      !strategies ||
-      (Array.isArray(strategies)
+      Array.isArray(strategies)
         ? strategies.includes(strategy)
-        : strategies === strategy);
+        : strategies === strategy;
 
     const auth = (req, res, next) => {
       if (

@@ -15,13 +15,21 @@ router.post('/auth/signup', Controller.signup);
 router.post('/auth/forgot-password', Controller.forgotPassword);
 router.post(
   '/auth/reset-password',
-  auth.protected('jwt', false, 'reset_password'),
+  auth.protected('bearer', false, 'reset_password'),
   Controller.resetPassword
 );
-router.post('/auth/send-activation-email', auth.protected(), Controller.sendActivationEmail);
+router.post(
+  '/auth/send-activation-email',
+  auth.protected(),
+  Controller.sendActivationEmail
+);
 router.post('/auth/activate', auth.protected(), Controller.activate);
 router.post('/auth/refresh', auth.protected(), Controller.refresh);
 
-router.post('/auth/change-password', auth.protected('jwt'), Controller.resetPassword);
+router.post(
+  '/auth/change-password',
+  auth.protected(),
+  Controller.resetPassword
+);
 
 export default router;

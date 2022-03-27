@@ -5,8 +5,8 @@ import ApiRouter from '@/lib/api-route';
 
 let router = express.Router();
 
-router.get('/accounts/me', Auth.protected(['jwt']), Controller.readMe);
-router.put('/accounts/me', Auth.protected(['jwt']), Controller.updateMe);
+router.get('/accounts/me', Auth.protected(), Controller.readMe);
+router.put('/accounts/me', Auth.protected(), Controller.updateMe);
 
 router = new ApiRouter(
   'accounts',

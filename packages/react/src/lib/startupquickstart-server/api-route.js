@@ -4,6 +4,7 @@ export class ApiRoute {
   constructor(route, Auth, options = {}) {
     this.route = route;
     this.Auth = Auth;
+
     this.options = Object.assign(
       { relatedPathPrefix: '/related', version: 'v1' },
       options
@@ -15,9 +16,11 @@ export class ApiRoute {
       baseURL: `/api/${this.options.version}/${this.route}/`
     };
 
-    config.adapter = this.Auth?.axiosAdapter
-      ? this.Auth.axiosAdapter(adapter)
-      : adapter;
+    if (!this.Auth?.axiosAdapter) {
+      throw new Error('AuthProvider is required');
+    }
+
+    config.adapter = this.Auth.axiosAdapter(adapter);
 
     this.axios = axios.create(config);
   }

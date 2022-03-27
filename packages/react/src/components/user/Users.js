@@ -2,21 +2,25 @@ import React from 'react';
 import Moment from 'react-moment';
 import Records from '@/components/records/Records';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
-import User from '@/lib/startupquickstart-server/user';
-import { useConfig } from '@/context/providers';
+import { useConfig, useApi } from '@/context/providers';
 
 export function Users(props) {
+  const { Api } = useApi();
   const ref = React.createRef();
   const { config } = useConfig();
 
   async function activate(user) {
-    await User.activate(user);
-    await ref.current.setData();
+    await Api.get('users').activate(user);
+    await ref.current.fetchData();
   }
 
   async function deactivate(user) {
-    await User.deactivate(user);
-    await ref.current.setData();
+    await Api.get('users').deactivate(user);
+    await ref.current.fetchData();
+  }
+
+  async function sendInvite(user) {
+    await Api.get('users').sendInviteEmail(user);
   }
 
   return (
@@ -130,10 +134,7 @@ export function Users(props) {
               >
                 {!user.is_deactivated && (
                   <>
-                    <Dropdown.Item
-                      href="#"
-                      onClick={() => User.sendInviteEmail(user)}
-                    >
+                    <Dropdown.Item href="#" onClick={() => sendInvite(user)}>
                       Resend Invite Email
                     </Dropdown.Item>
                     <Dropdown.Item href="#" onClick={() => deactivate(user)}>

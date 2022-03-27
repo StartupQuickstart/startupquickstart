@@ -1,11 +1,7 @@
 import ApiRoute from './api-route';
 import Toast from '@/lib/toast';
 
-class UserRoute extends ApiRoute {
-  constructor() {
-    super('users');
-  }
-
+export class User extends ApiRoute {
   /**
    * Activates a deactivated user
    *
@@ -53,5 +49,4 @@ class UserRoute extends ApiRoute {
   }
 }
 
-export const User = new UserRoute();
 export default User;
