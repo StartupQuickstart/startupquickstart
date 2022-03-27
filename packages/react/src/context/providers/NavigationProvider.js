@@ -16,8 +16,14 @@ export const NavigationProvider = ({ children, ...props }) => {
       },
       {
         name: 'Admin',
+        canView: (user) => ['Admin', 'Super Admin'].includes(user?.role),
         items: [
-          { name: 'Admin Only', to: '/admin/require-role', icon: 'Lock' },
+          {
+            name: 'Admin Only',
+            to: '/admin/require-role',
+            icon: 'Lock',
+            canView: (user) => ['Admin', 'Super Admin'].includes(user?.role)
+          },
           { name: 'Users', to: '/admin/users', icon: 'Users' }
           // {
           //   name: 'Settings',

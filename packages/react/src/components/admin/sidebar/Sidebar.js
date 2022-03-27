@@ -3,12 +3,13 @@ import classNames from 'classnames';
 import * as Feather from 'react-feather';
 import { Link } from 'react-router-dom';
 import SidebarCallToAction from './SidebarCallToAction';
-import { useConfig, useNavigation } from '@/context/providers';
+import { useConfig, useNavigation, useAuth } from '@/context/providers';
 import Logo from '@/components/admin/Logo';
 
 export default function Sidebar() {
   const { sidebarItems, sidebarCollapsed, toggleSidebar, toggleSidebarItem } =
     useNavigation();
+  const { user } = useAuth();
 
   const { callToAction } = useConfig();
 
@@ -19,6 +20,10 @@ export default function Sidebar() {
     if (window.innerWidth < 992) {
       toggleSidebar();
     }
+  }
+
+  function canView(item) {
+    return item.canView ? item.canView(user) : true;
   }
 
   return (
@@ -35,10 +40,18 @@ export default function Sidebar() {
           {sidebarItems?.map((group, groupIndex) => {
             const groupKey = `group_${groupIndex}`;
 
+            if (!canView(group)) {
+              return '';
+            }
+
             return (
               <Fragment key={groupKey}>
                 {group.name && <li className="sidebar-header">{group.name}</li>}
                 {group.items.map((item, itemIndex) => {
+                  if (!canView(item)) {
+                    return '';
+                  }
+
                   const itemKey = `${groupKey}_item_${itemIndex}`;
                   const className = classNames(
                     'sidebar-link',
@@ -115,6 +128,10 @@ export default function Sidebar() {
                           data-parent="#sidebar"
                         >
                           {item.items.map((item, index) => {
+                            if (!canView(item)) {
+                              return '';
+                            }
+
                             return (
                               <li
                                 key={`${itemKey}_${index}`}
