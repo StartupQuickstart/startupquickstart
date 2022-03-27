@@ -37,6 +37,20 @@ class UserRoute extends ApiRoute {
       Toast.error();
     }
   }
+
+  /**
+   * Sends an invite email to the user
+   *
+   * @param {Object} user User to send invite
+   */
+  async sendInviteEmail(user) {
+    const promise = this.axios.get(user.id + '/send-invite-email');
+    Toast.promise(promise, {
+      pending: `Sending invite to ${user.name}`,
+      success: `Sent invite to ${user.name}`,
+      error: `Failed to send invite to ${user.name}`
+    });
+  }
 }
 
 export const User = new UserRoute();

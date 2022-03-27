@@ -4,8 +4,36 @@ import models from '@/api/models';
 class UserController extends ApiController {
   constructor() {
     super(models.User);
+    this.inviteUser = this.inviteUser.bind(this);
     this.readMe = this.readMe.bind(this);
     this.updateMe = this.updateMe.bind(this);
+  }
+
+  /**
+   * Sends the user an invite email
+   *
+   * @param {HttpRequest} req Http request to handle
+   * @param {HttpResponse} res Http response to send
+   */
+  async inviteUser(req, res, next) {
+    try {
+      const user = await this.model.findOne({
+        where: { id: req.params.id },
+        nest: true,
+        raw: true,
+        include: ['account']
+      });
+
+      if (!record) {
+        return res.status(404).send(http.STATUS_CODES[404]);
+      }
+
+      await this.model.inviteUser(user);
+
+      return res.status(200).send(record);
+    } catch (err) {
+      return next(err);
+    }
   }
 
   /**

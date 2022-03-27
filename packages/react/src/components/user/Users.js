@@ -9,13 +9,13 @@ export function Users(props) {
   const ref = React.createRef();
   const { config } = useConfig();
 
-  async function deactivate(user) {
-    await User.deactivate(user);
+  async function activate(user) {
+    await User.activate(user);
     await ref.current.setData();
   }
 
-  async function activate(user) {
-    await User.activate(user);
+  async function deactivate(user) {
+    await User.deactivate(user);
     await ref.current.setData();
   }
 
@@ -129,9 +129,17 @@ export function Users(props) {
                 size={'sm'}
               >
                 {!user.is_deactivated && (
-                  <Dropdown.Item href="#" onClick={() => deactivate(user)}>
-                    Deactivate
-                  </Dropdown.Item>
+                  <>
+                    <Dropdown.Item
+                      href="#"
+                      onClick={() => User.sendInviteEmail(user)}
+                    >
+                      Resend Invite Email
+                    </Dropdown.Item>
+                    <Dropdown.Item href="#" onClick={() => deactivate(user)}>
+                      Deactivate
+                    </Dropdown.Item>
+                  </>
                 )}
                 {user.is_deactivated && (
                   <Dropdown.Item href="#" onClick={() => activate(user)}>

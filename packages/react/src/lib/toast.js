@@ -34,8 +34,8 @@ export class Toast {
       Object.assign(
         {
           position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: true,
+          autoClose: 4000,
+          hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -44,6 +44,15 @@ export class Toast {
         options || {}
       )
     );
+  }
+
+  /**
+   * Wraps toast promise
+   * @param {Promise} promise Promise to wrap
+   * @param {Object} options Options to pass to toast
+   */
+  static promise(promise, options) {
+    return toast.promise(promise, options);
   }
 }
 
