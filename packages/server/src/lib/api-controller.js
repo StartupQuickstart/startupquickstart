@@ -259,10 +259,16 @@ export class ApiController {
           type.relatedPath = association.target.tableName.replace(/_/g, '-');
         }
 
+        type = _.cloneDeep(type);
+
+        if (attribute.enum) {
+          type.enum = attribute.enum;
+        }
+
         meta.columns.push({
           name: attribute.fieldName,
           label: attribute.label || getLabel(attribute.fieldName),
-          type: _.cloneDeep(type),
+          type,
           required: attribute.allowNull === false,
           canCreate: attribute.canCreate === true,
           canUpdate: attribute.canUpdate === true

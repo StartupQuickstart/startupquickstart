@@ -372,7 +372,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       role: {
         type: DataTypes.STRING,
-        defaultValue: 'Basic'
+        defaultValue: 'Basic',
+        enum: ['Basic', 'Admin'],
+        canCreate: true,
+        canUpdate: true,
+        allowNull: false
       },
       email: {
         type: DataTypes.STRING,

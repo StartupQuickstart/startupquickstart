@@ -1,4 +1,5 @@
 export { CreateRecordButton } from './CreateRecordButton';
+export { RecordAction } from './RecordAction';
 export { RecordButton } from './RecordButton';
 export { RecordForm } from './RecordForm';
 export { RecordInput } from './RecordInput';

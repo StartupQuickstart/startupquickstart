@@ -103,16 +103,17 @@ export function Records({
   );
 
   columns = columns.map((column) => {
-    if (column?.actions) {
+    if (column?.actions && !column._accessor) {
+      column._accessor = column.accessor;
       column.accessor = (record, index) => {
         return (
           <div>
-            {column.actions.map((action, index) => {
+            {column.actions.map((action) => {
               if (action === 'view') {
                 return (
                   <ViewRecordButton
                     className="mx-1"
-                    key={index}
+                    key={`${column.id}-${action}`}
                     recordType={recordType}
                     singularLabel={singularLabel}
                     pluralLabel={pluralLabel}
@@ -125,7 +126,7 @@ export function Records({
                 return (
                   <UpdateRecordButton
                     className="mx-1"
-                    key={index}
+                    key={`${column.id}-${action}`}
                     recordType={recordType}
                     singularLabel={singularLabel}
                     pluralLabel={pluralLabel}
@@ -141,7 +142,7 @@ export function Records({
                 return (
                   <DeleteRecordButton
                     className="mx-1"
-                    key={index}
+                    key={`${column.id}-${action}`}
                     recordType={recordType}
                     singularLabel={singularLabel}
                     pluralLabel={pluralLabel}
@@ -154,8 +155,11 @@ export function Records({
                 );
               }
 
-              return <Fragment key={index}>{action}</Fragment>;
+              return (
+                <Fragment key={`${column.id}-accessor`}>{action}</Fragment>
+              );
             })}
+            {column._accessor && column._accessor(record, 'accessor-' + index)}
           </div>
         );
       };

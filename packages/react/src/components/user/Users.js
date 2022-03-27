@@ -1,8 +1,9 @@
 import React from 'react';
 import Moment from 'react-moment';
 import Records from '@/components/records/Records';
-import { DropdownButton, Dropdown } from 'react-bootstrap';
 import { useConfig, useApi } from '@/context/providers';
+import { CheckCircle, Send, XCircle } from 'react-feather';
+import { RecordAction } from '../records';
 
 export function Users(props) {
   const { Api } = useApi();
@@ -124,30 +125,38 @@ export function Users(props) {
           Header: 'Actions',
           headerStyle: { width: 'auto', textAlign: 'center' },
           style: { textAlign: 'center' },
+          actions: ['update'],
           accessor: (user) => {
             return (
-              <DropdownButton
-                id={user.id}
-                title="Actions"
-                variant={'white'}
-                size={'sm'}
-              >
-                {!user.is_deactivated && user.invite_pending && (
-                  <Dropdown.Item href="#" onClick={() => sendInvite(user)}>
-                    Resend Invite Email
-                  </Dropdown.Item>
-                )}
+              <>
                 {!user.is_deactivated && (
-                  <Dropdown.Item href="#" onClick={() => deactivate(user)}>
-                    Deactivate
-                  </Dropdown.Item>
+                  <RecordAction
+                    onClick={() => deactivate(user)}
+                    tooltip="Deactivate"
+                    asText={true}
+                  >
+                    <XCircle />
+                  </RecordAction>
                 )}
                 {user.is_deactivated && (
-                  <Dropdown.Item href="#" onClick={() => activate(user)}>
-                    Activate
-                  </Dropdown.Item>
+                  <RecordAction
+                    onClick={() => activate(user)}
+                    tooltip="Activate"
+                    asText={true}
+                  >
+                    <CheckCircle />
+                  </RecordAction>
                 )}
-              </DropdownButton>
+                {!user.is_deactivated && user.invite_pending && (
+                  <RecordAction
+                    onClick={() => sendInvite(user)}
+                    tooltip="Resend Invite Email"
+                    asText={true}
+                  >
+                    <Send />
+                  </RecordAction>
+                )}
+              </>
             );
           }
         }

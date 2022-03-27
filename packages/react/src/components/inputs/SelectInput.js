@@ -58,7 +58,7 @@ export function SelectInput({
       required={required}
       value={_value || ''}
     >
-      <option>{placeholder}</option>
+      {!(required && _value) && <option>{placeholder}</option>}
       {_options.map((opt) => (
         <option key={opt.value} value={opt.value}>
           {opt.label}
