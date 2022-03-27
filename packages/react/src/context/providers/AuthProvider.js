@@ -118,7 +118,7 @@ export const AuthProvider = ({ children, Auth = AuthDemo }) => {
   }
 
   async function sendActivationLink(email) {
-    return await Auth.sendActivationLink(email);
+    return await Auth.sendActivationEmail(email);
   }
 
   async function sendResetPasswordLink(email) {

@@ -5,9 +5,13 @@ export class Auth {
   constructor(version = 'v1') {
     this.apiTokenCookie = 'api-token';
 
-    this.api = axios.create({
+    let adapter = axios.defaults.adapter;
+    const config = {
       baseURL: `/api/${version}/auth/`
-    });
+    };
+
+    config.adapter = this.axiosAdapter(adapter);
+    this.api = axios.create(config);
   }
 
   /**

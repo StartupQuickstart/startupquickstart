@@ -132,15 +132,15 @@ export function Users(props) {
                 variant={'white'}
                 size={'sm'}
               >
+                {!user.is_deactivated && user.invite_pending && (
+                  <Dropdown.Item href="#" onClick={() => sendInvite(user)}>
+                    Resend Invite Email
+                  </Dropdown.Item>
+                )}
                 {!user.is_deactivated && (
-                  <>
-                    <Dropdown.Item href="#" onClick={() => sendInvite(user)}>
-                      Resend Invite Email
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#" onClick={() => deactivate(user)}>
-                      Deactivate
-                    </Dropdown.Item>
-                  </>
+                  <Dropdown.Item href="#" onClick={() => deactivate(user)}>
+                    Deactivate
+                  </Dropdown.Item>
                 )}
                 {user.is_deactivated && (
                   <Dropdown.Item href="#" onClick={() => activate(user)}>

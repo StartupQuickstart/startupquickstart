@@ -267,7 +267,7 @@ module.exports = (sequelize, DataTypes) => {
      * @param {User} user User to sync with hubspot
      */
     static async syncWithHubspot(user) {
-      const hapiKey = config.hubspot.apiKey;
+      const hapiKey = config?.hubspot?.apiKey;
 
       if (!hapiKey) {
         return;

@@ -25,7 +25,7 @@ export const config = {
       width: 91,
       height: 45
     },
-    emailStylePath: path.resolve(__dirname, './email/dist/styles.css'),
+    emailStylePath: path.resolve(__dirname, './emails/dist/styles.css'),
     host: process.env.HOST || 'http://localhost:3501',
     pricing: {},
     setupItems: {}

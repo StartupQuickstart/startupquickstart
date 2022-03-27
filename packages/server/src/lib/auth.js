@@ -22,7 +22,7 @@ export class Auth {
 
     const auth = (req, res, next) => {
       if (
-        hasStrategy('jwt') &&
+        hasStrategy('bearer') &&
         ((req.headers.authorization &&
           req.headers.authorization.startsWith('bearer')) ||
           req.query.token ||

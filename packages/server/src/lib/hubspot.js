@@ -28,15 +28,15 @@ export class Hubspot {
    * @param {Object} axiosAdapter AxiosAdapter
    */
   static axiosAdapter(axiosAdapter) {
-    return async (config) => {
-      const _url = url.parse(config.url);
+    return async (axiosConfig) => {
+      const _url = url.parse(axiosConfig.url);
       _url.query = _url.query || {};
-      _url.query.hapikey = config.hubspot.apiKey;
+      _url.query.hapikey = config?.hubspot?.apiKey;
 
       delete _url.search;
-      config.url = _url.format(_url);
+      axiosConfig.url = _url.format(_url);
 
-      return axiosAdapter(config);
+      return axiosAdapter(axiosConfig);
     };
   }
 
@@ -52,7 +52,8 @@ export class Hubspot {
       );
       return result.data;
     } catch (err) {
-      if (err.response.status !== 404) {
+      console.log(err);
+      if (err?.response?.status !== 404) {
         console.log(err);
       }
 

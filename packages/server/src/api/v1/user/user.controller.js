@@ -1,3 +1,4 @@
+import http from 'http';
 import ApiController from '@/lib/api-controller';
 import models from '@/api/models';
 
@@ -20,7 +21,6 @@ class UserController extends ApiController {
       const user = await this.model.findOne({
         where: { id: req.params.id },
         nest: true,
-        raw: true,
         include: ['account']
       });
 
