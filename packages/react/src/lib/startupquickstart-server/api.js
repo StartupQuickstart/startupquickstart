@@ -14,7 +14,7 @@ export class Api {
    * @param {String} route Route prefix to get
    */
   static get = (route, version = 'v1') => {
-    const ApiRouteC = this.constructors[route] || ApiRoute;
+    const ApiRouteC = Api.constructors[route] || ApiRoute;
 
     Api.routes[route] =
       Api.routes[route] || new ApiRouteC(route, Api.Auth, { version });
@@ -27,7 +27,7 @@ export class Api {
    * @param {Class} constructor Constructor to use for the route
    */
   static register(route, constructor) {
-    this.constructors[route] = constructor;
+    Api.constructors[route] = constructor;
   }
 
   /**
@@ -36,7 +36,7 @@ export class Api {
    * @param {Object} Auth AuthProvider to set
    */
   static setAuth(Auth) {
-    this.Auth = Auth;
+    Api.Auth = Auth;
   }
 }
 

@@ -45,43 +45,48 @@ export function Records({
   const [_params, setParams] = useState();
 
   async function fetchData(query) {
-    const { pageIndex, pageSize, search, sortBy } = query || {};
+    try {
+      const { pageIndex, pageSize, search, sortBy } = query || {};
 
-    if (!_params && isNaN(pageIndex)) {
-      return;
+      if (!_params && isNaN(pageIndex)) {
+        return;
+      }
+
+      const params = !query
+        ? _params
+        : {
+            ...dataParams,
+            [limitParamKey]: pageSize || 10,
+            [offsetParamKey]: pageIndex * pageSize,
+            page: pageIndex + 1,
+            order:
+              sortBy?.map((item) => [item.id, item.desc ? 'desc' : 'asc']) || []
+          };
+
+      setParams(params);
+
+      if (search?.length) {
+        params[searchParamKey] = search;
+      }
+
+      let result;
+
+      if (parent) {
+        result = await Api.get(parent.type).related(
+          parent.id,
+          recordType,
+          params,
+          false
+        );
+      } else {
+        result = await Api.get(recordType).index(params, false);
+      }
+
+      return result;
+    } catch (err) {
+      console.log(err);
+      throw err;
     }
-
-    const params = !query
-      ? _params
-      : {
-          ...dataParams,
-          [limitParamKey]: pageSize || 10,
-          [offsetParamKey]: pageIndex * pageSize,
-          page: pageIndex + 1,
-          order:
-            sortBy?.map((item) => [item.id, item.desc ? 'desc' : 'asc']) || []
-        };
-
-    setParams(params);
-
-    if (search?.length) {
-      params[searchParamKey] = search;
-    }
-
-    let result;
-
-    if (parent) {
-      result = await Api.get(parent.type).related(
-        parent.id,
-        recordType,
-        params,
-        false
-      );
-    } else {
-      result = await Api.get(recordType).index(params, false);
-    }
-
-    return result;
   }
 
   useEffect(() => {
