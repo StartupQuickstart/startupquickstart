@@ -10,7 +10,7 @@ const withAdminRole = Auth.withRole(['Admin', 'Super Admin']);
 router.get('/users/me', Auth.protected(['jwt']), Controller.readMe);
 router.put('/users/me', Auth.protected(['jwt']), Controller.updateMe);
 
-router.put(
+router.get(
   '/users/:id/send-invite-email',
   [Auth.protected(['jwt']), withAdminRole],
   Controller.inviteUser
