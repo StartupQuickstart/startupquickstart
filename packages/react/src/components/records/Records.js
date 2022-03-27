@@ -37,7 +37,8 @@ export function Records({
   defaultRecord,
   tableProps,
   tableClassName,
-  className
+  className,
+  createForm
 }) {
   const { Api } = useApi();
   const tableRef = useRef();
@@ -179,6 +180,7 @@ export function Records({
                 canAddExisting={canCreate.canAddExisting}
                 record={defaultRecord}
                 parent={parent}
+                createForm={createForm}
               />
             )}
             <div className="d-inline-block" style={{ lineHeight: '32px' }}>

@@ -37,8 +37,9 @@ export function Admin({ config, configPath, routes, ...props }) {
       { path: '/', Component: views.Home, Authenticator: Private },
       { path: '/inputs', Component: views.Inputs, Authenticator: Private },
       { path: '/records', Component: views.Records, Authenticator: Private },
+      { path: '/admin/users', Component: views.Users, Authenticator: Private },
       {
-        path: '/require-role/admin',
+        path: '/admin/require-role',
         Component: views.Records,
         Authenticator: PrivateWithRole(['Admin', 'Super Admin'])
       }

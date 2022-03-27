@@ -11,8 +11,14 @@ export const NavigationProvider = ({ children, ...props }) => {
         items: [
           { name: 'Dashboard', to: '/', icon: 'BarChart2' },
           { name: 'Inputs', to: '/inputs', icon: 'List' },
-          { name: 'Records', to: '/records', icon: 'Folder' },
-          { name: 'Admin Only', to: '/require-role/admin', icon: 'Lock' }
+          { name: 'Records', to: '/records', icon: 'Folder' }
+        ]
+      },
+      {
+        name: 'Admin',
+        items: [
+          { name: 'Admin Only', to: '/admin/require-role', icon: 'Lock' },
+          { name: 'Users', to: '/admin/users', icon: 'Users' }
           // {
           //   name: 'Settings',
           //   to: '/settings',

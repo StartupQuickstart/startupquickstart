@@ -1,7 +1,7 @@
 import ApiRoute from './api-route';
 import Toast from '@/lib/toast';
 
-class User extends ApiRoute {
+class UserRoute extends ApiRoute {
   constructor() {
     super('users');
   }
@@ -39,4 +39,5 @@ class User extends ApiRoute {
   }
 }
 
-export default new User();
+export const User = new UserRoute();
+export default User;

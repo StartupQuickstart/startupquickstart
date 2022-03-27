@@ -106,7 +106,7 @@ export function ReactBootstrapTable({
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => {
                   return (
-                    <th {...column.getHeaderProps()}>
+                    <th {...column.getHeaderProps()} style={column.headerStyle}>
                       <span {...column.getSortByToggleProps()}>
                         {column.render('Header')}
                         {column.canSort && (
@@ -142,7 +142,9 @@ export function ReactBootstrapTable({
                 <tr {...row.getRowProps()}>
                   {row.cells.map((cell) => {
                     return (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                      <td {...cell.getCellProps()} style={cell?.column?.style}>
+                        {cell.render('Cell')}
+                      </td>
                     );
                   })}
                 </tr>

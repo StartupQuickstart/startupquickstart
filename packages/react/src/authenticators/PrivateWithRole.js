@@ -26,7 +26,6 @@ export function PrivateWithRole(requiredRoles) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [navigate, isAuthenticated, user?.is_activated]);
 
-    console.log(user, user?.role);
     requiredRoles = Array.isArray(requiredRoles)
       ? requiredRoles
       : [requiredRoles];

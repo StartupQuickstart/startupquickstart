@@ -18,7 +18,8 @@ export function RecordButton({
   asText = false,
   iconOnly = false,
   canAddExisting = false,
-  mode
+  mode,
+  createForm
 }) {
   const [showModal, setShowModal] = useState();
 
@@ -123,6 +124,7 @@ export function RecordButton({
               mode={mode}
               onSave={close}
               record={record}
+              createForm={createForm}
             />
           </Modal.Body>
         </Modal>

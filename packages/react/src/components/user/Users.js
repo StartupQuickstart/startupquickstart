@@ -21,7 +21,7 @@ export function Users(props) {
 
   return (
     <Records
-      ref={ref}
+      innerRef={ref}
       recordType="users"
       singularLabel="User"
       pluralLabel="Users"
@@ -34,17 +34,21 @@ export function Users(props) {
       }}
       columns={[
         {
-          dataField: 'name',
-          text: 'Name',
+          accessor: 'name',
+          Header: 'Name',
           headerStyle: { width: 'auto', textAlign: 'center' },
           style: { textAlign: 'center' }
         },
         {
-          dataField: 'is_deactivated',
-          text: 'Status',
-          headerStyle: { width: 'auto', textAlign: 'center' },
-          style: { textAlign: 'center' },
-          formatter: (name, user) => {
+          id: 'is_deactivated',
+          Header: 'Status',
+          headerStyle: {
+            width: 'auto',
+            textAlign: 'center',
+            maxWidth: '50px'
+          },
+          style: { textAlign: 'center', maxWidth: '50px' },
+          accessor: (user) => {
             return (
               <>
                 {user.invite_pending && !user.is_deactivated && (
@@ -67,17 +71,21 @@ export function Users(props) {
           }
         },
         {
-          dataField: 'email',
-          text: 'Email',
+          accessor: 'email',
+          Header: 'Email',
           headerStyle: { width: 'auto', textAlign: 'center' },
           style: { textAlign: 'center' }
         },
         {
-          dataField: 'role',
-          text: 'Role',
-          headerStyle: { width: 'auto', textAlign: 'center' },
-          style: { textAlign: 'center' },
-          formatter: (role) => {
+          id: 'role',
+          Header: 'Role',
+          headerStyle: {
+            width: 'auto',
+            textAlign: 'center',
+            maxWidth: '50px'
+          },
+          style: { textAlign: 'center', maxWidth: '50px' },
+          accessor: ({ role }) => {
             return (
               <span className="badge rounded-pill bg-primary text-capitalize w-100 text-center">
                 {role}
@@ -86,36 +94,36 @@ export function Users(props) {
           }
         },
         {
-          dataField: 'created_at',
-          text: 'Created',
+          id: 'created_at',
+          Header: 'Created',
           headerStyle: { width: 'auto', textAlign: 'center' },
           style: { textAlign: 'center' },
-          formatter: (createdAt, media) => {
-            return <Moment format={'lll'}>{createdAt}</Moment>;
+          accessor: ({ created_at }) => {
+            return <Moment format={'lll'}>{created_at}</Moment>;
           }
         },
         {
-          dataField: 'last_active_at',
-          text: 'Last Active',
+          id: 'last_active_at',
+          Header: 'Last Active',
           headerStyle: { width: 'auto', textAlign: 'center' },
           style: { textAlign: 'center' },
-          formatter: (lastActiveAt) => {
-            return lastActiveAt ? (
-              <Moment format={'lll'}>{lastActiveAt}</Moment>
+          accessor: ({ last_active_at }) => {
+            return last_active_at ? (
+              <Moment format={'lll'}>{last_active_at}</Moment>
             ) : (
               'Never'
             );
           }
         },
         {
-          dataField: 'id',
-          text: 'Actions',
+          id: 'id',
+          Header: 'Actions',
           headerStyle: { width: 'auto', textAlign: 'center' },
           style: { textAlign: 'center' },
-          formatter: (id, user) => {
+          accessor: (user) => {
             return (
               <DropdownButton
-                id={id}
+                id={user.id}
                 title="Actions"
                 variant={'white'}
                 size={'sm'}
