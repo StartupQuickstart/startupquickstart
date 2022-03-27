@@ -210,7 +210,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
-     * Signups a user
+     * Signs up a user
      *
      * @param {Object} data Data for the user to sign up
      */

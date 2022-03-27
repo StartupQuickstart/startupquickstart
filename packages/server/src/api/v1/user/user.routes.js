@@ -13,7 +13,7 @@ router = new ApiRouter(
   Controller,
   'User',
   ['index', 'update', 'create', 'describe'],
-  [],
+  [Auth.withRole(['Admin', 'Super Admin'])], // Middleware
   router
 );
 

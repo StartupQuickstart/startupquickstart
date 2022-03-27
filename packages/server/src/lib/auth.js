@@ -4,25 +4,6 @@ import Stripe from './stripe';
 
 export class Auth {
   /**
-   * Authenticates a user with the jwt passport strategy
-   * Requires an admin user
-   *
-   * @param {Array} strategies Strategies to use
-   */
-  static admin(strategies = null) {
-    return [
-      Auth.protected(strategies),
-      (req, res, next) => {
-        if (req.user.role !== 'admin') {
-          return res.status(403).send(http.STATUS_CODES[403]);
-        }
-
-        next();
-      }
-    ];
-  }
-
-  /**
    * Accepts any authentication
    *
    * @param {Array} strategies Strategies to use
@@ -52,13 +33,11 @@ export class Auth {
           res,
           () => {
             if (!req.user.scope.includes(scope)) {
-              res
-                .status(403)
-                .send({
-                  success: false,
-                  message: 'Invalid Scope.',
-                  code: 'INVALID_SCOPE'
-                });
+              res.status(403).send({
+                success: false,
+                message: 'Invalid Scope.',
+                code: 'INVALID_SCOPE'
+              });
             }
 
             return next();
@@ -74,13 +53,11 @@ export class Auth {
           res,
           () => {
             if (!req.user.scope.includes(scope)) {
-              res
-                .status(403)
-                .send({
-                  success: false,
-                  message: 'Invalid Scope.',
-                  code: 'INVALID_SCOPE'
-                });
+              res.status(403).send({
+                success: false,
+                message: 'Invalid Scope.',
+                code: 'INVALID_SCOPE'
+              });
             }
 
             return next();
@@ -94,7 +71,7 @@ export class Auth {
     return process.env.REQUIRE_SUBSCRIPTION === 'false' ||
       requireSubscription === false
       ? [auth]
-      : [auth, Auth.validateSubscription];
+      : [auth, Auth.withSubscription];
   }
 
   /**
@@ -123,7 +100,7 @@ export class Auth {
   /**
    * Middleware taht validates a subscription
    */
-  static async validateSubscription(req, res, next) {
+  static async withSubscription(req, res, next) {
     const status = await Stripe.getSubscriptionStatus(
       req.user.account.stripe_customer_id
     );
@@ -135,6 +112,25 @@ export class Auth {
     req.subscriptionStatus = status;
 
     next();
+  }
+
+  /**
+   * Requires a user to have a specific role
+   *
+   * @param {Array} roles Roles to require
+   */
+  static withRole(roles) {
+    if (!Array.isArray(roles)) {
+      throw new Error('Roles must be an array');
+    }
+
+    return (req, res, next) => {
+      if (!roles.includes(req.user.role)) {
+        return res.status(403).send(http.STATUS_CODES[403]);
+      }
+
+      next();
+    };
   }
 }
 
