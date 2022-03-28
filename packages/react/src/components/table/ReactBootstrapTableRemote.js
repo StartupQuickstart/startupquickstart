@@ -3,7 +3,12 @@ import { useQuery } from 'react-query';
 import ReactBootstrapTable from './ReactBootstrapTable';
 import { Error } from '@/views';
 
-export function ReactBootstrapTableRemote({ id, innerRef, ...props }) {
+export function ReactBootstrapTableRemote({
+  id,
+  innerRef,
+  queryKeys,
+  ...props
+}) {
   const [query, setQuery] = useState({
     pageIndex: props.defaultPage - 1,
     pageSize: props.defaultPageSize,
@@ -22,7 +27,7 @@ export function ReactBootstrapTableRemote({ id, innerRef, ...props }) {
   );
 
   const { data, error, refetch, loading } = useQuery(
-    ['ReactBootstrapTable', 'fetchData', id, query],
+    ['ReactBootstrapTable', 'fetchData', id, query, queryKeys],
     () => {
       return props.fetchData(query);
     },

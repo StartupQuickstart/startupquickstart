@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   Fragment,
   useImperativeHandle,
   useState,
   useRef,
-  useEffect
+  useEffect,
+  useMemo
 } from 'react';
 
 import UpdateRecordButton from './UpdateRecordButton';
@@ -13,6 +15,7 @@ import ViewRecordButton from './ViewRecordButton';
 import CreateRecordButton from './CreateRecordButton';
 import ReactBootstrapTableRemote from '../table/ReactBootstrapTableRemote';
 import classNames from 'classnames';
+import _ from 'lodash';
 
 export function Records({
   id,
@@ -89,10 +92,6 @@ export function Records({
     }
   }
 
-  useEffect(() => {
-    tableRef.current?.fetchData();
-  }, [dataParams]);
-
   useImperativeHandle(
     innerRef,
     () => ({
@@ -102,71 +101,75 @@ export function Records({
     []
   );
 
-  columns = columns.map((column) => {
-    if (column?.actions && !column._accessor) {
-      column._accessor = column.accessor;
-      column.accessor = (record, index) => {
-        return (
-          <div>
-            {column.actions.map((action) => {
-              if (action === 'view') {
-                return (
-                  <ViewRecordButton
-                    className="mx-1"
-                    key={`${column.id}-${action}`}
-                    recordType={recordType}
-                    singularLabel={singularLabel}
-                    pluralLabel={pluralLabel}
-                    record={record}
-                    iconOnly
-                    asText
-                  />
-                );
-              } else if (action === 'update') {
-                return (
-                  <UpdateRecordButton
-                    className="mx-1"
-                    key={`${column.id}-${action}`}
-                    recordType={recordType}
-                    singularLabel={singularLabel}
-                    pluralLabel={pluralLabel}
-                    record={record}
-                    iconOnly
-                    asText
-                    onClose={() => {
-                      tableRef.current?.fetchData();
-                    }}
-                  />
-                );
-              } else if (action === 'delete') {
-                return (
-                  <DeleteRecordButton
-                    className="mx-1"
-                    key={`${column.id}-${action}`}
-                    recordType={recordType}
-                    singularLabel={singularLabel}
-                    pluralLabel={pluralLabel}
-                    parent={parent}
-                    record={record}
-                    iconOnly
-                    asText
-                    onClose={() => tableRef.current?.fetchData()}
-                  />
-                );
-              }
+  const _columns = useMemo(() => {
+    const _columns = _.cloneDeep(columns);
+    return _columns.map((column) => {
+      if (column?.actions && !column._accessor) {
+        column._accessor = column.accessor;
+        column.accessor = (record, index) => {
+          return (
+            <div>
+              {column.actions.map((action) => {
+                if (action === 'view') {
+                  return (
+                    <ViewRecordButton
+                      className="mx-1"
+                      key={`${column.id}-${action}`}
+                      recordType={recordType}
+                      singularLabel={singularLabel}
+                      pluralLabel={pluralLabel}
+                      record={record}
+                      iconOnly
+                      asText
+                    />
+                  );
+                } else if (action === 'update') {
+                  return (
+                    <UpdateRecordButton
+                      className="mx-1"
+                      key={`${column.id}-${action}`}
+                      recordType={recordType}
+                      singularLabel={singularLabel}
+                      pluralLabel={pluralLabel}
+                      record={record}
+                      iconOnly
+                      asText
+                      onClose={() => {
+                        tableRef.current?.fetchData();
+                      }}
+                    />
+                  );
+                } else if (action === 'delete') {
+                  return (
+                    <DeleteRecordButton
+                      className="mx-1"
+                      key={`${column.id}-${action}`}
+                      recordType={recordType}
+                      singularLabel={singularLabel}
+                      pluralLabel={pluralLabel}
+                      parent={parent}
+                      record={record}
+                      iconOnly
+                      asText
+                      onClose={() => tableRef.current?.fetchData()}
+                    />
+                  );
+                }
 
-              return (
-                <Fragment key={`${column.id}-accessor`}>{action}</Fragment>
-              );
-            })}
-            {column._accessor && column._accessor(record, 'accessor-' + index)}
-          </div>
-        );
-      };
-    }
+                return (
+                  <Fragment key={`${column.id}-accessor`}>{action}</Fragment>
+                );
+              })}
+              {column._accessor &&
+                column._accessor(record, 'accessor-' + index)}
+            </div>
+          );
+        };
+      }
 
-    return column;
-  });
+      return column;
+    });
+  }, [JSON.stringify(columns)]);
 
   return (
     <div id={id} className={classNames('records', className)}>
@@ -174,9 +177,16 @@ export function Records({
         id={recordType}
         className={tableClassName}
         innerRef={tableRef}
-        columns={columns}
+        columns={_columns}
         pluralLabel={pluralLabel}
         fetchData={fetchData}
+        queryKeys={[
+          searchParamKey,
+          limitParamKey,
+          offsetParamKey,
+          orderParamKey,
+          dataParams
+        ]}
         actions={
           <div className="actions">
             {canCreate && (
