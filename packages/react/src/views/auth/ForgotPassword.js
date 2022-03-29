@@ -108,7 +108,7 @@ export function ForgotPassword(props) {
           handleSubmit,
           isSubmitting,
           isValid,
-          isDirty
+          dirty
         }) => (
           <Form noValidate onSubmit={handleSubmit} autoComplete="off">
             {error && <div className="alert alert-danger">{error}</div>}
@@ -128,7 +128,7 @@ export function ForgotPassword(props) {
                   <SubmitButton
                     label={'Send reset link'}
                     isSubmitting={isSubmitting}
-                    disabled={isSubmitting || isValid || !isDirty}
+                    disabled={!isValid || !dirty}
                   />
                 </div>
                 <div className="text-center mt-3">

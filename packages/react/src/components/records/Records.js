@@ -4,7 +4,6 @@ import React, {
   useImperativeHandle,
   useState,
   useRef,
-  useEffect,
   useMemo
 } from 'react';
 
@@ -35,7 +34,7 @@ export function Records({
   limitParamKey = 'limit',
   offsetParamKey = 'offset',
   orderParamKey = 'order',
-  onRecords,
+  onCreate,
   onPagination,
   defaultRecord,
   tableProps,
@@ -192,7 +191,10 @@ export function Records({
             {canCreate && (
               <CreateRecordButton
                 className="float-end ms-2"
-                onClose={() => tableRef.current?.fetchData()}
+                onClose={(record) => {
+                  tableRef.current?.fetchData();
+                  onCreate && onCreate(record);
+                }}
                 singularLabel={singularLabel}
                 recordType={recordType}
                 createLink={createLink}

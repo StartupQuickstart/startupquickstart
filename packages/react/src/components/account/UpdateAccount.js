@@ -76,7 +76,7 @@ export function UpdateAccount() {
           handleSubmit,
           isSubmitting,
           isValid,
-          isDirty
+          dirty
         }) => (
           <Form noValidate onSubmit={handleSubmit} autoComplete="off">
             <div className="form-group">
@@ -120,7 +120,7 @@ export function UpdateAccount() {
             <div className="d-grid gap-2">
               <SubmitButton
                 label={'Update Account'}
-                disabled={isSubmitting || isValid || !isDirty}
+                disabled={!isValid || !dirty}
                 showArrow={false}
               />
             </div>

@@ -184,7 +184,7 @@ export function RecordForm({
           isSubmitting,
           setFieldValue,
           isValid,
-          isDirty
+          dirty
         }) => {
           return (
             <Form noValidate onSubmit={handleSubmit} autoComplete="off">
@@ -236,7 +236,7 @@ export function RecordForm({
               <div className="float-end">
                 <SubmitButton
                   label={config?.saveBtnLabel}
-                  disabled={isSubmitting || isValid || !isDirty}
+                  disabled={!isValid || !dirty}
                   showArrow={false}
                 />
               </div>

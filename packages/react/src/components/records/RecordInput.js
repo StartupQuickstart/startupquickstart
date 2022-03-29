@@ -4,7 +4,7 @@ import { RichTextEditor } from '@/components/editors/RichTextEditor';
 import { RecordTypeahead, SelectInput } from '../inputs';
 import DateInput from '../inputs/DateInput';
 
-export function RecordInput({ column, onChange, ...props }) {
+export function RecordInput({ column, onChange, value, ...props }) {
   const columnType = column?.type;
   const type = columnType?.type;
 
@@ -13,33 +13,42 @@ export function RecordInput({ column, onChange, ...props }) {
       <RecordTypeahead
         onChange={(record) => onChange(record?.id)}
         recordType={columnType?.relatedPath}
+        value={value}
         {...props}
       />
     );
   } else if (type === 'DATE') {
-    return <DateInput onChange={([date]) => onChange(date)} {...props} />;
+    return (
+      <DateInput
+        onChange={([date]) => onChange(date)}
+        value={value}
+        {...props}
+      />
+    );
   } else if (type === 'DATETIME') {
     return (
       <DateInput
         onChange={([date]) => onChange(date)}
         showTime={true}
+        value={value}
         {...props}
       />
     );
   } else if (type === 'RICHTEXT') {
     return (
-      <RichTextEditor
-        onChange={onChange}
-        defaultValue={props.value}
-        {...props}
-      />
+      <RichTextEditor onChange={onChange} defaultValue={value} {...props} />
     );
   } else if (columnType?.enum) {
     return (
-      <SelectInput onChange={onChange} options={columnType.enum} {...props} />
+      <SelectInput
+        onChange={onChange}
+        options={columnType.enum}
+        value={value}
+        {...props}
+      />
     );
   } else {
-    return <Form.Control onChange={onChange} {...props} />;
+    return <Form.Control onChange={onChange} defaultValue={value} {...props} />;
   }
 }
 
