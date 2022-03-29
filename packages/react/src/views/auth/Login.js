@@ -67,7 +67,9 @@ export function Login(props) {
           handleChange,
           handleBlur,
           handleSubmit,
-          isSubmitting
+          isSubmitting,
+          isValid,
+          isDirty
         }) => (
           <Form noValidate onSubmit={handleSubmit} autoComplete="off">
             {error && <div className="alert alert-danger">{error}</div>}
@@ -94,8 +96,7 @@ export function Login(props) {
             <div className="d-grid gap-2">
               <SubmitButton
                 label={'Login'}
-                isSubmitting={isSubmitting}
-                error={errors}
+                disabled={isSubmitting || !isValid || !isDirty}
               />
             </div>
             <div className="text-center mt-3">

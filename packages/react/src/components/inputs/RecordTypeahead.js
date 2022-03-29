@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Typeahead } from 'react-bootstrap-typeahead';
+import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import Avatar from '@/components/common/Avatar';
 import { useApi } from '@/context/providers';
 import _ from 'lodash';
@@ -19,63 +19,88 @@ export function RecordTypeahead({
   isInvalid,
   ...props
 }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [records, setRecords] = useState([]);
   const [selected, setSelected] = useState(null);
   const ref = useRef();
   const { Api } = useApi();
 
+  const handleSearch = async (s, filter) => {
+    setIsLoading(true);
+    const query = {
+      limit: 50
+    };
+
+    if (s) {
+      query.search = s;
+    }
+
+    if (filter) {
+      query.filter = filter;
+    }
+
+    const { records } = await Api.get(recordType).index(query);
+
+    setRecords(records);
+    setIsLoading(false);
+    return records;
+  };
+
   useEffect(() => {
-    setData();
+    const filter = value && { id: value };
+    handleSearch(null, filter).then((records) => {
+      const record = getRecordById(value, records);
+      setSelected(record);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    setSelected(getRecordById(value, records));
+    if (records && records.length) {
+      const record = getRecordById(value, records);
+      setSelected(record);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
-
-  /**
-   * Sets the data for the typeahead
-   */
-  async function setData() {
-    const { records } = await Api.get(recordType).index();
-    setRecords(records);
-    const selected = getRecordById(value, records);
-    setSelected(selected);
-    onLoad && onLoad({ records, selected });
-  }
 
   /**
    * Gets a record by its id
    *
    * @param {String} recordId Id of the record
    */
-  function getRecordById(recordId, records) {
+  function getRecordById(recordId, records = []) {
     return _.find(records, (record) => record.id === recordId);
   }
 
   /**
    * Handles change events
    *
-   * @param {Array} records List of selected records
+   * @param {Array} recorvaluesds List of selected records
    */
-  function handleChange(records) {
-    const record = _.last(records);
-    onChange && onChange(record);
+  function handleChange(values) {
+    const newValue = _.last(values);
+    onChange && onChange(newValue);
 
     if (clearOnChange && ref?.current?.clear) {
       ref.current.clear();
     } else {
-      setSelected(record);
+      setSelected(newValue);
     }
   }
 
+  // Bypass client-side filtering by returning `true`. Results are already
+  // filtered by the search endpoint, so no need to do it again.
+  const filterBy = () => true;
+
   return (
-    <Typeahead
+    <AsyncTypeahead
       {...props}
       isInvalid={isInvalid === 'true'}
       id={id}
       name={name}
+      filterBy={filterBy}
+      isLoading={isLoading}
+      onSearch={handleSearch}
       clearButton
       renderMenuItemChildren={(option, props, index) => {
         const label = props.labelKey(option);

@@ -84,7 +84,9 @@ export function Activate() {
           handleChange,
           handleBlur,
           handleSubmit,
-          isSubmitting
+          isSubmitting,
+          isValid,
+          isDirty
         }) => (
           <Form noValidate onSubmit={handleSubmit} autoComplete="off">
             {error && <div className="alert alert-danger">{error}</div>}
@@ -102,8 +104,7 @@ export function Activate() {
               />
               <SubmitButton
                 label={'Activate'}
-                isSubmitting={isSubmitting}
-                error={errors}
+                disabled={isSubmitting || !isValid || !isDirty}
               />
             </div>
           </Form>

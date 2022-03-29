@@ -7,6 +7,7 @@ import LoadingOverlay from '../common/LoadingOverlay';
 import { useApi } from '@/context/providers';
 import RecordInput from './RecordInput';
 import { RecordTypeahead } from '../inputs';
+import { SubmitButton } from '../buttons';
 
 export function RecordForm({
   recordType,
@@ -181,7 +182,9 @@ export function RecordForm({
           handleBlur,
           handleSubmit,
           isSubmitting,
-          setFieldValue
+          setFieldValue,
+          isValid,
+          isDirty
         }) => {
           return (
             <Form noValidate onSubmit={handleSubmit} autoComplete="off">
@@ -231,17 +234,11 @@ export function RecordForm({
                 );
               })}
               <div className="float-end">
-                <button
-                  type="submit"
-                  className="btn btn-lg btn-primary"
-                  disabled={
-                    isSubmitting ||
-                    Object.keys(errors).length ||
-                    (!Object.keys(touched).length && mode === 'Create')
-                  }
-                >
-                  {config.saveBtnLabel}
-                </button>
+                <SubmitButton
+                  label={config?.saveBtnLabel}
+                  disabled={isSubmitting || !isValid || !isDirty}
+                  showArrow={false}
+                />
               </div>
             </Form>
           );

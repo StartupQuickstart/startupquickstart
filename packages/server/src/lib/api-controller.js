@@ -155,7 +155,6 @@ export class ApiController {
    * @param {HttpResponse} res Http response to send
    */
   async _create(req, res, outsideTransaction) {
-    console.log('Creating record');
     const transaction =
       outsideTransaction || (await this.model.sequelize.transaction());
 
@@ -289,9 +288,13 @@ export class ApiController {
    */
   async read(req, res, next, options = {}) {
     try {
-      const queryOptions = this.getQueryOptions(req, options);
+      const where = { id: req.params.id };
 
-      const record = await this.model.findOne(queryOptions);
+      if (this.model.rawAttributes.account_id) {
+        where.account_id = req.user.account_id;
+      }
+
+      const record = await this.model.findOne({ where });
 
       if (!record) {
         return res.status(404).send(http.STATUS_CODES[404]);

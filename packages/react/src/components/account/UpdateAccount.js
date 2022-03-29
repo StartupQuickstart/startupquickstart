@@ -5,6 +5,7 @@ import { Form } from 'react-bootstrap';
 import FormValidation from '@/lib/form-validation';
 import Toast from '@/lib/toast';
 import { useApi } from '@/context/providers';
+import { SubmitButton } from '../buttons';
 
 export function UpdateAccount() {
   const [loading, setLoading] = useState(true);
@@ -73,7 +74,9 @@ export function UpdateAccount() {
           handleChange,
           handleBlur,
           handleSubmit,
-          isSubmitting
+          isSubmitting,
+          isValid,
+          isDirty
         }) => (
           <Form noValidate onSubmit={handleSubmit} autoComplete="off">
             <div className="form-group">
@@ -115,13 +118,11 @@ export function UpdateAccount() {
               </Form.Control.Feedback>
             </div>
             <div className="d-grid gap-2">
-              <button
-                type="submit"
-                className="btn btn-lg btn-primary"
-                disabled={isSubmitting || Object.keys(errors).length}
-              >
-                Update Account
-              </button>
+              <SubmitButton
+                label={'Update Account'}
+                disabled={isSubmitting || !isValid || !isDirty}
+                showArrow={false}
+              />
             </div>
           </Form>
         )}

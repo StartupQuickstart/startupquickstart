@@ -118,7 +118,9 @@ export function ResetPassword(props) {
             handleChange,
             handleBlur,
             handleSubmit,
-            isSubmitting
+            isSubmitting,
+            isValid,
+            isDirty
           }) => (
             <Form noValidate onSubmit={handleSubmit} autoComplete="off">
               {error && <div className="alert alert-danger">{error}</div>}
@@ -159,8 +161,7 @@ export function ResetPassword(props) {
               <div className="d-grid gap-2">
                 <SubmitButton
                   label={'Set Password'}
-                  isSubmitting={isSubmitting}
-                  error={errors}
+                  disabled={isSubmitting || !isValid || !isDirty}
                 />
               </div>
               <div className="text-center mt-3">

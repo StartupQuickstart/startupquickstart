@@ -71,7 +71,9 @@ export function Signup() {
           handleChange,
           handleBlur,
           handleSubmit,
-          isSubmitting
+          isSubmitting,
+          isValid,
+          isDirty
         }) => (
           <Form noValidate onSubmit={handleSubmit} autoComplete="off">
             {error && <div className="alert alert-danger">{error}</div>}
@@ -164,8 +166,7 @@ export function Signup() {
             <div className="d-grid gap-2">
               <SubmitButton
                 label={config?.signup?.btnLabel || 'Signup'}
-                isSubmitting={isSubmitting}
-                error={errors}
+                disabled={isSubmitting || !isValid || !isDirty}
               />
             </div>
             <div className="text-center mt-3">
