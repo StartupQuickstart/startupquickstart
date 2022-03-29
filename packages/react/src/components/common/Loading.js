@@ -1,7 +1,9 @@
 import React from 'react';
 
 export function Loading({ small }) {
-  const styles = small ? { position: 'relative', height: '100px' } : {};
+  const styles = small
+    ? { position: 'relative', height: '100px' }
+    : { padding: '50px' };
   return (
     <div className="d-block" style={styles}>
       <div className="loading spinner-border text-primary">
