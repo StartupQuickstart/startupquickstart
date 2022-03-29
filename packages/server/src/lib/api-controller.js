@@ -294,7 +294,10 @@ export class ApiController {
         where.account_id = req.user.account_id;
       }
 
-      const record = await this.model.findOne({ where });
+      const record = await this.model.findOne({
+        where,
+        include: this.getIncludes()
+      });
 
       if (!record) {
         return res.status(404).send(http.STATUS_CODES[404]);
