@@ -236,7 +236,7 @@ export function RecordForm({
               <div className="float-end">
                 <SubmitButton
                   label={config?.saveBtnLabel}
-                  disabled={isSubmitting || !isValid || !isDirty}
+                  disabled={isSubmitting || isValid || !isDirty}
                   showArrow={false}
                 />
               </div>

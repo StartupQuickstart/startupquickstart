@@ -120,7 +120,7 @@ export function UpdateAccount() {
             <div className="d-grid gap-2">
               <SubmitButton
                 label={'Update Account'}
-                disabled={isSubmitting || !isValid || !isDirty}
+                disabled={isSubmitting || isValid || !isDirty}
                 showArrow={false}
               />
             </div>
