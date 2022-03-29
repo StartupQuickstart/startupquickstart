@@ -166,7 +166,7 @@ export function Signup() {
             <div className="d-grid gap-2">
               <SubmitButton
                 label={config?.signup?.btnLabel || 'Signup'}
-                disabled={isSubmitting || !isValid || !isDirty}
+                disabled={isSubmitting || isValid || !isDirty}
               />
             </div>
             <div className="text-center mt-3">

@@ -96,7 +96,7 @@ export function Login(props) {
             <div className="d-grid gap-2">
               <SubmitButton
                 label={'Login'}
-                disabled={isSubmitting || !isValid || !isDirty}
+                disabled={isSubmitting || isValid || !isDirty}
               />
             </div>
             <div className="text-center mt-3">

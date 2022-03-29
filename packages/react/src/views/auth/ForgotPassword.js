@@ -128,7 +128,7 @@ export function ForgotPassword(props) {
                   <SubmitButton
                     label={'Send reset link'}
                     isSubmitting={isSubmitting}
-                    disabled={isSubmitting || !isValid || !isDirty}
+                    disabled={isSubmitting || isValid || !isDirty}
                   />
                 </div>
                 <div className="text-center mt-3">

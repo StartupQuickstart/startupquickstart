@@ -104,7 +104,7 @@ export function Activate() {
               />
               <SubmitButton
                 label={'Activate'}
-                disabled={isSubmitting || !isValid || !isDirty}
+                disabled={isSubmitting || isValid || !isDirty}
               />
             </div>
           </Form>
