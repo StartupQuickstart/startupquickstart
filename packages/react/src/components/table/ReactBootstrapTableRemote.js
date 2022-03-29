@@ -26,7 +26,7 @@ export function ReactBootstrapTableRemote({
     []
   );
 
-  const { data, error, refetch, loading } = useQuery(
+  const { data, error, refetch, isLoading } = useQuery(
     ['ReactBootstrapTable', 'fetchData', id, query, queryKeys],
     () => {
       return props.fetchData(query);
@@ -56,7 +56,7 @@ export function ReactBootstrapTableRemote({
   return (
     <ReactBootstrapTable
       {...props}
-      loading={loading}
+      loading={isLoading}
       error={error}
       data={data?.records || []}
       count={data?.totalRecords}
