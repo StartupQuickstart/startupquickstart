@@ -60,10 +60,13 @@ export function Records({
             ...dataParams,
             [limitParamKey]: pageSize || 10,
             [offsetParamKey]: pageIndex * pageSize,
-            page: pageIndex + 1,
-            order:
-              sortBy?.map((item) => [item.id, item.desc ? 'desc' : 'asc']) || []
+            page: pageIndex + 1
           };
+
+      if (sortBy && sortBy.length > 0) {
+        params[orderParamKey] =
+          [sortBy]?.map((item) => [item.id, item.desc ? 'desc' : 'asc']) || [];
+      }
 
       setParams(params);
 
