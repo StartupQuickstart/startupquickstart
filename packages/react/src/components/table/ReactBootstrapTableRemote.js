@@ -7,6 +7,7 @@ export function ReactBootstrapTableRemote({
   id,
   innerRef,
   queryKeys,
+  onRecords,
   ...props
 }) {
   const [query, setQuery] = useState({
@@ -36,7 +37,8 @@ export function ReactBootstrapTableRemote({
         return (
           ![401, 403, 404].includes(error?.response?.status) && retryCount < 2
         );
-      }
+      },
+      onSuccess: onRecords
     }
   );
 

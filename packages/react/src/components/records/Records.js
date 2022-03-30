@@ -35,7 +35,7 @@ export function Records({
   offsetParamKey = 'offset',
   orderParamKey = 'order',
   onCreate,
-  onPagination,
+  onRecords,
   defaultRecord,
   tableProps,
   tableClassName,
@@ -182,6 +182,7 @@ export function Records({
         columns={_columns}
         pluralLabel={pluralLabel}
         fetchData={fetchData}
+        onRecords={onRecords}
         queryKeys={[
           searchParamKey,
           limitParamKey,
