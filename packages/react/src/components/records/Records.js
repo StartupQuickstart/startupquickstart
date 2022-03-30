@@ -26,6 +26,7 @@ export function Records({
   singularLabel = 'Record',
   canCreate = true,
   showLabel = true,
+  showSearch = true,
   createLink,
   columns,
   dataParams = {},
@@ -181,6 +182,8 @@ export function Records({
         innerRef={tableRef}
         columns={_columns}
         pluralLabel={pluralLabel}
+        showLabel={showLabel}
+        showSearch={showSearch}
         fetchData={fetchData}
         onRecords={onRecords}
         queryKeys={[
