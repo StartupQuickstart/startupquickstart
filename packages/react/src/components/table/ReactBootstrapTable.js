@@ -84,7 +84,7 @@ export function ReactBootstrapTable({
   }, [JSON.stringify({ pageIndex, pageSize, search, sortBy, selectedRowIds })]);
 
   return (
-    <div id={id} className={classNames('mb-5', className)}>
+    <div id={id} className={className}>
       <div className="clearfix mb-2">
         {showLabel && <h3 className="float-start mb-0 me-3">{pluralLabel}</h3>}
         {showSearch && (
