@@ -45,6 +45,7 @@ export function RecordInput({ column, onChange, value, ...props }) {
           onChange={onChange}
           options={columnType.enum}
           value={value}
+          type="switch"
           {...props}
         />
       );
