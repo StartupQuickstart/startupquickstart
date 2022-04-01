@@ -1,5 +1,5 @@
 export { EmailInput } from './EmailInput';
-export { FileUpload } from './FileUpload';
+export { FileDropzone } from './FileDropzone';
 export { Input } from './Input';
 export { MultiCheckbox } from './MultiCheckbox';
 export { PasswordInput } from './PasswordInput';
