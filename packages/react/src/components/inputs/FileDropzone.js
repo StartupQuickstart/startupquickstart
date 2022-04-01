@@ -3,7 +3,12 @@ import { useDropzone } from 'react-dropzone';
 import { UploadCloud } from 'react-feather';
 import { FileIcon, defaultStyles } from 'react-file-icon';
 
-export function FileDropzone({ multiple, value, onChange = console.log }) {
+export function FileDropzone({
+  multiple,
+  value,
+  onChange = console.log,
+  fileInputs = ''
+}) {
   const onDrop = useCallback(
     (files) => {
       const value = multiple ? files : files.length && files[0];
@@ -44,19 +49,22 @@ export function FileDropzone({ multiple, value, onChange = console.log }) {
           const icon = file?.name?.split('.').pop() || 'txt';
           return (
             <li key={index} className="list-group-item">
-              <span className="file-icon me-2">
-                <FileIcon extension={icon} {...defaultStyles[icon]} />
-              </span>
-              {file.name}
-              <span className="float-end">
-                <button
-                  type="button"
-                  className="btn btn-link btn-sm"
-                  onClick={() => removefile(index)}
-                >
-                  <span className="fa fa-times fa-lg text-muted" />
-                </button>
-              </span>
+              <div>
+                <span className="file-icon me-2">
+                  <FileIcon extension={icon} {...defaultStyles[icon]} />
+                </span>
+                {file.name}
+                <span className="float-end">
+                  <button
+                    type="button"
+                    className="btn btn-link btn-sm"
+                    onClick={() => removefile(index)}
+                  >
+                    <span className="fa fa-times fa-lg text-muted" />
+                  </button>
+                </span>
+              </div>
+              {fileInputs}
             </li>
           );
         })}
