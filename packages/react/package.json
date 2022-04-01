@@ -1,6 +1,6 @@
 {
   "name": "@startupquickstart/react",
-  "version": "0.4.49",
+  "version": "0.4.44",
   "description": "React Components for App",
   "author": "Thomas Boles <thomas@startupquickstart.com> (https://github.com/startupquickstart)",
   "homepage": "./dist",
@@ -125,6 +125,7 @@
     "react-number-format": "^4.9.1",
     "react-query": "^3.34.19",
     "react-router-dom": "^6.2.1",
+    "react-scripts": "^5.0.0",
     "react-table": "^7.7.0",
     "react-toastify": "^8.2.0",
     "simple-react-lightbox": "^3.6.9-0",
@@ -144,5 +145,5 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "gitHead": "47fcf070cebea64ca69c3e8b6f894da03206ae78"
+  "gitHead": "d7cf4a3ae85828aabc6d4e136a35506dd4eb944e"
 }
