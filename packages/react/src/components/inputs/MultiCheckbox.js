@@ -10,7 +10,7 @@ export function MultiCheckbox({
   type = 'checkbox',
   handleBlur
 }) {
-  const isChecked = (item) => item && value.includes(item);
+  const isChecked = (item) => value?.includes(item);
 
   /**
    * Handles on change events
