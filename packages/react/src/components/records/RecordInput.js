@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import { RichTextEditor } from '@/components/editors/RichTextEditor';
-import { RecordTypeahead, SelectInput } from '../inputs';
+import { MultiCheckbox, RecordTypeahead, SelectInput } from '../inputs';
 import DateInput from '../inputs/DateInput';
 
 export function RecordInput({ column, onChange, value, ...props }) {
@@ -39,14 +39,25 @@ export function RecordInput({ column, onChange, value, ...props }) {
       <RichTextEditor onChange={onChange} defaultValue={value} {...props} />
     );
   } else if (columnType?.enum) {
-    return (
-      <SelectInput
-        onChange={onChange}
-        options={columnType.enum}
-        value={value}
-        {...props}
-      />
-    );
+    if (columnType?.multiple) {
+      return (
+        <MultiCheckbox
+          onChange={onChange}
+          options={columnType.enum}
+          value={value}
+          {...props}
+        />
+      );
+    } else {
+      return (
+        <SelectInput
+          onChange={onChange}
+          options={columnType.enum}
+          value={value}
+          {...props}
+        />
+      );
+    }
   } else {
     return <Form.Control onChange={onChange} defaultValue={value} {...props} />;
   }
