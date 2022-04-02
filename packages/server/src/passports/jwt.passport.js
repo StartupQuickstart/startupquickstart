@@ -4,14 +4,14 @@ import config from '@/config';
 
 export async function jwt() {
   const options = {
-    jwtFromRequest: ExtractJwt.versionOneCompatibility({
-      authScheme: 'bearer',
-      tokenQueryParameterName: 'token',
-      tokenBodyField: 'token'
-    }),
+    jwtFromRequest: ExtractJwt.fromExtractors([
+      ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ExtractJwt.fromUrlQueryParameter('token'),
+      ExtractJwt.fromBodyField('token')
+    ]),
     secretOrKey: config.enc.secret,
-    issuer: config.host,
-    audience: config.host
+    issuer: config.server.host,
+    audience: config.server.host
   };
 
   class JWTScopeStrategy extends JwtStrategy {

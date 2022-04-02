@@ -21,10 +21,10 @@ export class Auth {
         : strategies === strategy;
 
     const auth = (req, res, next) => {
+      const authHeader = req.headers.authorization || req.headers.Authorization;
       if (
         hasStrategy('bearer') &&
-        ((req.headers.authorization &&
-          req.headers.authorization.startsWith('bearer')) ||
+        (authHeader?.toLowerCase().startsWith('bearer') ||
           req.query.token ||
           req.body.token)
       ) {
