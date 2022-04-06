@@ -323,6 +323,7 @@ export class ApiController {
       const association = this.model.associations[name];
 
       if (!association) {
+        await transaction.rollback();
         return res.status(404).send(http.STATUS_CODES[404]);
       }
 
@@ -330,12 +331,11 @@ export class ApiController {
       const record = await this.model.findOne({ where: query });
 
       if (!record) {
+        await transaction.rollback();
         return res.status(404).send(http.STATUS_CODES[404]);
       }
 
       let id = req.body.id;
-
-      const transaction = await this.model.sequelize.transaction();
 
       if (!id) {
         const controller = new ApiController(association.target);
@@ -349,7 +349,7 @@ export class ApiController {
       await transaction.commit();
       return res.status(200).send(record);
     } catch (err) {
-      transaction.rollback();
+      await transaction.rollback();
       return next(err);
     }
   }
@@ -434,7 +434,7 @@ export class ApiController {
       await transaction.commit();
       return res.status(200).send(record);
     } catch (err) {
-      transaction.rollback();
+      await transaction.rollback();
       return next(err);
     }
   }
