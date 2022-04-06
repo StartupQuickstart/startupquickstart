@@ -12,7 +12,9 @@ export const defaultRoutes = [
   'related',
   'addRelated',
   'removeRelated',
-  'describe'
+  'describe',
+  'createBulk',
+  'bulkAddRelated'
 ];
 
 export function ApiRoute(
@@ -49,6 +51,10 @@ export function ApiRoute(
     router.post(`/${path}`, middleware, controller.create);
   }
 
+  if (routes.includes('bulkCreate')) {
+    router.post(`/${path}/bulk`, middleware, controller.bulkCreate);
+  }
+
   if (routes.includes('read')) {
     router.get(`/${path}/:id`, middleware, controller.read);
   }
@@ -63,6 +69,14 @@ export function ApiRoute(
 
   if (routes.includes('related')) {
     router.get(`/${path}/:id/related/:related`, middleware, controller.related);
+  }
+
+  if (routes.includes('bulkAddRelated')) {
+    router.post(
+      `/${path}/:id/related/:related/bulk`,
+      middleware,
+      controller.bulkAddRelated
+    );
   }
 
   if (routes.includes('addRelated')) {

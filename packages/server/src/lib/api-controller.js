@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import http from 'http';
 import models from '@/api/models';
-import Sequelize from 'sequelize';
+import Sequelize, { Op } from 'sequelize';
 import { plural } from 'pluralize';
 
 export class ApiController {
@@ -13,12 +13,14 @@ export class ApiController {
     this.getIncludes = this.getIncludes.bind(this);
     this.getQueryOptions = this.getQueryOptions.bind(this);
     this.index = this.index.bind(this);
-    this.create = this.create.bind(this);
     this._create = this._create.bind(this);
+    this.create = this.create.bind(this);
+    this.bulkCreate = this.bulkCreate.bind(this);
     this.read = this.read.bind(this);
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
     this.addRelated = this.addRelated.bind(this);
+    this.bulkAddRelated = this.bulkAddRelated.bind(this);
     this.removeRelated = this.removeRelated.bind(this);
     this.related = this.related.bind(this);
     this.getMissingFields = this.getMissingFields.bind(this);
@@ -173,14 +175,15 @@ export class ApiController {
       for (const as in this.model.associations) {
         const association = this.model.associations[as];
 
-        const singleIdKey = association.as + '_ids';
+        const singleIdKey = association.as + '_id';
         const manyIdsKey = association.as + '_ids';
         const value = req.body[singleIdKey || manyIdsKey];
 
-        const func = 'set' + _.capitalize(as);
-
-        if (value) {
-          await record[func](value, { transaction });
+        if (this.model.rawAttributes[singleIdKey]?.canCreate) {
+          const func = 'set' + _.capitalize(as);
+          if (value) {
+            await record[func](value, { transaction });
+          }
         }
       }
 
@@ -204,6 +207,36 @@ export class ApiController {
       return res.status(200).send(record);
     } catch (err) {
       return next(err);
+    }
+  }
+
+  /**
+   * Creates an array of records in bulk
+   *
+   * @param {HttpRequest} req Http request to handle
+   * @param {HttpResponse} res Http response to send
+   */
+  async bulkCreate(req, res, next) {
+    try {
+      const records = req.body;
+
+      if (!Array.isArray(records)) {
+        throw new Error(`Expected an array of records, got ${typeof records}`);
+      }
+
+      for (const record of records) {
+        if (this.model.rawAttributes.account_id) {
+          record.account_id = req.user.account_id;
+        }
+
+        record.created_by_id = req.user.id;
+        record.updated_by_id = req.user.id;
+      }
+
+      const record = await this.model.bulkCreate(records, { transaction });
+      return record;
+    } catch (err) {
+      next(err);
     }
   }
 
@@ -327,7 +360,13 @@ export class ApiController {
         return res.status(404).send(http.STATUS_CODES[404]);
       }
 
-      const query = Object.assign(req.query.filter, { id: req.params.id });
+      const query = { id: req.params.id };
+
+      if (this.model.rawAttributes.account_id) {
+        console.log(req.user);
+        query.account_id = req.user.account_id;
+      }
+
       const record = await this.model.findOne({ where: query });
 
       if (!record) {
@@ -350,6 +389,106 @@ export class ApiController {
       return res.status(200).send(record);
     } catch (err) {
       await transaction.rollback();
+      return next(err);
+    }
+  }
+
+  /**
+   * Creates related associations in bulk
+   *
+   * @param {HttpRequest} req Http request to handle
+   * @param {HttpResponse} res Http response to send
+   */
+  async bulkAddRelated(req, res, next) {
+    let transaction;
+
+    try {
+      let records = req.body;
+
+      if (!Array.isArray(records)) {
+        throw new Error(`Expected an array of records, got ${typeof records}`);
+      }
+
+      transaction = await this.model.sequelize.transaction();
+
+      const name = req.params.related?.replace(/-/g, '_');
+      const association = this.model.associations[name];
+
+      if (!association) {
+        await transaction.rollback();
+        return res.status(404).send(http.STATUS_CODES[404]);
+      }
+
+      const query = { id: req.params.id };
+
+      if (this.model.rawAttributes.account_id) {
+        query.account_id = req.user.account_id;
+
+        for (const record of records) {
+          if (record.account_id && record.account_id !== req.user.account_id) {
+            await transaction.rollback();
+            return res.status(403).send(http.STATUS_CODES[403]);
+          }
+
+          record.account_id = req.user.account_id;
+        }
+      }
+
+      const keys = Object.keys(records[0]);
+      for (const record of records) {
+        for (const key in record) {
+          if (!this.model.rawAttributes[key].canCreate) {
+            delete record[key];
+          }
+        }
+
+        record.created_by_id = req.user.id;
+        record.updated_by_id = req.user.id;
+      }
+
+      const record = await this.model.findOne({ where: query });
+
+      if (!record) {
+        await transaction.rollback();
+        return res.status(404).send(http.STATUS_CODES[404]);
+      }
+
+      let recordsWithoutIds = records.filter((record) => !record.id);
+      const recordsWithIds = records.filter((record) => record.id);
+
+      const forbiddenRecords = await association.target.count({
+        where: { id: { [Op.in]: recordsWithIds } }
+      });
+
+      if (forbiddenRecords.length) {
+        await transaction.rollback();
+        return res.status(403).send(http.STATUS_CODES[403]);
+      }
+
+      if (recordsWithoutIds.length > 0) {
+        recordsWithoutIds = await association.target.bulkCreate(
+          recordsWithoutIds,
+          { transaction }
+        );
+      }
+
+      const ids = [
+        ...recordsWithIds.map((r) => r.id),
+        ...recordsWithoutIds.map((r) => r.id)
+      ];
+
+      await association.through.model.bulkCreate(
+        ids.map((id) => ({
+          [association.foreignKey]: record.id,
+          [association.otherKey]: id
+        })),
+        { transaction }
+      );
+
+      await transaction.commit();
+      return res.status(200).send(http.STATUS_CODES[200]);
+    } catch (err) {
+      transaction && (await transaction.rollback());
       return next(err);
     }
   }
