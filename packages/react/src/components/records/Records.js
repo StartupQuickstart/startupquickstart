@@ -191,7 +191,8 @@ export function Records({
           limitParamKey,
           offsetParamKey,
           orderParamKey,
-          dataParams
+          dataParams,
+          parent
         ]}
         actions={
           <div className="actions">
