@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { useState, useMemo } from 'react';
 import { Card, Table } from 'react-bootstrap';
 import { useTable, usePagination, useSortBy } from 'react-table';
@@ -68,6 +67,7 @@ export function ReactBootstrapTable({
       }, // Pass our hoisted table state
       manualPagination: true, // Tell the usePagination
       manualSortBy: true,
+      disableSortRemove: true,
       // hook that we'll handle our own data fetching
       // This means we'll also have to provide our own
       // pageCount.

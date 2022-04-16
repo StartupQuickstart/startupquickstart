@@ -66,7 +66,7 @@ export function Records({
 
       if (sortBy && sortBy.length > 0) {
         params[orderParamKey] =
-          [sortBy]?.map((item) => [item.id, item.desc ? 'desc' : 'asc']) || [];
+          sortBy?.map((item) => [item.id, item.desc ? 'desc' : 'asc']) || [];
       }
 
       setParams(params);

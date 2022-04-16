@@ -1,6 +1,7 @@
 import express from 'express';
 import auth from './auth';
-import { apiQueryParser } from './api-request-middleware';
+import { apiQueryParser, parseJson } from './api-request-middleware';
+import { validate, countSchema, indexSchema, readSchema } from './api-schema';
 
 export const defaultRoutes = [
   'index',
@@ -36,35 +37,56 @@ export function ApiRoute(
   }
 
   if (routes.includes('count')) {
-    router.get(`/${path}/count`, middleware, controller.count);
+    router.get(
+      `/${path}/count`,
+      [...middleware, validate(countSchema(controller.model))],
+      controller.count
+    );
   }
 
   if (routes.includes('describe')) {
-    router.get(`/${path}/describe`, middleware, controller.describe);
+    router.get(`/${path}/describe`, [...middleware], controller.describe);
   }
 
   if (routes.includes('index')) {
-    router.get(`/${path}`, middleware, controller.index);
+    router.get(
+      `/${path}`,
+      [
+        ...middleware,
+        (req, res, next) => {
+          if (req.query.order) {
+            req.query.order = parseJson(req.query.order);
+          }
+          next();
+        },
+        validate(indexSchema(controller.model))
+      ],
+      controller.index
+    );
   }
 
   if (routes.includes('create')) {
-    router.post(`/${path}`, middleware, controller.create);
+    router.post(`/${path}`, [...middleware], controller.create);
   }
 
   if (routes.includes('bulkCreate')) {
-    router.post(`/${path}/bulk`, middleware, controller.bulkCreate);
+    router.post(`/${path}/bulk`, [...middleware], controller.bulkCreate);
   }
 
   if (routes.includes('read')) {
-    router.get(`/${path}/:id`, middleware, controller.read);
+    router.get(
+      `/${path}/:id`,
+      [...middleware, validate(readSchema(controller.model))],
+      controller.read
+    );
   }
 
   if (routes.includes('update')) {
-    router.put(`/${path}/:id`, middleware, controller.update);
+    router.put(`/${path}/:id`, [...middleware], controller.update);
   }
 
   if (routes.includes('delete')) {
-    router.delete(`/${path}/:id`, middleware, controller.delete);
+    router.delete(`/${path}/:id`, [...middleware], controller.delete);
   }
 
   if (routes.includes('related')) {
@@ -74,7 +96,7 @@ export function ApiRoute(
   if (routes.includes('bulkAddRelated')) {
     router.post(
       `/${path}/:id/related/:related/bulk`,
-      middleware,
+      [...middleware],
       controller.bulkAddRelated
     );
   }
@@ -82,7 +104,7 @@ export function ApiRoute(
   if (routes.includes('addRelated')) {
     router.post(
       `/${path}/:id/related/:related`,
-      middleware,
+      [...middleware],
       controller.addRelated
     );
   }
@@ -90,7 +112,7 @@ export function ApiRoute(
   if (routes.includes('removeRelated')) {
     router.delete(
       `/${path}/:id/related/:related/:relatedId`,
-      middleware,
+      [...middleware],
       controller.removeRelated
     );
   }

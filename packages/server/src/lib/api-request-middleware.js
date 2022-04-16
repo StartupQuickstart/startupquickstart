@@ -25,3 +25,25 @@ export const apiQueryParser = (modelName) => {
     return next();
   };
 };
+
+export const parseJson = (json) => {
+  try {
+    if (typeof json === 'string') {
+      json = JSON.parse(json);
+    }
+
+    if (typeof json === 'object') {
+      for (let key in json) {
+        if (typeof json[key] === 'string') {
+          json[key] = parseJson(json[key]);
+        }
+      }
+    }
+
+    if (Array.isArray(json)) {
+      json = json.map(parseJson);
+    }
+  } catch (err) {}
+
+  return json;
+};
