@@ -16,20 +16,20 @@ export const NavigationProvider = ({ children, ...props }) => {
       },
       {
         name: 'Admin',
-        canView: (user) => ['Admin', 'Super Admin'].includes(user?.role),
+        canView: (user) => ['admin', 'super_admin'].includes(user?.role),
         items: [
           {
             name: 'Admin Only',
             to: '/admin/require-role',
             icon: 'Lock',
-            canView: (user) => ['Admin', 'Super Admin'].includes(user?.role)
+            canView: (user) => ['admin', 'super_admin'].includes(user?.role)
           },
           { name: 'Users', to: '/admin/users', icon: 'Users' },
           {
             name: 'Applications',
             to: '/admin/applications',
             icon: 'Box',
-            canView: (user) => ['Admin', 'Super Admin'].includes(user?.role)
+            canView: (user) => ['admin', 'super_admin'].includes(user?.role)
           }
 
           // {

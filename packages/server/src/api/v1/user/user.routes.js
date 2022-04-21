@@ -5,7 +5,7 @@ import ApiRouter from '@/lib/api-route';
 
 let router = express.Router();
 
-const withAdminRole = Auth.withRole(['Admin', 'Super Admin']);
+const withAdminRole = Auth.withRole(['admin', 'super_admin']);
 
 router.get('/users/me', Auth.protected(), Controller.readMe);
 router.put('/users/me', Auth.protected(), Controller.updateMe);

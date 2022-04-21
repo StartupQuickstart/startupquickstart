@@ -215,8 +215,10 @@ export class OAuth2 {
           'redirect_uris',
           'name',
           'grants',
+          'scope',
           'private_key',
-          'public_key'
+          'public_key',
+          'created_by_id'
         ]
       });
 
@@ -227,7 +229,8 @@ export class OAuth2 {
         grants: client.grants,
         name: client.name,
         publicKey: client.public_key,
-        privateKey: client.private_key
+        privateKey: client.private_key,
+        user: { id: client.created_by_id }
       });
     } catch (err) {
       next(err);
@@ -244,8 +247,39 @@ export class OAuth2 {
     try {
       const hashed = await models.User.asyncHashPassword(password);
       const user = await models.User.findOne({
-        where: { email, password: hashed, is_deactivated: false }
+        where: { email, password: hashed, is_deactivated: false },
+        attributes: [
+          'id',
+          'account_id',
+          'email',
+          'first_name',
+          'last_name',
+          'is_deactivated',
+          'role'
+        ],
+        include: [{ as: 'account', attributes: ['id', 'name'] }]
       });
+      return next(null, user);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  /**
+   * Invoked to retrieve the user associated with the specified client.
+   * @param {Object} client The client to retrieve the associated user for.
+   * @param {Function} next The callback function.
+   * @returns An Object representing the user, or a falsy value if the client
+   * does not have an associated user. The user object is completely transparent
+   * to oauth2-server and is simply used as input to other model functions.
+   */
+  static async getUserFromClient(client, next) {
+    try {
+      const user =
+        client?.user?.id &&
+        (await models.User.findOne({
+          where: { id: client?.user?.id, is_deactivated: false }
+        }));
       return next(null, user);
     } catch (err) {
       next(err);
@@ -353,7 +387,7 @@ export class OAuth2 {
         redirectUri: code.redirectUri,
         scope: code.scope,
         client: { id: client.id },
-        user: { id: user.id }
+        user
       });
     } catch (err) {
       next(err);
@@ -361,16 +395,21 @@ export class OAuth2 {
   }
 
   /**
-   * Validates a scope
-   * @param {Object} user User object
-   * @param {Object} client Client object
-   * @param {Array} scope Array of scopes
+   * Invoked to check if the requested scope is valid for a particular client/user combination.
+   * @param {Object} user The associated user.
+   * @param {Object} client The associated client.
+   * @param {Array} scope The scopes to validate.
    * @returns {Boolean} True if the scope is valid
    */
   static async validateScope(user, client, scope, next) {
     try {
-      const VALID_SCOPES = ['read_only', 'read_write'];
-      if (!scope?.split(',')?.every((s) => VALID_SCOPES.includes(s))) {
+      const userScopes = config.roles[user?.role]?.scopes;
+      const requiredScopes = scope?.split(',');
+      const hasRequiredScopes = requiredScopes?.every((requiredScope) =>
+        userScopes.some((userScope) => userScope.startsWith(requiredScope))
+      );
+
+      if (!hasRequiredScopes) {
         return next(null, false);
       }
       return next(null, scope);
@@ -380,9 +419,10 @@ export class OAuth2 {
   }
 
   /**
-   * Verifies if a user is authorized to access a client
-   * @param {Object} token The token object
-   * @param {Array} requestedScopes Array of scopes
+   * Invoked during request authentication to check if the provided access token
+   * was authorized the requested scopes.
+   * @param {Object} token The access token to test against
+   * @param {Array} requestedScopes The required scopes.
    * @returns
    */
   static async verifyScope(token, requestedScopes, next) {
@@ -391,11 +431,13 @@ export class OAuth2 {
         return next(null, false);
       }
 
-      const authorizedScopes = token.scope;
+      const authorizedScopes = token.scope?.split(',');
       return next(
         null,
         requestedScopes.every((requestedScope) =>
-          authorizedScopes.includes(requestedScope)
+          authorizedScopes.some((authorizedScope) =>
+            authorizedScope.startsWith(requestedScope)
+          )
         )
       );
     } catch (err) {

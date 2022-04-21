@@ -231,7 +231,7 @@ module.exports = (sequelize, DataTypes) => {
           last_name: data.last_name,
           email: data.email,
           password: await this.asyncHashPassword(data.password),
-          role: 'Super Admin'
+          role: 'super_admin'
         });
 
         await Promise.all([

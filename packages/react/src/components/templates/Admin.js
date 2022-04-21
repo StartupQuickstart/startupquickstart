@@ -41,12 +41,12 @@ export function Admin({ config, configPath, routes, ...props }) {
       {
         path: '/admin/require-role',
         Component: views.Records,
-        Authenticator: PrivateWithRole(['Admin', 'Super Admin'])
+        Authenticator: PrivateWithRole(['admin', 'super_admin'])
       },
       {
         path: '/admin/applications',
         Component: views.Applications,
-        Authenticator: PrivateWithRole(['Admin', 'Super Admin'])
+        Authenticator: PrivateWithRole(['admin', 'super_admin'])
       }
     ];
   }

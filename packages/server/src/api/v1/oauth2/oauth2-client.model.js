@@ -73,8 +73,20 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ARRAY(DataTypes.TEXT),
         canCreate: true,
         canUpdate: true,
-        enum: ['authorization_code', 'refresh_token'],
-        defaultValue: ['authorization_code', 'refresh_token']
+        enum: ['authorization_code', 'refresh_token', 'client_credentials'],
+        defaultValue: [
+          'authorization_code',
+          'refresh_token',
+          'client_credentials'
+        ]
+      },
+      scope: {
+        allowNull: false,
+        type: DataTypes.ARRAY(DataTypes.TEXT),
+        canCreate: true,
+        canUpdate: true,
+        enum: ['read:basic', 'write:basic', 'read:admin', 'write:admin'],
+        defaultValue: ['read:basic', 'write:basic']
       },
       created_by_id: {
         type: DataTypes.UUID

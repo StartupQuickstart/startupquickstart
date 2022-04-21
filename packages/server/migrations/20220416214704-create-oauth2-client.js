@@ -25,6 +25,10 @@ module.exports = {
           allowNull: false,
           type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.TEXT)
         },
+        scope: {
+          allowNull: false,
+          type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.TEXT)
+        },
         redirect_uris: {
           allowNull: false,
           type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.TEXT)

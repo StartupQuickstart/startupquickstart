@@ -35,6 +35,48 @@ export const config = {
   },
   logging: {
     type: process.env.LOG_TYPE || 'tiny'
+  },
+  scopes: {
+    'read:admin': {
+      name: 'Read Admin',
+      description: 'Read Admin',
+      objects: ['all']
+    },
+    'write:admin': {
+      name: 'Write Admin',
+      description: 'Write Admin',
+      objects: ['all']
+    },
+    'read:basic': {
+      name: 'Read Admin',
+      description: 'Read Admin'
+    },
+    'write:basic': {
+      name: 'Write Basic',
+      description: 'Write Basic'
+    }
+  },
+  roles: {
+    super_admin: {
+      name: 'Super Admin',
+      description: 'Super Admin',
+      scopes: ['read:admin', 'write:admin']
+    },
+    admin: {
+      name: 'Admin',
+      description: 'Admin role',
+      scopes: ['read:admin', 'write:admin']
+    },
+    basic: {
+      name: 'Basic',
+      description: 'Basic user role',
+      scopes: ['read:basic', 'write:basic']
+    },
+    read_only: {
+      name: 'Read Only',
+      description: 'Read only user role',
+      scopes: ['read:basic']
+    }
   }
 };
 
