@@ -1,19 +1,25 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import { RichTextEditor } from '@/components/editors/RichTextEditor';
-import { MultiCheckbox, RecordTypeahead, SelectInput } from '../inputs';
-import DateInput from '../inputs/DateInput';
+import {
+  MultiCheckbox,
+  RecordTypeahead,
+  SelectInput,
+  LineSeperatedInput,
+  DateInput
+} from '../inputs';
 
 export function RecordInput({ column, onChange, value, ...props }) {
   const columnType = column?.type;
   const type = columnType?.type;
+  const _value = value !== undefined ? value : column?.default;
 
   if (columnType?.related) {
     return (
       <RecordTypeahead
         onChange={(record) => onChange(record?.id)}
         recordType={columnType?.relatedPath}
-        value={value}
+        value={_value}
         {...props}
       />
     );
@@ -21,7 +27,7 @@ export function RecordInput({ column, onChange, value, ...props }) {
     return (
       <DateInput
         onChange={([date]) => onChange(date)}
-        value={value}
+        value={_value}
         {...props}
       />
     );
@@ -30,13 +36,13 @@ export function RecordInput({ column, onChange, value, ...props }) {
       <DateInput
         onChange={([date]) => onChange(date)}
         showTime={true}
-        value={value}
+        value={_value}
         {...props}
       />
     );
   } else if (type === 'RICHTEXT') {
     return (
-      <RichTextEditor onChange={onChange} defaultValue={value} {...props} />
+      <RichTextEditor onChange={onChange} defaultValue={_value} {...props} />
     );
   } else if (columnType?.enum) {
     if (columnType?.multiple) {
@@ -44,7 +50,7 @@ export function RecordInput({ column, onChange, value, ...props }) {
         <MultiCheckbox
           onChange={onChange}
           options={columnType.enum}
-          value={value}
+          value={_value}
           type="switch"
           {...props}
         />
@@ -54,13 +60,17 @@ export function RecordInput({ column, onChange, value, ...props }) {
         <SelectInput
           onChange={onChange}
           options={columnType.enum}
-          value={value}
+          value={_value}
           {...props}
         />
       );
     }
+  } else if (columnType?.multiple && columnType.type === 'TEXT') {
+    return <LineSeperatedInput onChange={onChange} value={_value} {...props} />;
   } else {
-    return <Form.Control onChange={onChange} defaultValue={value} {...props} />;
+    return (
+      <Form.Control onChange={onChange} defaultValue={_value} {...props} />
+    );
   }
 }
 

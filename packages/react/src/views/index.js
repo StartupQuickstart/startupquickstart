@@ -1,3 +1,4 @@
+export { Applications } from './Applications';
 export { Home } from './Home';
 export { Inputs } from './Inputs';
 export { Records } from './Records';

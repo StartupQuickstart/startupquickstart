@@ -34,8 +34,11 @@ export async function init() {
 
   modelPaths.forEach((file) => {
     const init = require(file);
-    const model = init(sequelize, Sequelize.DataTypes);
-    models[model.name] = model;
+
+    if (init && typeof init === 'function') {
+      const model = init(sequelize, Sequelize.DataTypes);
+      models[model.name] = model;
+    }
   });
 
   Object.keys(models).forEach((modelName) => {

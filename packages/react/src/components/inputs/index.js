@@ -1,6 +1,8 @@
+export { DateInput } from './DateInput';
 export { EmailInput } from './EmailInput';
 export { FileDropzone } from './FileDropzone';
 export { Input } from './Input';
+export { LineSeperatedInput } from './LineSeperatedInput';
 export { MultiCheckbox } from './MultiCheckbox';
 export { PasswordInput } from './PasswordInput';
 export { PositionInput } from './PositionInput';

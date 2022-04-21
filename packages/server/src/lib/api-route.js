@@ -30,6 +30,7 @@ export function ApiRoute(
   const opts = Object.assign({ isPublic: false }, options);
   router = router || express.Router();
 
+  middleware = middleware || [];
   middleware.unshift(apiQueryParser(modelName));
 
   if (!opts.isPublic) {
@@ -51,16 +52,7 @@ export function ApiRoute(
   if (routes.includes('index')) {
     router.get(
       `/${path}`,
-      [
-        ...middleware,
-        (req, res, next) => {
-          if (req.query.order) {
-            req.query.order = parseJson(req.query.order);
-          }
-          next();
-        },
-        validate(indexSchema(controller.model))
-      ],
+      [...middleware, validate(indexSchema(controller.model))],
       controller.index
     );
   }

@@ -13,9 +13,8 @@ import api from '@/api';
 
 export const server = {};
 
-process.on('uncaughtException', function (err) {
-  // Handle the error safely
-  console.log(err);
+process.on('unhandledRejection', (reason, promise) => {
+  console.log('Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
 export const start = async () => {

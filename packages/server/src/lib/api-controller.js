@@ -35,6 +35,7 @@ export class ApiController {
       UUID: { type: 'UUID' },
       'VARCHAR(255)': { type: 'TEXT', limit: 255 },
       TEXT: { type: 'TEXT' },
+      'TEXT[]': { type: 'TEXT', multiple: true },
       'TIMESTAMP WITH TIME ZONE': { type: 'DATETIME' },
       BOOLEAN: { type: 'BOOLEAN' }
     };
@@ -94,8 +95,7 @@ export class ApiController {
   getQueryOptions(req, options = {}) {
     options = Object.assign(
       {
-        include: this.getIncludes(),
-        attributes: null
+        include: this.getIncludes()
       },
       options
     );
@@ -124,8 +124,7 @@ export class ApiController {
       limit: req.query.limit || 10,
       where,
       order: req.query.order || [['created_at', 'desc']],
-      include: options.include,
-      attributes: options.attributes
+      include: options.include
     };
 
     return queryOptions;
@@ -297,14 +296,23 @@ export class ApiController {
           type.enum = attribute.enum;
         }
 
-        meta.columns.push({
+        const column = {
           name: attribute.fieldName,
           label: attribute.label || getLabel(attribute.fieldName),
           type,
           required: attribute.allowNull === false,
           canCreate: attribute.canCreate === true,
           canUpdate: attribute.canUpdate === true
-        });
+        };
+
+        if (
+          attribute.defaultValue &&
+          typeof attribute.defaultValue !== 'function'
+        ) {
+          column.default = attribute.defaultValue;
+        }
+
+        meta.columns.push(column);
       }
 
       return res.status(200).send(meta);

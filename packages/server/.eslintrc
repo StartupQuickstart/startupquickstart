@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "plugin:prettier/recommended",
+    "babel"
+  ],
+  "parser": "@babel/eslint-parser",
+  "rules": {
+    "require-atomic-updates": 0,
+    "no-async-promise-executor": 0,
+    "comma-dangle": [
+      "error",
+      "never"
+    ]
+  }
+}

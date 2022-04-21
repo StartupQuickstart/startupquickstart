@@ -94,6 +94,7 @@ export function ReactBootstrapTable({
       </div>
       <Card>
         <Table
+          responsive
           striped={striped}
           bordered={bordered}
           hover={hover}

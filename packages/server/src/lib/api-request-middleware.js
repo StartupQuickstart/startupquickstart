@@ -17,9 +17,7 @@ export const apiQueryParser = (modelName) => {
     }
 
     if (req.query.order) {
-      req.query.order = req.query.order.map((order) => {
-        return Array.isArray(order) ? order : JSON.parse(order);
-      });
+      req.query.order = parseJson(req.query.order);
     }
 
     return next();

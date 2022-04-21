@@ -417,12 +417,8 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       createdAt: 'created_at',
       updatedAt: 'updated_at',
-      hooks: {
-        beforeFind: (options) => {
-          options.attributes = options.attributes || {};
-          options.attributes.exclude = ['password'];
-          return options;
-        }
+      defaultScope: {
+        attributes: { exclude: ['password'] }
       }
     }
   );
