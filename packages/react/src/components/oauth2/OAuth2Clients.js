@@ -45,7 +45,7 @@ export function OAuth2Clients({
           Header: 'Redirect Uris',
           sort: true,
           accessor: ({ redirect_uris }) => {
-            return redirect_uris.join(', ');
+            return redirect_uris?.join(', ') || '';
           }
         },
         {
@@ -53,7 +53,7 @@ export function OAuth2Clients({
           Header: 'Grants',
           sort: true,
           accessor: ({ grants }) => {
-            return grants.join(', ');
+            return grants?.join(', ') || '';
           }
         },
         {

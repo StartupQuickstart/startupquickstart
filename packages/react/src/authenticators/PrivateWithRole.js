@@ -29,7 +29,7 @@ export function PrivateWithRole(requiredRoles) {
     requiredRoles = Array.isArray(requiredRoles)
       ? requiredRoles
       : [requiredRoles];
-    if (!requiredRoles.includes(user?.role)) {
+    if (!requiredRoles.some((role) => user?.roles?.includes(role))) {
       return <Error code="403" />;
     }
 

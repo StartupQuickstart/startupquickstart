@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { Model } from 'sequelize';
 import crypto from 'crypto';
 import Hubspot from '@/lib/hubspot';
@@ -77,6 +78,47 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
+     * Checks to see if a user can perform a certain action on an attribute
+     * @param {Object} attribute Attribute to check
+     * @param {String} action Action to check
+     * @returns {Boolean} Whether or not the user can perform the action
+     */
+    canPerformAction(attribute, action) {
+      if (typeof action !== 'string') {
+        throw new Error('Action must be a string');
+      }
+
+      const actionName = `can${_.capitalize(action)}`;
+      const actionValue = attribute[`can${_.capitalize(action)}`];
+
+      if (action === 'read' && actionValue === undefined) {
+        return true;
+      }
+
+      if (typeof actionValue === 'boolean') {
+        return actionValue;
+      } else if (Array.isArray(actionValue)) {
+        return actionValue.some((role) => this.roles.includes(role));
+      } else {
+        return false;
+      }
+    }
+
+    /**
+     * Gets the users scopes
+     * @returns {Array} The users scopes
+     */
+    getSopes() {
+      return this.roles.reduce((scopes, role) => {
+        const scopesForRole = config.roles[role]?.scopes;
+        if (scopesForRole) {
+          scopes.push(...scopesForRole);
+        }
+        return scopes;
+      }, []);
+    }
+
+    /**
      * Gets the users api token
      *
      * @param {Array} scope to set on token
@@ -96,7 +138,7 @@ module.exports = (sequelize, DataTypes) => {
           name: this.name,
           email: this.email,
           is_activated: this.is_activated,
-          role: this.role
+          roles: this.roles
         },
         config.enc.secret,
         { expiresIn }
@@ -231,7 +273,7 @@ module.exports = (sequelize, DataTypes) => {
           last_name: data.last_name,
           email: data.email,
           password: await this.asyncHashPassword(data.password),
-          role: 'super_admin'
+          roles: ['super_admin']
         });
 
         await Promise.all([
@@ -370,10 +412,10 @@ module.exports = (sequelize, DataTypes) => {
           return this.get('first_name') + ' ' + this.get('last_name');
         }
       },
-      role: {
-        type: DataTypes.STRING,
-        defaultValue: 'Basic',
-        enum: ['Basic', 'Admin'],
+      roles: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        defaultValue: ['basic'],
+        enum: Object.keys(config.roles),
         canCreate: true,
         canUpdate: true,
         allowNull: false

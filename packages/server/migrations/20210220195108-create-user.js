@@ -28,9 +28,9 @@ module.exports = {
         last_name: {
           type: Sequelize.STRING
         },
-        role: {
-          type: Sequelize.DataTypes.STRING,
-          default: 'Basic'
+        roles: {
+          type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING),
+          default: ['basic']
         },
         email: {
           type: Sequelize.STRING,

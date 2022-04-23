@@ -63,7 +63,7 @@ export class ApiController {
   /**
    * Gets the includes for the query options
    */
-  getIncludes() {
+  getIncludes(user) {
     const includes = [
       {
         model: models.User,
@@ -79,8 +79,16 @@ export class ApiController {
 
     for (const association of Object.values(this.model.associations)) {
       if (association.options.autoInclude) {
-        includes.push(association.as);
+        includes.push({ as: association.as, model: association.target });
       }
+    }
+
+    for (const include of includes) {
+      include.attributes = Object.values(include.model.rawAttributes)
+        .filter((attribute) => {
+          return user.canPerformAction(attribute, 'read');
+        })
+        .map((attribute) => attribute.fieldName);
     }
 
     return includes;
@@ -95,7 +103,7 @@ export class ApiController {
   getQueryOptions(req, options = {}) {
     options = Object.assign(
       {
-        include: this.getIncludes()
+        include: this.getIncludes(req.user)
       },
       options
     );
@@ -106,7 +114,10 @@ export class ApiController {
 
     if (search) {
       const searchable = Object.values(this.model.rawAttributes)
-        .filter((attribute) => attribute.searchable)
+        .filter(
+          (attribute) =>
+            attribute.searchable && user.canPerformAction(attribute, 'read')
+        )
         .map((attribute) => `"${this.model.name}"."${attribute.fieldName}"`);
 
       if (searchable.length) {
@@ -126,6 +137,12 @@ export class ApiController {
       order: req.query.order || [['created_at', 'desc']],
       include: options.include
     };
+
+    queryOptions.attributes = Object.values(this.model.rawAttributes)
+      .filter((attribute) => {
+        return req.user.canPerformAction(attribute, 'read');
+      })
+      .map((attribute) => attribute.fieldName);
 
     return queryOptions;
   }
@@ -247,6 +264,12 @@ export class ApiController {
    */
   async describe(req, res, next) {
     try {
+      const user = req.user;
+
+      if (!user) {
+        return res.status(401).send(http.STATUS_CODES[401]);
+      }
+
       const meta = {
         columns: []
       };
@@ -301,8 +324,8 @@ export class ApiController {
           label: attribute.label || getLabel(attribute.fieldName),
           type,
           required: attribute.allowNull === false,
-          canCreate: attribute.canCreate === true,
-          canUpdate: attribute.canUpdate === true
+          canCreate: user.canPerformAction(attribute, 'create'),
+          canUpdate: user.canPerformAction(attribute, 'update')
         };
 
         if (
@@ -337,7 +360,8 @@ export class ApiController {
 
       const record = await this.model.findOne({
         where,
-        include: this.getIncludes()
+        include: queryOptions.include,
+        attributes: queryOptions.attributes
       });
 
       if (!record) {
@@ -371,7 +395,6 @@ export class ApiController {
       const query = { id: req.params.id };
 
       if (this.model.rawAttributes.account_id) {
-        console.log(req.user);
         query.account_id = req.user.account_id;
       }
 

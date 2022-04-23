@@ -82,18 +82,18 @@ export function Users(props) {
           style: { textAlign: 'center' }
         },
         {
-          id: 'role',
-          Header: 'Role',
+          id: 'roles',
+          Header: 'Roles',
           headerStyle: {
             width: 'auto',
             textAlign: 'center',
             maxWidth: '50px'
           },
           style: { textAlign: 'center', maxWidth: '50px' },
-          accessor: ({ role }) => {
+          accessor: ({ roles }) => {
             return (
               <span className="badge rounded-pill bg-primary text-capitalize w-100 text-center">
-                {role}
+                {roles}
               </span>
             );
           }

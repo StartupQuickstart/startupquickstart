@@ -125,7 +125,7 @@ export class Auth {
     }
 
     return (req, res, next) => {
-      if (!roles.includes(req.user.role)) {
+      if (!roles.some((role) => req.user.roles.includes(role))) {
         return res.status(403).send(http.STATUS_CODES[403]);
       }
 

@@ -255,7 +255,7 @@ export class OAuth2 {
           'first_name',
           'last_name',
           'is_deactivated',
-          'role'
+          'roles'
         ],
         include: [{ as: 'account', attributes: ['id', 'name'] }]
       });
@@ -403,7 +403,11 @@ export class OAuth2 {
    */
   static async validateScope(user, client, scope, next) {
     try {
-      const userScopes = config.roles[user?.role]?.scopes;
+      if (!user?.roles) {
+        return next(null, false);
+      }
+
+      const userScopes = user.getScopes();
       const requiredScopes = scope?.split(',');
       const hasRequiredScopes = requiredScopes?.every((requiredScope) =>
         userScopes.some((userScope) => userScope.startsWith(requiredScope))
