@@ -24,23 +24,18 @@ export const NavigationProvider = ({ children, ...props }) => {
             icon: 'Lock',
             canView: (user) => ['admin', 'super_admin'].includes(user?.role)
           },
-          { name: 'Users', to: '/admin/users', icon: 'Users' },
+          { name: 'Users', to: '/admin/users', icon: 'Users' }
+        ]
+      },
+      {
+        name: 'Security',
+        items: [
           {
-            name: 'Applications',
-            to: '/admin/applications',
+            name: 'OAuth2 Clients',
+            to: '/admin/oauth2-clients',
             icon: 'Box',
             canView: (user) => ['admin', 'super_admin'].includes(user?.role)
           }
-
-          // {
-          //   name: 'Settings',
-          //   to: '/settings',
-          //   icon: 'Settings',
-          //   items: [
-          //     { name: 'General', to: '/settings/general', icon: 'ArrowRight' },
-          //     { name: 'Core', to: '/settings/core', icon: 'ArrowRight' }
-          //   ]
-          // },
         ]
       }
     ]

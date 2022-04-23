@@ -44,8 +44,8 @@ export function Admin({ config, configPath, routes, ...props }) {
         Authenticator: PrivateWithRole(['admin', 'super_admin'])
       },
       {
-        path: '/admin/applications',
-        Component: views.Applications,
+        path: '/admin/oauth2-clients',
+        Component: views.OAuth2Clients,
         Authenticator: PrivateWithRole(['admin', 'super_admin'])
       }
     ];

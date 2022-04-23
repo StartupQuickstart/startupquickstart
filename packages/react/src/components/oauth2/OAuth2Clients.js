@@ -2,7 +2,7 @@ import { Records as RecordsComponent } from '@/components/records';
 import { useRef } from 'react';
 import { Secret } from '../common/Secret';
 
-export function Applications({
+export function OAuth2Clients({
   showLabel = false,
   dataParams,
   parent,
@@ -69,4 +69,4 @@ export function Applications({
   );
 }
 
-export default Applications;
+export default OAuth2Clients;

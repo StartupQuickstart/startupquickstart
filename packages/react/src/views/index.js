@@ -1,4 +1,4 @@
-export { Applications } from './Applications';
+export { OAuth2Clients } from './OAuth2Clients';
 export { Home } from './Home';
 export { Inputs } from './Inputs';
 export { Records } from './Records';
