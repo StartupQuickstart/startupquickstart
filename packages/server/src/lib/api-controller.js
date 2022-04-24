@@ -173,11 +173,22 @@ export class ApiController {
    * @param {HttpResponse} res Http response to send
    */
   async _create(req, res, outsideTransaction) {
+    const user = req.user;
     const transaction =
       outsideTransaction || (await this.model.sequelize.transaction());
 
     try {
       const data = req.body;
+
+      for (const key in data) {
+        const attribute = this.model.rawAttributes[key];
+
+        if (attribute) {
+          if (!user.canPerformAction(attribute, 'create')) {
+            delete data[key];
+          }
+        }
+      }
 
       if (this.model.rawAttributes.account_id) {
         data.account_id = req.user.account_id;
@@ -243,6 +254,16 @@ export class ApiController {
       for (const record of records) {
         if (this.model.rawAttributes.account_id) {
           record.account_id = req.user.account_id;
+        }
+
+        for (const key in record) {
+          const attribute = this.model.rawAttributes[key];
+
+          if (attribute) {
+            if (!user.canPerformAction(attribute, 'create')) {
+              delete record[key];
+            }
+          }
         }
 
         record.created_by_id = req.user.id;
@@ -633,7 +654,7 @@ export class ApiController {
       const restricted = [...this.systemAttributes, 'account'];
 
       for (const key in req.body) {
-        if (!restricted.includes(key)) {
+        if (user.canPerformAction(attribute, 'update')) {
           record[key] = req.body[key];
         }
       }
