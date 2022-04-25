@@ -110,6 +110,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  /**
+   * Before an OAuth2Client is created, we need to generate a public/private key pair
+   */
   OAuth2Client.beforeCreate(async (client, options) => {
     const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
       modulusLength: 1024,

@@ -15,7 +15,15 @@ router.post('/oauth2/authorize', async (req, res, next) => {
       authenticateHandler: {
         handle: async (req, res) => {
           const { username, password } = req.body;
-          const user = await promisify(OAuth2.getUser)(username, password);
+          const user = await promisify(OAuth2.getUser)(
+            username,
+            password
+          ).catch(next);
+
+          if (!user) {
+            throw new InvalidGrantError('Invalid credentials');
+          }
+
           return user;
         }
       }

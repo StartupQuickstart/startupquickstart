@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 
 export class Auth {
   constructor(version = 'v1') {
+    this.version = version;
     this.apiTokenCookie = 'api-token';
 
     let adapter = axios.defaults.adapter;
@@ -18,7 +19,14 @@ export class Auth {
    * Authenticates the user
    */
   async authenticate(email, password) {
-    const { data } = await this.api.post('authorize', { email, password });
+    const config = await axios.get('/api/v1/config');
+    const authServer = config?.auth?.server || '';
+
+    const { data } = await axios.post(
+      `${authServer}/api/${this.version}/auth/authorize`,
+      { email, password }
+    );
+
     return data?.token;
   }
 

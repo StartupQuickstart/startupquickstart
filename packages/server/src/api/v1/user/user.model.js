@@ -88,6 +88,10 @@ module.exports = (sequelize, DataTypes) => {
         throw new Error('Action must be a string');
       }
 
+      if (!attribute) {
+        return false;
+      }
+
       const actionName = `can${_.capitalize(action)}`;
       const actionValue = attribute[`can${_.capitalize(action)}`];
 
@@ -108,7 +112,7 @@ module.exports = (sequelize, DataTypes) => {
      * Gets the users scopes
      * @returns {Array} The users scopes
      */
-    getSopes() {
+    getScopes() {
       return this.roles.reduce((scopes, role) => {
         const scopesForRole = config.roles[role]?.scopes;
         if (scopesForRole) {

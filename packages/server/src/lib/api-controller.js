@@ -637,6 +637,7 @@ export class ApiController {
    * @param {HttpResponse} res Http response to send
    */
   async update(req, res, next) {
+    const user = req.user;
     const transaction = await this.model.sequelize.transaction();
 
     const query = Object.assign(req.query.filter, { id: req.params.id });
@@ -654,6 +655,7 @@ export class ApiController {
       const restricted = [...this.systemAttributes, 'account'];
 
       for (const key in req.body) {
+        const attribute = this.model.rawAttributes[key];
         if (user.canPerformAction(attribute, 'update')) {
           record[key] = req.body[key];
         }

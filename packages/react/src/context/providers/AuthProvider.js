@@ -97,16 +97,18 @@ export const AuthProvider = ({ children, Auth = AuthDemo }) => {
       user = Auth.onSetUser(user);
     }
 
-    user.hasRole = (roles) =>
-      roles.some((role) => {
-        if (user.role) {
-          return user.role === role;
-        } else if (user.roles) {
-          return user.roles.includes(role);
-        } else {
-          return false;
-        }
-      });
+    if (user) {
+      user.hasRole = (roles) =>
+        roles.some((role) => {
+          if (user.role) {
+            return user.role === role;
+          } else if (user.roles) {
+            return user.roles.includes(role);
+          } else {
+            return false;
+          }
+        });
+    }
 
     _setUser(user);
   }

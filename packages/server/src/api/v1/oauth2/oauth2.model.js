@@ -239,15 +239,20 @@ export class OAuth2 {
 
   /**
    * Gets a user from the database
-   * @param {String} email The email of the user
+   * @param {String} username The username of the user
    * @param {String} password The password of the user
    * @returns {Object} The user object
    */
-  static async getUser(email, password, next) {
+  static async getUser(username, password, next) {
     try {
+      if (!username || !password) {
+        return next(null, null);
+      }
+
       const hashed = await models.User.asyncHashPassword(password);
+
       const user = await models.User.findOne({
-        where: { email, password: hashed, is_deactivated: false },
+        where: { email: username, password: hashed, is_deactivated: false },
         attributes: [
           'id',
           'account_id',
@@ -256,8 +261,7 @@ export class OAuth2 {
           'last_name',
           'is_deactivated',
           'roles'
-        ],
-        include: [{ as: 'account', attributes: ['id', 'name'] }]
+        ]
       });
       return next(null, user);
     } catch (err) {
@@ -408,7 +412,13 @@ export class OAuth2 {
       }
 
       const userScopes = user.getScopes();
+
+      if (!requiredScopes) {
+        return next(null, userScopes);
+      }
+
       const requiredScopes = scope?.split(',');
+
       const hasRequiredScopes = requiredScopes?.every((requiredScope) =>
         userScopes.some((userScope) => userScope.startsWith(requiredScope))
       );

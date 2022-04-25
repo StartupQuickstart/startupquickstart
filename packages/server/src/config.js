@@ -11,6 +11,7 @@ export const config = {
       process.env.PUBLIC_HOST || process.env.HOST || 'http://localhost:3000',
     port: process.env.PORT || 3501
   },
+  auth: { server: process.env.AUTH_SERVER || process.env.HOST },
   app: {
     name: process.env.APP,
     legalName: 'Startup Quickstart, LLC',

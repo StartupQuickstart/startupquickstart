@@ -4,74 +4,10 @@ import Stripe from './stripe';
 
 export class Auth {
   /**
-   * Accepts any authentication
-   *
-   * @param {Array} strategies Strategies to use
-   * @param {Array} scope Required scope to use path
+   * Returns middleware to protect a route
    */
-  static protected(
-    strategies = null,
-    requireSubscription = false,
-    scope = 'api'
-  ) {
-    strategies = strategies || ['bearer'];
-    const hasStrategy = (strategy) =>
-      Array.isArray(strategies)
-        ? strategies.includes(strategy)
-        : strategies === strategy;
-
-    const auth = (req, res, next) => {
-      const authHeader = req.headers.authorization || req.headers.Authorization;
-      if (
-        hasStrategy('bearer') &&
-        (authHeader?.toLowerCase().startsWith('bearer') ||
-          req.query.token ||
-          req.body.token)
-      ) {
-        return passport.authenticate('jwt', { session: false, scope })(
-          req,
-          res,
-          () => {
-            if (!req.user.scope.includes(scope)) {
-              res.status(403).send({
-                success: false,
-                message: 'Invalid Scope.',
-                code: 'INVALID_SCOPE'
-              });
-            }
-
-            return next();
-          }
-        );
-      }
-
-      if (hasStrategy('jwtCookie') && req.cookies['api-token']) {
-        req.headers.authorization = `bearer ${req.cookies['api-token']}`;
-
-        return passport.authenticate('jwt', { session: false, scope })(
-          req,
-          res,
-          () => {
-            if (!req.user.scope.includes(scope)) {
-              res.status(403).send({
-                success: false,
-                message: 'Invalid Scope.',
-                code: 'INVALID_SCOPE'
-              });
-            }
-
-            return next();
-          }
-        );
-      }
-
-      res.status(401).send(http.STATUS_CODES[401]);
-    };
-
-    return process.env.REQUIRE_SUBSCRIPTION === 'false' ||
-      requireSubscription === false
-      ? [auth]
-      : [auth, Auth.withSubscription];
+  static protected() {
+    return [passport.authenticate('jwt', { session: false })];
   }
 
   /**

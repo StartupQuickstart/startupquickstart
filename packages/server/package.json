@@ -36,6 +36,7 @@
     "build:server:copy": "cp -r ./src/emails/dist ./dist/emails",
     "build": "npm-run-all clean build:server compile-email-assets build:server:copy",
     "create-migration": "npx sequelize-cli migration:generate --name $1",
+    "create-seed": "npx sequelize-cli seed:generate --name $1",
     "db:migrate:dev": "ENV=dev npx sequelize-cli db:migrate --env default",
     "db:migrate:prod": "ENV=prod npx sequelize-cli db:migrate --env default",
     "db:seed:dev": "ENV=dev npx sequelize-cli db:seed:all --env default",
@@ -112,6 +113,7 @@
     "shelljs": "^0.8.5",
     "stripe": "^8.217.0",
     "uuid": "^8.3.2",
+    "uuid-by-string": "^3.0.6",
     "yup": "^1.0.0-beta.4"
   },
   "publishConfig": {
