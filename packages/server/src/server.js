@@ -1,11 +1,11 @@
 import fs from 'fs';
-import cors from 'cors';
 import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import passport from 'passport';
+import helmet from 'helmet';
 
 import * as passports from '@/passports';
 import { loadConfig } from '@/config';
@@ -22,7 +22,17 @@ export const start = async () => {
   const app = new express();
   server.app = app;
 
-  app.use(cors());
+  const directives = helmet.contentSecurityPolicy.getDefaultDirectives();
+  delete directives['form-action'];
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        useDefaults: false,
+        directives
+      }
+    })
+  );
+
   app.use(bodyParser.json({ limit: config.request.bodyLimit }));
   app.use(bodyParser.text());
   app.use(morgan(config.logging.type));
