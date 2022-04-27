@@ -1,9 +1,9 @@
 import React from 'react';
 import Avatar from 'react-avatar';
-import { useAuth } from '@/context/providers';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function UserIcon() {
-  const { user } = useAuth();
+  const { user } = useAuth0();
 
   if (!user) {
     return '';
@@ -12,9 +12,9 @@ export default function UserIcon() {
   return (
     <>
       <span className="avatar me-2">
-        {user.profile_picture ? (
+        {user.picture ? (
           <img
-            src={user.profile_picture}
+            src={user.picture}
             alt={user.name}
             referrerPolicy="no-referrer"
             width="40"

@@ -6,6 +6,7 @@ import { useAuth } from '@/context/providers';
 import SetupProgress from './SetupProgress';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export function AuthWrapper({
   children,
@@ -17,12 +18,10 @@ export function AuthWrapper({
   setupProgress,
   expectAuthenticated = false
 }) {
-  const { isAuthenticated, checkAuth } = useAuth();
+  const { isAuthenticated } = useAuth0();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isAuthenticated = checkAuth();
-
     if (isAuthenticated && !expectAuthenticated) {
       navigate('/');
     } else if (!isAuthenticated && expectAuthenticated) {

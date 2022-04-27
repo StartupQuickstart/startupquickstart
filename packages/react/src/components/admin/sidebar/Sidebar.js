@@ -3,13 +3,14 @@ import classNames from 'classnames';
 import * as Feather from 'react-feather';
 import { Link } from 'react-router-dom';
 import SidebarCallToAction from './SidebarCallToAction';
-import { useConfig, useNavigation, useAuth } from '@/context/providers';
+import { useConfig, useNavigation } from '@/context/providers';
 import Logo from '@/components/admin/Logo';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function Sidebar() {
   const { sidebarItems, sidebarCollapsed, toggleSidebar, toggleSidebarItem } =
     useNavigation();
-  const { user } = useAuth();
+  const { user } = useAuth0();
 
   const { callToAction } = useConfig();
 

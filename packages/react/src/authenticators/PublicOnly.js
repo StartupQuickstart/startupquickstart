@@ -1,15 +1,10 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/providers';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export function PublicOnly({ children }) {
-  const { isAuthenticated, checkAuth } = useAuth();
+  const { isAuthenticated } = useAuth0();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    checkAuth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     if (isAuthenticated) {

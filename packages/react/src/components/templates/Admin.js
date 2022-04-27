@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 
 import {
   BrowserRouter as Router,
@@ -42,11 +43,6 @@ export function Admin({ config, configPath, routes, ...props }) {
         path: '/admin/require-role',
         Component: views.Records,
         Authenticator: PrivateWithRole(['admin', 'super_admin'])
-      },
-      {
-        path: '/admin/oauth2-clients',
-        Component: views.OAuth2Clients,
-        Authenticator: PrivateWithRole(['admin', 'super_admin'])
       }
     ];
   }
@@ -58,48 +54,54 @@ export function Admin({ config, configPath, routes, ...props }) {
   }
 
   return (
-    <Router>
-      <QueryClientProvider client={queryClient}>
-        <ContextProvider {...props} config={_config}>
-          <Routes>
-            {routes.map(
-              (
-                {
-                  path,
-                  Component,
-                  redirect = false,
-                  exact = false,
-                  Authenticator = Public,
-                  Layout = AdminLayout
-                },
-                index
-              ) => {
-                const Element = (props) => {
-                  return (
-                    <Authenticator>
-                      <Layout {...props}>
-                        <ToastContainer />
-                        {redirect && <Navigate repalce to={redirect} />}
-                        {!redirect && <Component {...props} />}
-                      </Layout>
-                    </Authenticator>
-                  );
-                };
+    <Auth0Provider
+      domain="remersivestudios.us.auth0.com"
+      clientId="MJx6G2Nqhrv3rCQhQEhkFFh02SYFSnyI"
+      redirectUri={window.location.origin}
+    >
+      <Router>
+        <QueryClientProvider client={queryClient}>
+          <ContextProvider {...props} config={_config}>
+            <Routes>
+              {routes.map(
+                (
+                  {
+                    path,
+                    Component,
+                    redirect = false,
+                    exact = false,
+                    Authenticator = Public,
+                    Layout = AdminLayout
+                  },
+                  index
+                ) => {
+                  const Element = (props) => {
+                    return (
+                      <Authenticator>
+                        <Layout {...props}>
+                          <ToastContainer />
+                          {redirect && <Navigate repalce to={redirect} />}
+                          {!redirect && <Component {...props} />}
+                        </Layout>
+                      </Authenticator>
+                    );
+                  };
 
-                return (
-                  <Route
-                    key={index}
-                    path={path}
-                    exact={exact}
-                    element={<Element />}
-                  />
-                );
-              }
-            )}
-          </Routes>
-        </ContextProvider>
-      </QueryClientProvider>
-    </Router>
+                  return (
+                    <Route
+                      key={index}
+                      path={path}
+                      exact={exact}
+                      element={<Element />}
+                    />
+                  );
+                }
+              )}
+            </Routes>
+          </ContextProvider>
+        </QueryClientProvider>
+      </Router>
+    </Auth0Provider>
   );
 }
 

@@ -2,12 +2,16 @@ import React, { useState, useContext } from 'react';
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import AuthDemo from '@/lib/demo/auth';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const AuthContext = React.createContext({});
 
 export const AuthProvider = ({ children, Auth = AuthDemo }) => {
   const [isAuthenticated, setAuthenticated] = useState(null);
   const [user, _setUser] = useState(null);
+
+  // const { user: auto0user } = useAuth0();
+  // console.log(auto0user);
 
   const apiTokenCookie = Auth.apiTokenCookie || 'api-token';
 

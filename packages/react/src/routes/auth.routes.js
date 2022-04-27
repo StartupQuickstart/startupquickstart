@@ -12,12 +12,6 @@ export const routes = [
   },
   { path: '/signup', Component: views.auth.Signup, Layout: EmptyLayout },
   {
-    path: '/activate',
-    Component: views.auth.Activate,
-    Layout: EmptyLayout,
-    Authenticator: Private
-  },
-  {
     path: '/forgot-password',
     Component: views.auth.ForgotPassword,
     Layout: EmptyLayout
