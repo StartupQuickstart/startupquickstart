@@ -1,13 +1,19 @@
 import http from 'http';
 import passport from 'passport';
 import Stripe from './stripe';
+import { auth } from 'express-oauth2-jwt-bearer';
+
+const checkJwt = auth({
+  audience: 'https://api.remersivestudios.com',
+  issuerBaseURL: `https://remersivestudios.us.auth0.com/`
+});
 
 export class Auth {
   /**
    * Returns middleware to protect a route
    */
   static protected() {
-    return [passport.authenticate('jwt', { session: false })];
+    return [checkJwt];
   }
 
   /**
