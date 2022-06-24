@@ -16,7 +16,9 @@
     "migrations",
     "seeds",
     ".sequelizerc",
-    "README.md"
+    "README.md",
+    "postgres/init.sql",
+    "docker-compose.yml"
   ],
   "exports": {
     "./api": "./dist/api/index.js",
@@ -27,7 +29,7 @@
   "scripts": {
     "start": "TZ=UTC node ./dist/app.js",
     "dev": "TZ=UTC PORT=3501 nodemon --exec babel-node ./src/app.js",
-    "dev:db": "docker-compose up -d postgres",
+    "dev:db": "docker-compose up -d ./postgres",
     "client:dev": "npm start --prefix src/client",
     "compile-email-assets": "node-sass ./src/emails/styles/styles.scss ./src/emails/dist/styles.css",
     "compile-email-assets-watch": "node-sass -w ./src/emails/styles/styles.scss ./src/emails/dist/styles.css",
@@ -76,7 +78,7 @@
     "@babel/preset-react": "^7.12.13",
     "@babel/runtime": "^7.17.9",
     "aws-sdk": "^2.1116.0",
-    "axios": "^0.26.1",
+    "axios": "^0.27.2",
     "body-parser": "^1.20.0",
     "capitalize": "^2.0.3",
     "classnames": "^2.2.6",
@@ -88,8 +90,8 @@
     "express-oauth-server": "^2.0.0",
     "formidable": "^2.0.1",
     "generate-password": "^1.6.0",
-    "glob": "^7.1.6",
-    "googleapis": "^95.0.0",
+    "glob": "^8.0.3",
+    "googleapis": "^104.0.0",
     "juice": "^8.0.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.2",
@@ -98,7 +100,7 @@
     "node-sass": "^7.0.1",
     "nodemailer": "^6.7.3",
     "oauth2-server": "^3.1.1",
-    "passport": "^0.5.2",
+    "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pg": "^8.7.3",
@@ -110,7 +112,7 @@
     "rimraf": "^3.0.2",
     "sequelize": "^6.19.0",
     "shelljs": "^0.8.5",
-    "stripe": "^8.217.0",
+    "stripe": "^9.10.0",
     "uuid": "^8.3.2",
     "yup": "^1.0.0-beta.4"
   },
