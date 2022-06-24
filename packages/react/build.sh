@@ -17,7 +17,7 @@ cp -r ./src/assets/images dist/assets/images
 themes=("main" "dark" "dark-blue" "light-blue")
 
 for theme in ${themes[@]}; do
-  node-sass ./src/assets/scss/$theme.scss -o dist/assets/css
+  sass ./src/assets/scss/$theme.scss dist/assets/css/$theme.css
 done
 
 cd ./dist/assets/css/
