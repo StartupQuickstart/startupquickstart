@@ -313,7 +313,7 @@ export class ApiController {
       }
 
       for (const attribute of Object.values(this.model.rawAttributes)) {
-        let type = 'STRING';
+        let type = { type: 'STRING' };
 
         const rawType = attribute.type.toString();
         if (this.typeMap[rawType]) {
@@ -637,6 +637,7 @@ export class ApiController {
    * @param {HttpResponse} res Http response to send
    */
   async update(req, res, next) {
+    const user = req.user;
     const transaction = await this.model.sequelize.transaction();
 
     const query = Object.assign(req.query.filter, { id: req.params.id });
@@ -654,12 +655,13 @@ export class ApiController {
       const restricted = [...this.systemAttributes, 'account'];
 
       for (const key in req.body) {
+        const attribute = this.model.rawAttributes[key];
         if (user.canPerformAction(attribute, 'update')) {
           record[key] = req.body[key];
         }
       }
 
-      record.updated_by = req.user.id;
+      record.updated_by_id = req.user.id;
 
       await record.save({ transaction });
 

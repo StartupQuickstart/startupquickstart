@@ -5,7 +5,8 @@ export default function SidebarCallToAction({
   actionTitle,
   actionTo,
   title,
-  description
+  description,
+  newTab
 }) {
   if (!title) {
     return '';
@@ -17,7 +18,11 @@ export default function SidebarCallToAction({
         {title && <strong className="d-inline-block mb-2">{title}</strong>}
         {description && <div className="mb-3 text-sm">{description}</div>}
         {actionTitle && !actionTo.startsWith('https') && (
-          <Link to={actionTo || '/'} className="btn btn-primary btn-block">
+          <Link
+            to={actionTo || '/'}
+            className="btn btn-primary btn-block"
+            target={newTab ? '_blank' : '_self'}
+          >
             {actionTitle}
           </Link>
         )}

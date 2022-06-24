@@ -4,6 +4,7 @@ export { FileDropzone } from './FileDropzone';
 export { Input } from './Input';
 export { LineSeperatedInput } from './LineSeperatedInput';
 export { MultiCheckbox } from './MultiCheckbox';
+export { MultiSelectTypeahead } from './MultiSelectTypeahead';
 export { PasswordInput } from './PasswordInput';
 export { PositionInput } from './PositionInput';
 export { RecordTypeahead } from './RecordTypeahead';

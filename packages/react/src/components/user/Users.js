@@ -32,7 +32,9 @@ export function Users(props) {
       pluralLabel="Users"
       canCreate={true}
       createForm={{
-        heading: `Invite your teammate to ${config?.name || 'loading...'}`,
+        heading: `Invite your teammate ${
+          config?.name ? `to ${config.name}` : ''
+        }`,
         subheading:
           'Send them a friendly invitation with everything they need to get started.',
         saveBtnLabel: 'Invite'
@@ -91,10 +93,15 @@ export function Users(props) {
           },
           style: { textAlign: 'center', maxWidth: '50px' },
           accessor: ({ roles }) => {
+            roles = ['role1', 'role2'];
             return (
-              <span className="badge rounded-pill bg-primary text-capitalize w-100 text-center">
-                {roles}
-              </span>
+              <>
+                {roles.map((role) => (
+                  <span className="badge rounded-pill bg-primary text-capitalize w-100 text-center">
+                    {role.split('_').join(' ')}
+                  </span>
+                ))}
+              </>
             );
           }
         },

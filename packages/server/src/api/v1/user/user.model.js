@@ -88,6 +88,10 @@ module.exports = (sequelize, DataTypes) => {
         throw new Error('Action must be a string');
       }
 
+      if (!attribute) {
+        return false;
+      }
+
       const actionName = `can${_.capitalize(action)}`;
       const actionValue = attribute[`can${_.capitalize(action)}`];
 
@@ -334,11 +338,7 @@ module.exports = (sequelize, DataTypes) => {
         );
       }
 
-      if (
-        hubspot.contact &&
-        hubspot.contact['associated-company'] &&
-        hubspot.contact['associated-company']['company-id']
-      ) {
+      if (hubspot?.contact?.['associated-company']?.['company-id']) {
         user.account.hubspot_company_id =
           hubspot.contact['associated-company']['company-id'];
         await models.Account.update(
@@ -442,7 +442,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false
       },
-      is_deactivated: { type: DataTypes.BOOLEAN },
+      is_deactivated: { type: DataTypes.BOOLEAN, canUpdate: false },
       created_by_id: {
         type: DataTypes.UUID
       },
