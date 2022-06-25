@@ -7,7 +7,7 @@ module.exports = (cli) => {
       const options = Object.assign(cli.opts(), opts);
       const key = `shared/_/secret`;
 
-      const existing = await ssm.get(key, options.env, process.env.APP);
+      const existing = await ssm.getParam(key, options.env, process.env.APP);
 
       if (existing) {
         console.log('Secret is already set');
