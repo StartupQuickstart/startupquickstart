@@ -75,6 +75,11 @@ export function ResetPassword(props) {
     } catch (err) {
       if (err?.response?.data?.message) {
         Toast.error(err.response.data.message);
+      } else if (err?.response?.status === 401) {
+        setTitle(expiredTitle);
+        Toast.error(
+          'Your token has expired. Please request another password reset link.'
+        );
       } else {
         console.log(err);
         Toast.error('Unknown Error');
