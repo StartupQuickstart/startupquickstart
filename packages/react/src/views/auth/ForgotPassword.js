@@ -127,7 +127,6 @@ export function ForgotPassword(props) {
                 <div className="d-grid gap-2">
                   <SubmitButton
                     label={'Send reset link'}
-                    isSubmitting={isSubmitting}
                     disabled={!isValid || !dirty}
                   />
                 </div>
