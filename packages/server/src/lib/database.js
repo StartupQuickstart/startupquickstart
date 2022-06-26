@@ -38,8 +38,8 @@ export class Database {
         }
 
         console.log('Connecting to database...');
-
         const creds = await this.getCredentials('svc_app');
+        console.log(`Host: ${creds.host}`);
 
         if (options.lambda) {
           console.log('Lambda config not found.');
