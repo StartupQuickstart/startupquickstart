@@ -62,7 +62,7 @@ cli
   .description('Starts the development express server')
   .action(async () =>
     shell.exec(
-      `TZ=UTC PORT=3501 nodemon --exec babel-node --ignore ./src/client ./src/app.js`
+      `TZ=UTC PORT=3001 nodemon --exec babel-node --ignore ./src/client ./src/app.js`
     )
   );
 

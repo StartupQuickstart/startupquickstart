@@ -29,7 +29,7 @@
     "url": "git+https://github.com/startupquickstart/startupquickstart.git"
   },
   "scripts": {
-    "start": "GENERATE_SOURCEMAP=true PORT=3500 API_PORT=3501 HOST= craco start",
+    "start": "GENERATE_SOURCEMAP=true PORT=3000 API_PORT=3001 HOST= craco start",
     "build": "bash build.sh",
     "test": "craco test",
     "eject": "react-scripts eject",
