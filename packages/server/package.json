@@ -1,6 +1,6 @@
 {
   "name": "@startupquickstart/server",
-  "version": "0.4.62",
+  "version": "0.4.63",
   "description": "Express server for rest api",
   "author": "Thomas Boles <thomas@startupquickstart.com> (https://github.com/startupquickstart)",
   "homepage": "./dist",
