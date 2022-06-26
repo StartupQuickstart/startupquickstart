@@ -36,6 +36,7 @@ export class ApiController {
       'VARCHAR(255)': { type: 'TEXT', limit: 255 },
       TEXT: { type: 'TEXT' },
       'TEXT[]': { type: 'TEXT', multiple: true },
+      'VARCHAR(255)[]': { type: 'TEXT', multiple: true, limit: 255 },
       'TIMESTAMP WITH TIME ZONE': { type: 'DATETIME' },
       BOOLEAN: { type: 'BOOLEAN' }
     };
