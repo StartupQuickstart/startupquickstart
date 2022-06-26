@@ -98,7 +98,7 @@ export const AuthProvider = ({ children, Auth = AuthDemo }) => {
     }
 
     user.hasRole = (roles) =>
-      roles.some((role) => {
+      roles?.some((role) => {
         if (user.role) {
           return user.role === role;
         } else if (user.roles) {
