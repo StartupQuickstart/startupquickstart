@@ -10,8 +10,8 @@ export default function Sidebar() {
   const { sidebarItems, sidebarCollapsed, toggleSidebar, toggleSidebarItem } =
     useNavigation();
   const { user } = useAuth();
-
-  const { callToAction } = useConfig();
+  const { callToAction, config } = useConfig();
+  const { hasSubscriptions } = config || {};
 
   /**
    * Toggles the sidebar on mobile devices
@@ -155,6 +155,15 @@ export default function Sidebar() {
               </Fragment>
             );
           })}
+          {hasSubscriptions && (
+            <>
+              <li className="sidebar-header">Account</li>
+              <Link className={'sidebar-link d-block'} to={'/billing'}>
+                <Feather.DollarSign className="align-middle feather" />
+                <span className="align-middle">Billing</span>
+              </Link>
+            </>
+          )}
           <Link className={'sidebar-link d-block d-md-none'} to={'/logout'}>
             <Feather.LogOut className="align-middle feather" />
             <span className="align-middle">Logout</span>

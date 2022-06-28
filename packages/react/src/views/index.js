@@ -5,3 +5,4 @@ export { Records } from './Records';
 export { Users } from './Users';
 export { Error } from './Error';
 export * as auth from './auth';
+export * as subscription from './subscription';

@@ -17,7 +17,11 @@ router.get('/config', (req, res) => {
     host: config.server.host,
     pricing: config.app.pricing,
     setupItems: config.app.setupItems,
-    signup: config.app.signup
+    signup: config.app.signup,
+    hasSubscriptions: !!config?.stripe?.publishableKey,
+    stripe: {
+      publishableKey: config?.stripe?.publishableKey
+    }
   });
 });
 

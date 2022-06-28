@@ -92,6 +92,7 @@
     "generate-password": "^1.6.0",
     "glob": "^8.0.3",
     "googleapis": "^104.0.0",
+    "inquirer": "^8.2.4",
     "juice": "^8.0.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.2",

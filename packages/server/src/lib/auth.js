@@ -1,6 +1,7 @@
 import http from 'http';
 import passport from 'passport';
 import Stripe from './stripe';
+import config from '@/config';
 
 export class Auth {
   /**
@@ -9,12 +10,19 @@ export class Auth {
    * @param {Array} strategies Strategies to use
    * @param {Array} scope Required scope to use path
    */
-  static protected(
-    strategies = null,
-    requireSubscription = false,
-    scope = 'api'
-  ) {
-    strategies = strategies || ['bearer'];
+  static protected(options) {
+    const { strategies, scope, requireSubscription } = Object.assign(
+      {
+        strategies: ['bearer'],
+        scope: 'api',
+        requireSubscription:
+          options?.requireSubscription === undefined
+            ? config.requireSubscription
+            : options.requireSubscription
+      },
+      options
+    );
+
     const hasStrategy = (strategy) =>
       Array.isArray(strategies)
         ? strategies.includes(strategy)
@@ -68,10 +76,7 @@ export class Auth {
       res.status(401).send(http.STATUS_CODES[401]);
     };
 
-    return process.env.REQUIRE_SUBSCRIPTION === 'false' ||
-      requireSubscription === false
-      ? [auth]
-      : [auth, Auth.withSubscription];
+    return requireSubscription ? [auth, Auth.withSubscription] : [auth];
   }
 
   /**
@@ -106,7 +111,11 @@ export class Auth {
     );
 
     if (!status.hasValidSubscription) {
-      return res.status(403).send(http.STATUS_CODES[403]);
+      return res.status(403).send({
+        success: false,
+        message: 'You must have a valid subscription to use this feature.',
+        code: 'INVALID_SUBSCRIPTION'
+      });
     }
 
     req.subscriptionStatus = status;
@@ -133,5 +142,21 @@ export class Auth {
     };
   }
 }
+
+export const middleware = {
+  resetPassword: Auth.protected({
+    requireSubscription: false,
+    scope: 'reset_password'
+  }),
+  withoutSubscription: Auth.protected({
+    requireSubscription: false,
+    scope: 'reset_password'
+  }),
+  withSubscription: Auth.protected({
+    requireSubscription: true
+  })
+};
+
+Auth.middleware = middleware;
 
 export default Auth;

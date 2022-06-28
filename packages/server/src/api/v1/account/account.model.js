@@ -1,6 +1,7 @@
 import { Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 import models from '@/api/models';
+import { Stripe } from '@/lib';
 
 module.exports = (sequelize, DataTypes) => {
   class Account extends Model {
@@ -42,6 +43,24 @@ module.exports = (sequelize, DataTypes) => {
 
       return user.account;
     }
+
+    /**
+     * Gets the stripe customer id for the account
+     * And creates a new customer if one does not exist
+     * @returns {Promise<void>}
+     */
+    async getStripeCustomerId() {
+      if (!this.stripe_customer_id) {
+        const stripeCustomer = await Stripe.createCustomer(
+          this.name,
+          this.billing_email
+        );
+        this.stripe_customer_id = stripeCustomer.id;
+        await this.save();
+      }
+
+      return this.stripe_customer_id;
+    }
   }
 
   Account.init(
@@ -53,6 +72,12 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4
       },
       name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        canCreate: true,
+        canUpdate: true
+      },
+      billing_email: {
         type: DataTypes.STRING,
         allowNull: false,
         canCreate: true,

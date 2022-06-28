@@ -18,12 +18,41 @@ const cache = new NodeCache({ useClones: false, stdTTL: 60 * 5 });
 
 export class Stripe {
   /**
+   * Gets a stripe connection object
+   * @returns {stripe.Stripe} Stripe connection
+   */
+  static connection() {
+    if (!config?.stripe?.secretKey) {
+      throw new Error('Stripe secret key not configured');
+    }
+
+    return new stripe(config.stripe.secretKey);
+  }
+
+  /**
    * Converts a stripe timestamp toa  date
    *
    * @param {Integer} timestamp Timestamp to convert to date
    */
   static convertToDate(timestamp) {
     return timestamp ? new Date(timestamp * 1000) : null;
+  }
+
+  /**
+   * Creates a stripe customer
+   * @param {String} name Name of the customer
+   * @param {String} email Email of the customer
+   * @returns {Promise<Object>} Customer object
+   */
+  static createCustomer(name, email) {
+    if (!config?.stripe?.secretKey) {
+      throw new Error('Stripe secret key not configured');
+    }
+
+    return this.connection().customers.create({
+      name,
+      email
+    });
   }
 
   /**
@@ -93,15 +122,12 @@ export class Stripe {
           const productId = plan.product;
 
           const product = await this.getProduct(productId);
-          const productConfig = pricing
-            .filter((product) => product.productId === productId)
-            .pop();
 
           const status = {
             id: productId,
             planId: plan.id,
-            seats: productConfig.seats,
-            productName: productConfig.productName,
+            seats: subscription.quantity,
+            productName: product.name,
             name: product.name,
             originalStartDate: this.convertToDate(subscription.start_date),
             startDate: this.convertToDate(subscription.current_period_start),
@@ -154,13 +180,11 @@ export class Stripe {
       return cache.get(cacheId);
     }
 
-    if (!id || !config.stripe) {
+    if (!id || !config?.stripe?.secretKey) {
       return null;
     }
 
-    const _stripe = new stripe(config.stripe.apiKey);
-
-    const record = await _stripe[objectName].retrieve(id, options);
+    const record = await this.connection()[objectName].retrieve(id, options);
     cache.set(cacheId, record);
     return record;
   }

@@ -114,10 +114,10 @@ cli
   });
 
 cli
-  .command('setup:secret')
-  .description('Sets the app secret for the environment in aws')
+  .command('setup')
+  .description('Sets up the app with necessary parameters')
   .action(async (name) => {
-    const cmd = require('./commands/set-secret');
+    const cmd = require('./commands/setup');
     await cmd(cli)();
   });
 

@@ -38,7 +38,9 @@ export async function jwt() {
           user.scope = payload.scope;
           return done(null, user);
         }
-      } catch (err) {}
+      } catch (err) {
+        console.log(err);
+      }
 
       return done(null, false);
     })

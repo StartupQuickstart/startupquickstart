@@ -5,17 +5,17 @@ import PriceTable from './PriceTable';
 import 'typeface-dm-sans';
 import { useConfig } from '@/context/providers';
 
-export const Pricing = ({ pricing, onPlanSelection }) => {
+export const Pricing = () => {
   const [state, setState] = useState({
     planType: 'monthly'
   });
 
-  const {
-    pricing: { title, slogan }
-  } = useConfig();
+  const { config } = useConfig();
+  const { pricing } = config || {};
+  const { title, slogan, prices } = pricing || {};
 
   return (
-    <section id="pricing">
+    <section>
       <div className="container">
         <SectionHeading slogan={slogan} title={title} />
         <div className="btn-group-alt">
@@ -39,13 +39,8 @@ export const Pricing = ({ pricing, onPlanSelection }) => {
           </div>
         </div>
         <div className="row">
-          {pricing?.map((price, index) => (
-            <PriceTable
-              price={price}
-              key={index}
-              planType={state.planType}
-              onPlanSelection={onPlanSelection}
-            />
+          {prices?.map((price, index) => (
+            <PriceTable price={price} key={index} planType={state.planType} />
           ))}
         </div>
       </div>

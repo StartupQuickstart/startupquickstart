@@ -22,7 +22,8 @@
     "./context": "./dist/context",
     "./lib": "./dist/lib",
     "./routes": "./dist/routes",
-    "./views": "./dist/views"
+    "./views": "./dist/views",
+    "./hooks": "./dist/hooks"
   },
   "repository": {
     "type": "git",

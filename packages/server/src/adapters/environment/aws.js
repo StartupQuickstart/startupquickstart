@@ -6,22 +6,32 @@ dotenv.config();
 export async function load(config) {
   console.log('Loading environment config from AWS.');
   const svc = process.env.SERVICE || 'app';
-  const [stripe, appSecret, hubspotApiKey, google, database] =
-    await Promise.all([
-      ssm.getParam('/shared/stripe'),
-      ssm.getParam(`/shared/_/secret`),
-      ssm.getParam('/shared/hubspot/hapi-key'),
-      ssm.getParam('/shared/google'),
-      secretsManager.getSecret(`/${svc}-database/users/svc_app/creds`)
-    ]).catch((err) => {
-      if (err.code === 'CredentialsError') {
-        throw new Error(err.message);
-      }
+  const [
+    stripe,
+    appSecret,
+    requireSubscription,
+    hubspotApiKey,
+    google,
+    database
+  ] = await Promise.all([
+    ssm.getParam('/shared/stripe'),
+    ssm.getParam(`/shared/_/secret`),
+    ssm.getParam('/shared/_/require-subscription'),
+    ssm.getParam('/shared/hubspot/hapi-key'),
+    ssm.getParam('/shared/google'),
+    secretsManager.getSecret(`/${svc}-database/users/svc_app/creds`)
+  ]).catch((err) => {
+    if (err.code === 'CredentialsError') {
+      throw new Error(err.message);
+    }
 
-      throw err;
-    });
+    throw err;
+  });
 
   const awsConfig = {
+    app: {
+      requireSubscription: requireSubscription || false
+    },
     enc: {
       secret: appSecret
     },
@@ -36,7 +46,7 @@ export async function load(config) {
       apiKey: hubspotApiKey
     },
     stripe: {
-      apiKey: stripe?.key,
+      secretKey: stripe?.secretKey,
       publishableKey: stripe?.publishableKey
     }
   };

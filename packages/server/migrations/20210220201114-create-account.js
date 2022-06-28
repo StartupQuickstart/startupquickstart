@@ -18,7 +18,12 @@ module.exports = {
           unique: true
         },
         name: {
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
+          allowNull: false
+        },
+        billing_email: {
+          type: Sequelize.STRING,
+          allowNull: false
         },
         image: {
           type: Sequelize.TEXT

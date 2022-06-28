@@ -6,12 +6,27 @@ const router = express.Router();
 
 const authMiddleware = auth.protected();
 
-router.post('/stripe/checkout/session/new', authMiddleware, Controller.getNewCheckoutSession);
-router.post('/stripe/checkout/session/process', authMiddleware, Controller.processSession);
+router.post(
+  '/stripe/checkout/session/new',
+  authMiddleware,
+  Controller.getNewCheckoutSession
+);
+router.post(
+  '/stripe/checkout/session/process',
+  authMiddleware,
+  Controller.processSession
+);
 
-router.post('/stripe/billing-portal/session', authMiddleware, Controller.getBillingPortalSession);
+router.post(
+  '/stripe/billing-portal/session',
+  authMiddleware,
+  Controller.getBillingPortalSession
+);
 
-router.get('/stripe/pricing', authMiddleware, Controller.getPricing);
-router.get('/stripe/subscription/status', authMiddleware, Controller.getSubscriptionStatus);
+router.get(
+  '/stripe/subscription/status',
+  authMiddleware,
+  Controller.getSubscriptionStatus
+);
 
 export default router;

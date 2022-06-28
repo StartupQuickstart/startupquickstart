@@ -1,7 +1,8 @@
 import {
   SSMClient,
   GetParameterCommand,
-  PutParameterCommand
+  PutParameterCommand,
+  DeleteParameterCommand
 } from '@aws-sdk/client-ssm';
 import NodeCache from 'node-cache';
 
@@ -19,6 +20,32 @@ export class ssm {
    */
   static getName(name, env = process.env.ENV, app = process.env.APP) {
     return `/${app}/${env}${name.startsWith('/') ? '' : '/'}${name}`;
+  }
+
+  /**
+   * Delets a parameter store value
+   *
+   * @param {String} name Name of the parameter store
+   * @param {String|Object} value Value of the parameter store
+   * @param {Boolean} encrypted Whether or not the value was encrypted
+   * @param {String} env Environment to set the param for
+   * @param {String} app App to set the param for
+   */
+  static deleteParam(
+    name,
+    value,
+    encrypted = false,
+    env = process.env.ENV,
+    app = process.env.APP
+  ) {
+    const _value = typeof value === 'string' ? value : JSON.stringify(value);
+
+    const fullName = this.getName(name, env, app);
+
+    cache.del(fullName);
+
+    const command = new DeleteParameterCommand({ Name: fullName });
+    return this.client.send(command);
   }
 
   /**

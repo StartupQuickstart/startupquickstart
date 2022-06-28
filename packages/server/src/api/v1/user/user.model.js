@@ -269,6 +269,7 @@ module.exports = (sequelize, DataTypes) => {
 
         account = models.Account.build({
           name: data.company_name || data.email,
+          billing_email: data.email,
           notification_emails: data.email
         });
         user = models.User.build({

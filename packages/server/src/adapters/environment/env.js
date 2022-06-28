@@ -6,6 +6,9 @@ export async function load(config) {
   console.log('Loading environment config from ENV.');
 
   const envConfig = {
+    app: {
+      requireSubscription: process.env.REQUIRE_SUBSCRIPTION === 'true'
+    },
     enc: {
       secret: process.env.SECRET || 'neLCtCZf3S3fnjuWuOiEp58T6dQcZuUq'
     },
@@ -28,7 +31,7 @@ export async function load(config) {
       apiKey: process.env.HUBSPOT_API_KEY
     },
     stripe: {
-      apiKey: process.env.STRIPE_API_KEY,
+      secretKey: process.env.STRIPE_SECRET_KEY,
       publishableKey: process.env.STRIPE_PUBLISHABLE_KEY
     }
   };

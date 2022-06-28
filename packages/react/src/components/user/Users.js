@@ -93,7 +93,6 @@ export function Users(props) {
           },
           style: { textAlign: 'center', maxWidth: '50px' },
           accessor: ({ roles }) => {
-            roles = ['role1', 'role2'];
             return (
               <>
                 {roles.map((role) => (

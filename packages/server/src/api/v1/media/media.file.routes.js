@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get(
   '/:mediaId/:filename',
-  Auth.protected(['jwtCookie']),
+  Auth.protected({ strategies: ['jwtCookie'] }),
   async function (req, res, next) {
     const media = await models.Media.findOne({
       where: { id: req.params.mediaId, name: req.params.filename }
@@ -48,7 +48,7 @@ router.get(
 
 router.get(
   '/download/:mediaId/:filename',
-  Auth.protected(['jwtCookie']),
+  Auth.protected({ strategies: ['jwtCookie'] }),
   async function (req, res, next) {
     const media = await models.Media.findOne({
       where: { id: req.params.mediaId, name: req.params.filename }
