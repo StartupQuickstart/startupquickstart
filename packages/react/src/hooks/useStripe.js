@@ -53,6 +53,10 @@ export function useStripe() {
    * @param {Object} params Url params to pass with request
    */
   const getSubscriptionStatus = useCallback(async (params = {}) => {
+    if (!config.hasSubscriptions) {
+      return false;
+    }
+
     const res = await Api.get('stripe').axios.get(
       'subscription/status',
       {
@@ -96,7 +100,7 @@ export function useStripe() {
     getSubscriptionStatus()
       .then(setSubscriptionStatus)
       .then(() => setIsLoading(false));
-  }, [getSubscriptionStatus]);
+  }, [getSubscriptionStatus, config.hasSubscriptions]);
 
   return {
     checkout,
