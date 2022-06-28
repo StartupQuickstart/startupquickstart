@@ -20,7 +20,7 @@ module.exports = (cli) => {
       if (existing) {
         console.log('Secret is already set');
       } else {
-        const secret = crypto.randomBytes(bytes).toString('hex');
+        const secret = crypto.randomBytes(64).toString('hex');
         await ssm.setParam(`shared/_/secret`, secret, true, options.env);
       }
 
