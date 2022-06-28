@@ -149,8 +149,7 @@ export const middleware = {
     scope: 'reset_password'
   }),
   withoutSubscription: Auth.protected({
-    requireSubscription: false,
-    scope: 'reset_password'
+    requireSubscription: false
   }),
   withSubscription: Auth.protected({
     requireSubscription: true
