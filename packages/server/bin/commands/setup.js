@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const { ssm } = require('../../dist/lib/aws');
 const dotenv = require('dotenv');
+const crypto = require('crypto');
 const { loadConfig } = require('../../dist/config');
 
 module.exports = (cli) => {
