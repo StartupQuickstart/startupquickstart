@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth, useSetup } from '@/context/providers';
+import { useAuth, useConfig, useSetup } from '@/context/providers';
 import { Error } from '@/views';
 import { PageLoading } from '@/components';
 import { useStripe } from '@/hooks';
@@ -9,6 +9,7 @@ export function Private({ children, requiredRoles, requireSubscription }) {
   const { isAuthenticated, checkAuth, user } = useAuth();
   const { hasSetupItem } = useSetup();
   const { hasValidSubscription, isLoading } = useStripe();
+  const { config } = useConfig();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,7 +46,7 @@ export function Private({ children, requiredRoles, requireSubscription }) {
   /**
    * Handles subscriptions
    */
-  if (!isLoading && requireSubscription) {
+  if (!isLoading && requireSubscription && config?.hasSubscriptions) {
     if (!hasValidSubscription) {
       navigate('/checkout');
       return <PageLoading />;
