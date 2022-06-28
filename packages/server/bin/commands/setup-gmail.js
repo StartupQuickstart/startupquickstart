@@ -1,4 +1,4 @@
-const prompt = require('prompt');
+const inquirer = require('inquirer');
 const { ssm } = require('../../dist/lib/aws');
 const { google } = require('googleapis');
 const dotenv = require('dotenv');
@@ -9,24 +9,27 @@ module.exports = (cli) => {
 
     const SCOPES = ['https://mail.google.com/'];
 
-    async function getOAuth2Client(env, collect = true) {
-      const config = (await ssm.getParam('/shared/google', env)) || {};
+    async function getOAuth2Client(env, collect = false) {
+      const config =
+        (await ssm.getParam('/shared/google', { env, cached: false })) || {};
 
-      if (
-        (!config.clientId || !config.clientSecret || options.force) &&
-        collect
-      ) {
-        prompt.message = 'ENTER';
-        const { clientId, clientSecret } = await prompt.get([
+      if (collect || !config.clientId || !config.clientSecret) {
+        const { clientId, clientSecret } = await inquirer.prompt([
           {
             name: 'clientId',
-            message: 'Google Api CLIENT_ID',
-            required: true
+            message: 'Google Client ID',
+            type: 'input',
+            required: true,
+            askAnswered: true,
+            default: config.clientId
           },
           {
             name: 'clientSecret',
-            message: 'Google Api CLIENT_SECRET',
-            required: true
+            message: 'Google Client Secret',
+            type: 'input',
+            required: true,
+            askAnswered: true,
+            default: config.clientSecret
           }
         ]);
 
@@ -74,8 +77,9 @@ module.exports = (cli) => {
 
     try {
       const env = options.env;
+      const client = await getOAuth2Client(env, true);
       const url = await getAuthorizationUrl(env);
-      const config = (await ssm.getParam('/shared/google', env)) || {};
+      const config = (await ssm.getParam('/shared/google', { env })) || {};
 
       console.log('----------------Gmail Setup----------------');
       console.log('Authorize this app by visiting this url:');
@@ -83,8 +87,7 @@ module.exports = (cli) => {
       console.log(url);
       console.log('');
 
-      prompt.message = 'CODE';
-      const { code } = await prompt.get([
+      const { code } = await inquirer.prompt([
         {
           name: 'code',
           message: 'Enter the code from that page here',
@@ -94,18 +97,19 @@ module.exports = (cli) => {
 
       const tokens = await getToken(code, env);
 
-      prompt.message = 'EMAIL';
-      const { email } = await prompt.get([
+      const { user } = await inquirer.prompt([
         {
-          name: 'email',
+          name: 'user',
           message: 'What users email address was authorized to send emails?',
-          required: true
+          required: true,
+          askAnswered: true,
+          default: config.user
         }
       ]);
 
       config.refreshToken = tokens.refresh_token;
       config.accessToken = tokens.access_token;
-      config.user = email;
+      config.user = user;
 
       await ssm.setParam('/shared/google', config, true, env);
     } catch (err) {

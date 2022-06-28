@@ -11,11 +11,10 @@ module.exports = (cli) => {
       const config = await loadConfig();
 
       console.log('Setting up app secrets...');
-      const existing = await ssm.getParam(
-        `shared/_/secret`,
-        options.env,
-        process.env.APP
-      );
+      const existing = await ssm.getParam(`shared/_/secret`, {
+        env: options.env,
+        app: process.env.APP
+      });
 
       if (existing) {
         console.log('Secret is already set');

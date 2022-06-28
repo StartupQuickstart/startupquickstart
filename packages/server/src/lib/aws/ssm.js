@@ -84,16 +84,24 @@ export class ssm {
    * Gets a parameter store value
    *
    * @param {String} name Name of the parameter store
-   * @param {String} env Environment to get the param for
-   * @param {String} app App to get the param for
+   * @param {Object} options Options to pass to the get command
    * @returns {Object} Result of the get call
    */
-  static async getParam(name, env = process.env.ENV, app = process.env.APP) {
+  static async getParam(name, options = {}) {
     let result, fullName;
     try {
+      const { env, app, cached } = Object.assign(
+        {
+          env: process.env.ENV,
+          app: process.env.APP,
+          cached: true
+        },
+        options
+      );
+
       fullName = this.getName(name, env, app);
 
-      if (cache.has(fullName)) {
+      if (cache.has(fullName) && cached) {
         return cache.get(fullName);
       }
 
