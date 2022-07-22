@@ -7,7 +7,7 @@ export function PageHeader({
   icon,
   iconColor,
   as,
-  hasMargin,
+  hasMargin = true,
   title,
   subTitle,
   status,
@@ -44,9 +44,5 @@ export function PageHeader({
     </div>
   );
 }
-
-PageHeader.defaultProps = {
-  hasMargin: true
-};
 
 export default PageHeader;
