@@ -12,7 +12,8 @@ export function PageHeader({
   subTitle,
   status,
   breadcrumbs,
-  className
+  className,
+  avatar
 }) {
   const Hx = as || 'h3';
   const Icon = Feather[icon];
@@ -25,6 +26,14 @@ export function PageHeader({
         <Hx className="fw-light">
           {Icon && (
             <Icon className={`me-3 text-${iconColor || 'primary'}`} size="40" />
+          )}
+          {avatar && (
+            <img
+              alt={'Avatar'}
+              src={avatar}
+              className="rounded-circle me-3"
+              style={{ width: '40px' }}
+            />
           )}
           <strong>{title}</strong> {subTitle}
         </Hx>

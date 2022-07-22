@@ -102,7 +102,6 @@ export class ApiController {
    * @param {Object} options Default options to use
    */
   getQueryOptions(req, options = {}) {
-    const user = req.user;
     options = Object.assign(
       {
         include: this.getIncludes(req.user)
