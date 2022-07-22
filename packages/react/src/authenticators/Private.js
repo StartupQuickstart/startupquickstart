@@ -38,7 +38,9 @@ export function Private({ children, requiredRoles, requireSubscription }) {
 
   if (
     requiredRoles &&
-    !requiredRoles.some((role) => user?.roles?.includes(role))
+    !requiredRoles.some(
+      (role) => user?.roles?.includes(role) || user?.role === role
+    )
   ) {
     return <Error code="403" />;
   }
