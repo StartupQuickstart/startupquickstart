@@ -16,6 +16,7 @@
     "./assets/css/dark.css": "./dist/assets/css/dark.css",
     "./assets/css/dark-blue.css": "./dist/assets/css/dark-blue.css",
     "./assets/css/light-blue.css": "./dist/assets/css/light-blue.css",
+    "./assets/scss": "./dist/assets/scss",
     "./components": "./dist/components",
     "./authenticators": "./dist/authenticators",
     "./effects": "./dist/effects",

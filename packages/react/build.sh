@@ -10,8 +10,8 @@ babel ./src/routes -d dist/routes --copy-files
 babel ./src/views -d dist/views --copy-files
 babel ./src/exports.js -d dist
 
-mkdir -p ./dist/assets
-mkdir ./dist/assets/css
+mkdir -p ./dist/assets/css
+cp -r ./src/assets/scss dist/assets/scss
 cp -r ./src/assets/fonts dist/assets/fonts
 cp -r ./src/assets/images dist/assets/images
 
@@ -19,6 +19,7 @@ themes=("main" "dark" "dark-blue" "light-blue")
 
 for theme in ${themes[@]}; do
   sass ./src/assets/scss/$theme.scss dist/assets/css/$theme.css
+  cp ./src/assets/scss/$theme.scss dist/assets/scss/$theme.scss
 done
 
 cd ./dist/assets/css/
